@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "485781915439",
+    "project_id": "chatappmvvm-8c2ea",
+    "storage_bucket": "chatappmvvm-8c2ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485781915439:android:999b5d602d144f162503da",
+        "android_client_info": {
+          "package_name": "com.yilmazgokhan.basestructure"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsblg4wsfsbVX8XznKH8hETUeEzfV-R6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
