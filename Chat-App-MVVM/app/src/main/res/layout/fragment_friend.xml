@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="ui.friend.FriendFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/child_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.3"
+        android:background="@drawable/my_gradient"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txt_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_bold"
+            android:text="@string/friend"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/layout_24"
+            android:layout_marginTop="@dimen/layout_32"/>
+
+        <ImageView
+            android:id="@+id/btn_create_new_message"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/add_new_friend"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_message"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_message"
+            android:layout_marginEnd="@dimen/layout_24"
+            android:scaleType="centerCrop" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:queryHint="Tìm kiếm bạn bè..."
+            android:background="@drawable/corner_view"
+            app:iconifiedByDefault="false"
+            android:layout_marginTop="@dimen/layout_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_view_constraint"
+            android:layout_margin="@dimen/layout_24"
+            app:searchIcon="@drawable/ic_search"/>
+
+        <RelativeLayout
+            android:id="@+id/bottom_view_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_24"
+            android:background="@drawable/corner_top_left_and_right_view"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/friend_tab_layout"
+        android:background="#ccc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="@color/color_1"
+        android:backgroundTint="@color/white"
+        app:tabBackground="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/child_constraint" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/friend_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/friend_tab_layout"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!--  Add Body -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
