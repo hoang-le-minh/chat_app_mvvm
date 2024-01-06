@@ -13,4 +13,8 @@ class ProfileFragmentViewModel @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : BaseViewModel(){
 
+    fun logout(){
+
+    }
+
 }

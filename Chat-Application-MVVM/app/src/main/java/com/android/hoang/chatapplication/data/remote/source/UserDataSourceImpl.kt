@@ -14,4 +14,9 @@ class UserDataSourceImpl @Inject constructor(private val userService: UserServic
 
     override suspend fun getUser(username: String): Response<UserResponse> =
         userService.getUser(username = username)
+
+    override suspend fun signUp(email: String, password: String): String {
+        // call firebase
+        return "Success"
+    }
 }

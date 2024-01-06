@@ -9,4 +9,6 @@ import retrofit2.Response
 interface UserRepository {
 
     suspend fun getUser(username: String): Response<UserResponse>
+    suspend fun signUp(email: String, password: String): String
+    suspend fun signIn(email: String, password: String): String
 }

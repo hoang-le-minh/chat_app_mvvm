@@ -9,4 +9,5 @@ import retrofit2.Response
 interface UserDataSource {
 
     suspend fun getUser(username: String): Response<UserResponse>
+    suspend fun signUp(email: String, password: String): String
 }

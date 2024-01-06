@@ -9,9 +9,11 @@
     <dimen name="layout_124">124dp</dimen>
     <dimen name="layout_24">24dp</dimen>
     <dimen name="layout_32">32dp</dimen>
+    <dimen name="layout_16">16dp</dimen>
     <dimen name="layout_20">20dp</dimen>
     <dimen name="layout_81">81dp</dimen>
     <dimen name="layout_8">8dp</dimen>
     <dimen name="layout_52">52dp</dimen>
+    <dimen name="layout_64">64dp</dimen>
     <dimen name="layout_90">90dp</dimen>
 </resources>

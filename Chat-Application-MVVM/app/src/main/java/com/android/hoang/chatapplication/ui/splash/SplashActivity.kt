@@ -11,6 +11,8 @@ import androidx.core.content.ContextCompat
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseActivity
 import com.android.hoang.chatapplication.ui.auth.AuthActivity
+import com.android.hoang.chatapplication.ui.main.MainActivity
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,11 +30,22 @@ class SplashActivity : BaseActivity() {
 //        }
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, AuthActivity::class.java)
-            startActivity(intent)
+            nextActivity()
             finish()
         }, 3000)
     }
 
+    private fun nextActivity(){
+        val user = FirebaseAuth.getInstance().currentUser
+        if(user == null){
+            // go to login
+            val intent = Intent(this, AuthActivity::class.java)
+            startActivity(intent)
+
+        } else {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
 }
