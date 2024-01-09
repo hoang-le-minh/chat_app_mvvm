@@ -13,11 +13,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
+import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.data.remote.model.UserResponse
 import com.android.hoang.chatapplication.databinding.FragmentHomeBinding
 import com.android.hoang.chatapplication.ui.main.MainActivity
 import com.android.hoang.chatapplication.util.Status
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.StringUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -72,8 +74,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
      * Prepare components & show data in UI
      *
      */
-    private fun prepareComponents(user: UserResponse?) {
-        Toast.makeText(context, "login: ${user?.login} \n id: ${user?.id} \n nodeId: ${user?.nodeId}", Toast.LENGTH_LONG).show()
+    private fun prepareComponents(user: UserFirebase?) {
         val recyclerView = binding.recyclerviewMessage
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         listMessageAdapter.submitList(viewModel.listUserTest)

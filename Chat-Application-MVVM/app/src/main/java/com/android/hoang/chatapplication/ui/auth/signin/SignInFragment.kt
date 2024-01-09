@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,7 @@ import com.android.hoang.chatapplication.ui.auth.AuthActivity
 import com.android.hoang.chatapplication.ui.main.MainActivity
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Status
+import com.blankj.utilcode.util.StringUtils
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
@@ -63,7 +65,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
             onClickLogin()
         }
 
-        binding.txtRegister.setOnClickListener {
+        binding.layoutRegisterNow.setOnClickListener {
             navigateToRegister()
         }
     }
@@ -93,6 +95,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
             when(it.status){
                 Status.LOADING -> showLoading()
                 Status.SUCCESS -> {
+                    Toast.makeText(context, StringUtils.getString(R.string.login_success), Toast.LENGTH_LONG).show()
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)
                     val activity = activity as AuthActivity

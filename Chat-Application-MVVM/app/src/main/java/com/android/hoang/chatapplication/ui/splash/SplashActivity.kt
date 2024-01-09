@@ -32,7 +32,7 @@ class SplashActivity : BaseActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             nextActivity()
             finish()
-        }, 3000)
+        }, 2000)
     }
 
     private fun nextActivity(){

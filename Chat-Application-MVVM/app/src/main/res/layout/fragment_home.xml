@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/layout_24"
-            android:layout_marginTop="@dimen/layout_32"/>
+            android:layout_marginTop="@dimen/layout_52"/>
 
         <ImageView
             android:id="@+id/btn_create_new_message"

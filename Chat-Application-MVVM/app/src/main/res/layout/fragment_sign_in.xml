@@ -57,7 +57,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txt_login"
             app:layout_constraintStart_toStartOf="@+id/txt_login"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
+            app:layout_constraintVertical_bias="0.15" />
 
         <EditText
             android:id="@+id/edt_email"
@@ -66,7 +66,7 @@
             android:text="@={loginFragmentViewModel.email}"
             android:textSize="@dimen/text_18sp"
             android:textColor="@color/black"
-            android:hint="@string/email_hint"
+            android:hint="@string/enter_email"
             android:fontFamily="@font/lato_regular"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/layout_20"
@@ -86,7 +86,7 @@
             android:fontFamily="@font/lato_regular"
             app:layout_constraintTop_toBottomOf="@id/edt_email"
             app:layout_constraintStart_toStartOf="@+id/txt_email"
-            android:layout_marginTop="@dimen/layout_24" />
+            android:layout_marginTop="@dimen/layout_28" />
 
         <EditText
             android:id="@+id/edt_password"
@@ -96,7 +96,7 @@
             android:textSize="@dimen/text_18sp"
             android:textColor="@color/black"
             android:fontFamily="@font/lato_regular"
-            android:hint="@string/password_hint"
+            android:hint="@string/enter_password"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/layout_20"
             app:layout_constraintEnd_toEndOf="parent"
@@ -146,30 +146,33 @@
             android:layout_marginTop="@dimen/layout_52"
             android:background="@drawable/corner_button" />
 
-        <TextView
-            android:id="@+id/txt_no_account"
+        <LinearLayout
+            android:id="@+id/layout_register_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chưa có tài khoản?"
-            android:textSize="@dimen/text_14sp"
-            android:fontFamily="@font/lato_regular"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/txt_register"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/layout_24" />
-
-        <TextView
-            android:id="@+id/txt_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Đăng ký ngay"
-            android:textSize="@dimen/text_14sp"
-            android:textColor="@color/color_1"
-            android:fontFamily="@font/lato_bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txt_no_account"
-            app:layout_constraintTop_toTopOf="@+id/txt_no_account" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/layout_24">
+            <TextView
+                android:id="@+id/txt_no_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_account"
+                android:textSize="@dimen/text_14sp"
+                android:fontFamily="@font/lato_regular" />
+
+            <TextView
+                android:id="@+id/txt_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_now"
+                android:textSize="@dimen/text_14sp"
+                android:textColor="@color/color_1"
+                android:fontFamily="@font/lato_bold"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

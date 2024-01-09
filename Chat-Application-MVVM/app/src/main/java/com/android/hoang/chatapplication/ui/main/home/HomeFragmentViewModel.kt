@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseViewModel
+import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.data.remote.model.UserResponse
 import com.android.hoang.chatapplication.di.qualifier.IoDispatcher
 import com.android.hoang.chatapplication.domain.usecase.GetUserUseCase
@@ -27,14 +28,14 @@ class HomeFragmentViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     //region city info
-    private val _user = MutableLiveData<Resource<UserResponse>>()
-    val user: LiveData<Resource<UserResponse>>
+    private val _user = MutableLiveData<Resource<UserFirebase>>()
+    val user: LiveData<Resource<UserFirebase>>
         get() = _user
     //endregion
 
     init {
         LogUtils.d("$this initialize")
-        getUser("hoang-le-minh")
+        getUser()
     }
 
     val listUserTest = mutableListOf(
@@ -53,9 +54,9 @@ class HomeFragmentViewModel @Inject constructor(
     /**
      * Send HTTP Request for get user info
      */
-    private fun getUser(username: String) {
+    private fun getUser() {
         viewModelScope.launch {
-            getUserUseCase.invoke(username).collect {
+            getUserUseCase.invokeCurrentUser().collect {
                 when (it) {
                     is State.Loading -> {
                         _user.postValue(Resource.loading())

@@ -32,4 +32,26 @@
     <string name="question_log_out">Bạn muốn đăng xuất?</string>
     <string name="email_exist">Địa chỉ email đã được sử dụng</string>
     <string name="wrong_email_or_password">Thông tin tài khoản hoặc mật khẩu không chính xác</string>
+    <string name="accept">Đồng ý</string>
+    <string name="add_friend">Kết bạn</string>
+    <string name="no_account">Chưa có tài khoản?</string>
+    <string name="register_now">Đăng ký ngay</string>
+    <string name="enter_email">Nhập email</string>
+    <string name="enter_password">Nhập mật khẩu</string>
+    <string name="login_now">Đăng nhập ngay</string>
+    <string name="login_success">Đăng nhập thành công</string>
+    <string name="have_account">Đã có tài khoản?</string>
+    <string name="agree_with">Tôi đồng ý với các</string>
+    <string name="policy">chính sách</string>
+    <string name="and">và</string>
+    <string name="rules">điều khoản</string>
+    <string name="cannot_get_current_user">Không thể lấy thông tin người dùng</string>
+    <string name="cannot_get_all_user">Không thể lấy danh sách người dùng</string>
+    <string name="Save">Lưu</string>
+    <string name="camera">Camera</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="enter_user_name">Nhập họ và tên</string>
+    <string name="enter_phone_number">Nhập số điện thoại</string>
+    <string name="birthday">Ngày sinh</string>
+    <string name="enter_birthday">Nhập ngày sinh</string>
 </resources>

@@ -9,5 +9,18 @@
         android:id="@+id/profileFragment"
         android:name="com.android.hoang.chatapplication.ui.main.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.android.hoang.chatapplication.ui.main.profile.editprofile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <argument
+            android:name="currentUser"
+            app:argType="com.android.hoang.chatapplication.data.remote.model.UserFirebase" />
+    </fragment>
 </navigation>

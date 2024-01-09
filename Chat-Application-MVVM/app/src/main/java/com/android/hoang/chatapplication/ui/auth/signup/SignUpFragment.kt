@@ -19,6 +19,8 @@ import com.android.hoang.chatapplication.ui.auth.AuthActivity
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Status
 import com.blankj.utilcode.util.LogUtils
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlin.math.sign
@@ -36,7 +38,7 @@ class RegisterFragment : BaseFragment<FragmentSignUpBinding>() {
 //        }
 
         with(binding){
-            txtLogin.setOnClickListener { navigateToLogin() }
+            layoutLoginNow.setOnClickListener { navigateToLogin() }
             btnBack.setOnClickListener { navigateToLogin() }
             btnRegister.setOnClickListener { userRegister() }
         }

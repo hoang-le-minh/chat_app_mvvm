@@ -45,7 +45,7 @@
             android:text="@string/fullName"
             android:textSize="@dimen/text_14sp"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintVertical_bias="0.15"
             app:layout_constraintBottom_toTopOf="@+id/edt_full_name"
             app:layout_constraintStart_toStartOf="@+id/btn_back"
             app:layout_constraintTop_toBottomOf="@+id/txt_register" />
@@ -77,7 +77,7 @@
             android:fontFamily="@font/lato_regular"
             android:text="@string/email"
             android:textSize="@dimen/text_14sp"
-            android:layout_marginTop="@dimen/layout_24"
+            android:layout_marginTop="@dimen/layout_28"
             app:layout_constraintBottom_toTopOf="@+id/edt_email"
             app:layout_constraintStart_toStartOf="@+id/btn_back"
             app:layout_constraintTop_toBottomOf="@+id/edt_full_name" />
@@ -109,7 +109,7 @@
             android:fontFamily="@font/lato_regular"
             android:text="@string/password"
             android:textSize="@dimen/text_14sp"
-            android:layout_marginTop="@dimen/layout_24"
+            android:layout_marginTop="@dimen/layout_28"
             app:layout_constraintBottom_toTopOf="@+id/edt_password"
             app:layout_constraintStart_toStartOf="@+id/btn_back"
             app:layout_constraintTop_toBottomOf="@+id/edt_email" />
@@ -134,65 +134,64 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_password" />
 
-        <CheckBox
-            android:id="@+id/checkbox_accept"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:button="@null"
-            android:checked="@={signUpViewModel.isAcceptChecked}"
-            android:drawableStart="@drawable/circular_checkbox"
+        <LinearLayout
+            android:id="@+id/layout_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:onClick="@{() -> signUpViewModel.checkBoxChecked()}"
             app:layout_constraintStart_toStartOf="@+id/btn_back"
             app:layout_constraintTop_toBottomOf="@+id/edt_password"
-            android:layout_marginTop="@dimen/layout_20" />
+            android:layout_marginTop="@dimen/layout_20">
+            <CheckBox
+                android:id="@+id/checkbox_accept"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:button="@null"
+                android:checked="@={signUpViewModel.isAcceptChecked}"
+                android:drawableStart="@drawable/circular_checkbox" />
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tôi đồng ý với các "
-            android:textSize="@dimen/text_14sp"
-            android:textColor="@color/gray"
-            android:fontFamily="@font/lato_regular"
-            app:layout_constraintStart_toEndOf="@+id/checkbox_accept"
-            app:layout_constraintTop_toTopOf="@+id/checkbox_accept"
-            app:layout_constraintBottom_toBottomOf="@+id/checkbox_accept"
-            android:layout_marginStart="@dimen/layout_8" />
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/agree_with"
+                android:textSize="@dimen/text_14sp"
+                android:textColor="@color/gray"
+                android:fontFamily="@font/lato_regular"
+                android:layout_marginStart="@dimen/layout_8" />
 
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="chính sách"
-            android:textSize="@dimen/text_14sp"
-            android:textColor="@color/color_1"
-            android:fontFamily="@font/lato_bold"
-            app:layout_constraintStart_toEndOf="@+id/text1"
-            app:layout_constraintTop_toTopOf="@+id/checkbox_accept"
-            app:layout_constraintBottom_toBottomOf="@+id/checkbox_accept" />
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/policy"
+                android:textSize="@dimen/text_14sp"
+                android:textColor="@color/color_1"
+                android:fontFamily="@font/lato_bold"
+                android:layout_marginStart="4dp"/>
 
-        <TextView
-            android:id="@+id/text3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" và "
-            android:textSize="@dimen/text_14sp"
-            android:textColor="@color/gray"
-            android:fontFamily="@font/lato_bold"
-            app:layout_constraintStart_toEndOf="@+id/text2"
-            app:layout_constraintTop_toTopOf="@+id/checkbox_accept"
-            app:layout_constraintBottom_toBottomOf="@+id/checkbox_accept" />
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/and"
+                android:textSize="@dimen/text_14sp"
+                android:textColor="@color/gray"
+                android:fontFamily="@font/lato_bold"
+                android:layout_marginStart="4dp"/>
 
-        <TextView
-            android:id="@+id/text4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="điều khoản"
-            android:textSize="@dimen/text_14sp"
-            android:textColor="@color/color_1"
-            android:fontFamily="@font/lato_bold"
-            app:layout_constraintStart_toEndOf="@+id/text3"
-            app:layout_constraintTop_toTopOf="@+id/checkbox_accept"
-            app:layout_constraintBottom_toBottomOf="@+id/checkbox_accept" />
+            <TextView
+                android:id="@+id/text4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rules"
+                android:textSize="@dimen/text_14sp"
+                android:textColor="@color/color_1"
+                android:fontFamily="@font/lato_bold"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/txt_sign_up_result"
@@ -202,7 +201,7 @@
             android:textSize="@dimen/text_14sp"
             android:textColor="@color/color_4"
             android:fontFamily="@font/lato_regular"
-            app:layout_constraintTop_toBottomOf="@id/text4"
+            app:layout_constraintTop_toBottomOf="@id/layout_checkbox"
             app:layout_constraintBottom_toTopOf="@id/btn_register"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -216,36 +215,41 @@
             android:textColor="@color/white"
             android:fontFamily="@font/lato_bold"
             android:enabled="@{signUpViewModel.isSignUpButtonEnabled}"
-            app:layout_constraintTop_toBottomOf="@+id/checkbox_accept"
+            app:layout_constraintTop_toBottomOf="@+id/layout_checkbox"
             app:layout_constraintStart_toStartOf="@+id/edt_password"
             app:layout_constraintEnd_toEndOf="@id/edt_password"
             android:layout_marginTop="@dimen/layout_52"
             android:background="@drawable/corner_button" />
 
-        <TextView
-            android:id="@+id/txt_have_account"
+        <LinearLayout
+            android:id="@+id/layout_login_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đã có tài khoản?"
-            android:textSize="@dimen/text_14sp"
-            android:fontFamily="@font/lato_regular"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/txt_login"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/layout_24" />
-
-        <TextView
-            android:id="@+id/txt_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Đăng nhập ngay"
-            android:textSize="@dimen/text_14sp"
-            android:textColor="@color/color_1"
-            android:fontFamily="@font/lato_bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txt_have_account"
-            app:layout_constraintTop_toTopOf="@+id/txt_have_account" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/layout_24">
+            <TextView
+                android:id="@+id/txt_have_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/have_account"
+                android:textSize="@dimen/text_14sp"
+                android:fontFamily="@font/lato_regular" />
+
+            <TextView
+                android:id="@+id/txt_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_now"
+                android:textSize="@dimen/text_14sp"
+                android:textColor="@color/color_1"
+                android:fontFamily="@font/lato_bold"
+                android:layout_marginStart="4dp"/>
+
+        </LinearLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

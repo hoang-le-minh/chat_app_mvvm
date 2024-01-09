@@ -19,6 +19,8 @@ abstract class BaseFragment<B: ViewBinding> : Fragment() {
     /**
      * Prepare UI Components
      */
+    abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): B
+
     abstract fun prepareView(savedInstanceState: Bundle?)
 
     override fun onCreateView(
@@ -30,7 +32,6 @@ abstract class BaseFragment<B: ViewBinding> : Fragment() {
         return binding.root
     }
 
-    abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): B
 
     /**
      * Override onViewCreated method
