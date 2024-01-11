@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_graph_home"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/ic_chat"
         android:title="@string/message" />
     <item
         android:id="@+id/nav_graph_friend"
-        android:icon="@drawable/ic_baseline_help_24"
+        android:icon="@drawable/ic_user"
         android:title="@string/friend" />
     <item
         android:id="@+id/nav_graph_profile"
-        android:icon="@drawable/ic_mail"
+        android:icon="@drawable/ic_profile"
         android:title="@string/text_profile" />
 </menu>

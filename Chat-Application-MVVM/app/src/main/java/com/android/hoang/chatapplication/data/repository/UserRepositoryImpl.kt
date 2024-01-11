@@ -1,28 +1,18 @@
 package com.android.hoang.chatapplication.data.repository
 
 import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
-import androidx.navigation.fragment.findNavController
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
-import com.android.hoang.chatapplication.data.remote.model.UserResponse
-import com.android.hoang.chatapplication.di.qualifier.IoDispatcher
 import com.android.hoang.chatapplication.domain.repository.UserRepository
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.blankj.utilcode.util.StringUtils
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.isActive
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -132,6 +122,15 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
 
             })
         }
+
+    }
+
+    override suspend fun updateUser(
+        name: String,
+        imageUrl: String,
+        phoneNumber: String,
+        dateOfBirth: String
+    ): UserFirebase? = suspendCoroutine{ continuation ->
 
     }
 }

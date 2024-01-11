@@ -37,7 +37,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         val appVersionName = mainActivity.packageManager.getPackageInfo(mainActivity.packageName, 0).versionName
         binding.txtAppVersion.text = appVersionName
 
-        binding.txtLogout.setOnClickListener {
+        binding.layoutLogout.setOnClickListener {
             requireContext().showMessage(R.string.question_log_out){
                 profileViewModel.signOut()
                 val intent = Intent(requireContext(), AuthActivity::class.java)

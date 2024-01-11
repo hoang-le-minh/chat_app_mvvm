@@ -17,11 +17,13 @@
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_24"
-            android:layout_marginTop="@dimen/layout_52"
+            android:layout_marginTop="@dimen/layout_36"
             android:backgroundTint="@color/white"
             android:contentDescription="@string/back"
             android:src="@drawable/ic_back"
+            android:paddingHorizontal="@dimen/layout_24"
+            android:paddingVertical="@dimen/layout_16"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +36,8 @@
             android:text="@string/register"
             android:textColor="@color/color_1"
             android:textSize="@dimen/text_32sp"
-            app:layout_constraintStart_toStartOf="@+id/btn_back"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/layout_24"
             app:layout_constraintTop_toBottomOf="@+id/btn_back" />
 
         <TextView
@@ -47,7 +50,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintVertical_bias="0.15"
             app:layout_constraintBottom_toTopOf="@+id/edt_full_name"
-            app:layout_constraintStart_toStartOf="@+id/btn_back"
+            app:layout_constraintStart_toStartOf="@+id/txt_register"
             app:layout_constraintTop_toBottomOf="@+id/txt_register" />
 
         <EditText
@@ -79,7 +82,7 @@
             android:textSize="@dimen/text_14sp"
             android:layout_marginTop="@dimen/layout_28"
             app:layout_constraintBottom_toTopOf="@+id/edt_email"
-            app:layout_constraintStart_toStartOf="@+id/btn_back"
+            app:layout_constraintStart_toStartOf="@+id/txt_register"
             app:layout_constraintTop_toBottomOf="@+id/edt_full_name" />
 
         <EditText
@@ -111,7 +114,7 @@
             android:textSize="@dimen/text_14sp"
             android:layout_marginTop="@dimen/layout_28"
             app:layout_constraintBottom_toTopOf="@+id/edt_password"
-            app:layout_constraintStart_toStartOf="@+id/btn_back"
+            app:layout_constraintStart_toStartOf="@+id/txt_register"
             app:layout_constraintTop_toBottomOf="@+id/edt_email" />
 
         <EditText
@@ -140,7 +143,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:onClick="@{() -> signUpViewModel.checkBoxChecked()}"
-            app:layout_constraintStart_toStartOf="@+id/btn_back"
+            app:layout_constraintStart_toStartOf="@+id/txt_register"
             app:layout_constraintTop_toBottomOf="@+id/edt_password"
             android:layout_marginTop="@dimen/layout_20">
             <CheckBox

@@ -13,15 +13,17 @@
         android:background="@drawable/my_gradient"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_back"
-            android:layout_width="@dimen/layout_24"
-            android:layout_height="@dimen/layout_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_back_white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/txt_edit"
             app:layout_constraintBottom_toBottomOf="@+id/txt_edit"
-            android:layout_marginStart="@dimen/layout_24"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:paddingVertical="@dimen/layout_16"
+            android:paddingHorizontal="@dimen/layout_24"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -48,7 +50,8 @@
             app:layout_constraintTop_toTopOf="@+id/txt_edit"
             app:layout_constraintBottom_toBottomOf="@+id/txt_edit"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/layout_24" />
+            android:paddingVertical="@dimen/layout_16"
+            android:paddingHorizontal="@dimen/layout_24"/>
 
         <RelativeLayout
             android:id="@+id/bottom_view_constraint"
@@ -72,7 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/layout_8"/>
-    <ImageView
+    <ImageButton
         android:id="@+id/btn_camera"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -80,6 +83,7 @@
         app:layout_constraintDimensionRatio="1:1"
         android:src="@drawable/ic_camera"
         android:scaleType="centerCrop"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="@id/user_avt"
         app:layout_constraintEnd_toEndOf="@id/user_avt"
         android:contentDescription="@string/camera" />

@@ -18,6 +18,9 @@
     <dimen name="layout_40">40dp</dimen>
     <dimen name="layout_52">52dp</dimen>
     <dimen name="layout_64">64dp</dimen>
+    <dimen name="layout_68">68dp</dimen>
     <dimen name="layout_72">72dp</dimen>
     <dimen name="layout_90">90dp</dimen>
+    <dimen name="layout_300">300dp</dimen>
+    <dimen name="layout_500">500dp</dimen>
 </resources>

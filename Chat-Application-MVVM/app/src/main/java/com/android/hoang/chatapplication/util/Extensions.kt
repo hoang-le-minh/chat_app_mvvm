@@ -34,3 +34,9 @@ fun emailValidator(emailStr: String): Boolean {
     val matcher: Matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr)
     return matcher.matches()
 }
+
+fun dateOfBirthValidator(dob: String): Boolean {
+    //
+
+    return dob == ""
+}
