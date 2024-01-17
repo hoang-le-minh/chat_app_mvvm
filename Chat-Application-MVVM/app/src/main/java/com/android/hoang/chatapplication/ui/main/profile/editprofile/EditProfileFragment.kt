@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -28,12 +26,11 @@ import com.android.hoang.chatapplication.databinding.FragmentEditProfileBinding
 import com.android.hoang.chatapplication.ui.main.MainActivity
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Status
+import com.android.hoang.chatapplication.util.showMessage
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -86,8 +83,10 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
     ) = FragmentEditProfileBinding.inflate(inflater, container, false)
 
     override fun prepareView(savedInstanceState: Bundle?) {
+        Log.d(LOG_TAG, "prepareView filePath: $filePath")
         Log.d(LOG_TAG, "editProfileFragment.prepareView: ${args.currentUser.id}")
         loadInfoCurrentUser(args.currentUser)
+        checkObserverModel()
 
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
@@ -108,9 +107,26 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
         }
 
         binding.txtSave.setOnClickListener {
-            onClickUpdateUser()
+            openDialogAcceptUpdate()
         }
 
+    }
+
+    private fun openDialogAcceptUpdate() {
+        requireContext().showMessage(R.string.question_edit_profile){
+            onClickUpdateUser()
+        }
+    }
+
+    private fun checkObserverModel(){
+        binding.editProfileViewModel = editProfileViewModel
+        binding.lifecycleOwner = this
+        editProfileViewModel.name.observe(viewLifecycleOwner){
+            editProfileViewModel.updateCheckResultState()
+        }
+        editProfileViewModel.dob.observe(viewLifecycleOwner){
+            editProfileViewModel.updateCheckResultState()
+        }
     }
 
     private fun onClickUpdateUser(){
@@ -124,6 +140,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                 Status.LOADING -> showLoading()
                 Status.SUCCESS -> {
                     it.data?.let { result ->
+                        if (filePath == null) result.imageUrl = args.currentUser.imageUrl
                         Log.d(LOG_TAG, "editProfile.onClickUpdateUser: $result}")
                         findNavController().popBackStack()
                     }
@@ -153,9 +170,14 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
     }
 
     private fun loadInfoCurrentUser(currentUser: UserFirebase){
+        editProfileViewModel.initCurrentUser(currentUser)
+        editProfileViewModel.currentUser.observe(viewLifecycleOwner){ user ->
+            editProfileViewModel.name.value = user.username
+            editProfileViewModel.phoneNumber.value = user.phoneNumber
+            editProfileViewModel.dob.value = user.dateOfBirth
+        }
         val errorImage = if(currentUser.imageUrl == "") R.drawable.avt_default else R.drawable.no_image
         Glide.with(requireContext()).load(currentUser.imageUrl).error(errorImage).into(binding.userAvt)
-        binding.edtFullName.setText(currentUser.username)
     }
 
     private fun showDatePickerDialog() {

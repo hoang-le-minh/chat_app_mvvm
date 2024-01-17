@@ -1,187 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="editProfileViewModel"
+            type="com.android.hoang.chatapplication.ui.main.profile.editprofile.EditProfileFragmentViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/child_constraint"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.2"
-        android:background="@drawable/my_gradient"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/child_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.2"
+            android:background="@drawable/my_gradient"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back_white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txt_edit"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_edit"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:paddingVertical="@dimen/layout_16"
+                android:paddingHorizontal="@dimen/layout_24"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/txt_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/edit_profile"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/layout_52" />
+
+            <TextView
+                android:id="@+id/txt_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp"
+                android:fontFamily="@font/lato_regular"
+                app:layout_constraintTop_toTopOf="@+id/txt_edit"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingVertical="@dimen/layout_16"
+                android:paddingHorizontal="@dimen/layout_24"
+                android:visibility="@{editProfileViewModel.isSaveEnable ? View.VISIBLE : View.GONE}"/>
+
+            <RelativeLayout
+                android:id="@+id/bottom_view_constraint"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_24"
+                android:background="@drawable/corner_top_left_and_right_view"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--  Add Body -->
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_avt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.4"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/avt_default"
+            app:layout_constraintTop_toBottomOf="@id/child_constraint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/layout_8" />
 
         <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back_white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txt_edit"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_edit"
+            android:id="@+id/btn_camera"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.12"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/ic_camera"
+            android:scaleType="centerCrop"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:paddingVertical="@dimen/layout_16"
-            android:paddingHorizontal="@dimen/layout_24"
-            android:scaleType="centerCrop" />
+            app:layout_constraintBottom_toBottomOf="@id/user_avt"
+            app:layout_constraintEnd_toEndOf="@id/user_avt"
+            android:contentDescription="@string/camera" />
 
         <TextView
-            android:id="@+id/txt_edit"
+            android:id="@+id/txt_full_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_bold"
-            android:text="@string/edit_profile"
-            android:textColor="@color/white"
+            android:fontFamily="@font/lato_regular"
+            android:text="@string/fullName"
+            android:textSize="@dimen/text_14sp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_bias="0.25"
+            app:layout_constraintBottom_toTopOf="@+id/edt_full_name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/layout_24"
+            app:layout_constraintTop_toBottomOf="@+id/user_avt" />
+
+        <EditText
+            android:id="@+id/edt_full_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_20"
+            android:layout_marginEnd="@dimen/layout_24"
+            android:autofillHints="Name"
+            android:drawableEnd="@drawable/user"
+            android:fontFamily="@font/lato_regular"
+            android:hint="@string/enter_user_name"
+            android:inputType="textPersonName"
+            android:text="@={editProfileViewModel.name}"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_18sp"
+            app:layout_constraintBottom_toTopOf="@+id/txt_phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_full_name" />
+
+        <TextView
+            android:id="@+id/txt_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_regular"
+            android:text="@string/phone_number"
+            android:textAllCaps="true"
+            android:textSize="@dimen/text_14sp"
+            android:layout_marginTop="@dimen/layout_32"
+            app:layout_constraintBottom_toTopOf="@+id/edt_phone_number"
+            app:layout_constraintStart_toStartOf="@+id/txt_full_name"
+            app:layout_constraintTop_toBottomOf="@+id/edt_full_name" />
+
+        <EditText
+            android:id="@+id/edt_phone_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_20"
+            android:layout_marginEnd="@dimen/layout_24"
+            android:autofillHints="Name"
+            android:drawableEnd="@drawable/ic_phone"
+            android:fontFamily="@font/lato_regular"
+            android:hint="@string/enter_phone_number"
+            android:inputType="phone"
+            android:text="@={editProfileViewModel.phoneNumber}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_18sp"
+            app:layout_constraintBottom_toTopOf="@+id/txt_birthday"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
+
+        <TextView
+            android:id="@+id/txt_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_regular"
+            android:text="@string/birthday"
+            android:textSize="@dimen/text_14sp"
+            android:layout_marginTop="@dimen/layout_32"
+            app:layout_constraintBottom_toTopOf="@+id/edt_birthday"
+            app:layout_constraintStart_toStartOf="@+id/txt_full_name"
+            app:layout_constraintTop_toBottomOf="@+id/edt_phone_number" />
+
+        <EditText
+            android:id="@+id/edt_birthday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_20"
+            android:layout_marginEnd="@dimen/layout_24"
+            android:autofillHints="Password"
+            android:drawableEnd="@drawable/ic_birthday"
+            android:fontFamily="@font/lato_regular"
+            android:hint="@string/enter_birthday"
+            android:inputType="textPersonName"
+            android:text="@={editProfileViewModel.dob}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_birthday" />
+
+        <TextView
+            android:id="@+id/txt_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{editProfileViewModel.checkResult}"
+            android:textSize="@dimen/text_14sp"
+            android:textColor="@color/color_4"
+            android:fontFamily="@font/lato_regular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/layout_52"/>
-
-        <TextView
-            android:id="@+id/txt_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Save"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_16sp"
-            android:fontFamily="@font/lato_regular"
-            app:layout_constraintTop_toTopOf="@+id/txt_edit"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_edit"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingVertical="@dimen/layout_16"
-            android:paddingHorizontal="@dimen/layout_24"/>
-
-        <RelativeLayout
-            android:id="@+id/bottom_view_constraint"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/layout_24"
-            android:background="@drawable/corner_top_left_and_right_view"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_birthday"
+            android:layout_marginTop="@dimen/layout_16" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--  Add Body -->
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_avt"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.4"
-        app:layout_constraintDimensionRatio="1:1"
-        android:src="@drawable/avt_default"
-        app:layout_constraintTop_toBottomOf="@id/child_constraint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/layout_8"/>
-    <ImageButton
-        android:id="@+id/btn_camera"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.12"
-        app:layout_constraintDimensionRatio="1:1"
-        android:src="@drawable/ic_camera"
-        android:scaleType="centerCrop"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintBottom_toBottomOf="@id/user_avt"
-        app:layout_constraintEnd_toEndOf="@id/user_avt"
-        android:contentDescription="@string/camera" />
-
-    <TextView
-        android:id="@+id/txt_full_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/lato_regular"
-        android:text="@string/fullName"
-        android:textSize="@dimen/text_14sp"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintVertical_bias="0.2"
-        app:layout_constraintBottom_toTopOf="@+id/edt_full_name"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="@dimen/layout_24"
-        app:layout_constraintTop_toBottomOf="@+id/user_avt" />
-
-    <EditText
-        android:id="@+id/edt_full_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_20"
-        android:layout_marginEnd="@dimen/layout_24"
-        android:autofillHints="Name"
-        android:drawableEnd="@drawable/user"
-        android:fontFamily="@font/lato_regular"
-        android:hint="@string/enter_user_name"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_18sp"
-        app:layout_constraintBottom_toTopOf="@+id/txt_phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_full_name" />
-
-    <TextView
-        android:id="@+id/txt_phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/lato_regular"
-        android:text="@string/phone_number"
-        android:textAllCaps="true"
-        android:textSize="@dimen/text_14sp"
-        android:layout_marginTop="@dimen/layout_28"
-        app:layout_constraintBottom_toTopOf="@+id/edt_phone_number"
-        app:layout_constraintStart_toStartOf="@+id/txt_full_name"
-        app:layout_constraintTop_toBottomOf="@+id/edt_full_name" />
-
-    <EditText
-        android:id="@+id/edt_phone_number"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_20"
-        android:layout_marginEnd="@dimen/layout_24"
-        android:autofillHints="Name"
-        android:drawableEnd="@drawable/ic_phone"
-        android:fontFamily="@font/lato_regular"
-        android:hint="@string/enter_phone_number"
-        android:inputType="phone"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_18sp"
-        app:layout_constraintBottom_toTopOf="@+id/txt_birthday"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
-
-    <TextView
-        android:id="@+id/txt_birthday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/lato_regular"
-        android:text="@string/birthday"
-        android:textSize="@dimen/text_14sp"
-        android:layout_marginTop="@dimen/layout_28"
-        app:layout_constraintBottom_toTopOf="@+id/edt_birthday"
-        app:layout_constraintStart_toStartOf="@+id/txt_full_name"
-        app:layout_constraintTop_toBottomOf="@+id/edt_phone_number" />
-
-    <EditText
-        android:id="@+id/edt_birthday"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_20"
-        android:layout_marginEnd="@dimen/layout_24"
-        android:autofillHints="Password"
-        android:drawableEnd="@drawable/ic_birthday"
-        android:fontFamily="@font/lato_regular"
-        android:hint="@string/enter_birthday"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_birthday" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

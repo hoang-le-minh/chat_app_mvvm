@@ -1,5 +1,6 @@
 package com.android.hoang.chatapplication.ui.main.profile
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -32,6 +33,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         container: ViewGroup?
     ) = FragmentProfileBinding.inflate(inflater, container, false)
 
+    override fun onResume() {
+        super.onResume()
+        observeModel()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        observeModel()
+    }
+
     override fun prepareView(savedInstanceState: Bundle?) {
         val mainActivity = activity as MainActivity
         val appVersionName = mainActivity.packageManager.getPackageInfo(mainActivity.packageName, 0).versionName
@@ -46,7 +57,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
         }
 
-        observeModel()
     }
 
     private fun observeModel() {
@@ -76,7 +86,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
-    private fun loadUserProfile(currentUser: UserFirebase) {
+    fun loadUserProfile(currentUser: UserFirebase) {
         val errorImage = if (currentUser.imageUrl == "") R.drawable.avt_default else R.drawable.no_image
         Glide.with(requireContext()).load(currentUser.imageUrl).error(errorImage).into(binding.userAvt)
         Glide.with(requireContext()).load(currentUser.imageUrl).error(errorImage).into(binding.circleAvt)

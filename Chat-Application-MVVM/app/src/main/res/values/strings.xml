@@ -58,5 +58,9 @@
     <string name="permission_not_granted">Chưa được cấp quyền</string>
     <string name="update_failed">Cập nhật không thành công</string>
     <string name="name_empty">Tên không được để trống</string>
-    <string name="invalid_dob">Ngày sinh không đúng định dạng</string>
+    <string name="invalid_dob">Ngày sinh không đúng định dạng (dd/MM/yyyy)</string>
+    <string name="name_too_long"><![CDATA[Tên quá dài (>25 ký tự)]]></string>
+    <string name="email_invalid">Email không đúng định dạng</string>
+    <string name="password_at_least">Mật khẩu phải có ít nhất 6 ký tự</string>
+    <string name="question_edit_profile">Bạn muốn thay đổi thông tin hồ sơ?</string>
 </resources>

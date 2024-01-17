@@ -4,6 +4,9 @@ import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
 import com.android.hoang.chatapplication.R
 import com.blankj.utilcode.util.StringUtils
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -36,7 +39,22 @@ fun emailValidator(emailStr: String): Boolean {
 }
 
 fun dateOfBirthValidator(dob: String): Boolean {
-    //
+    if (dob == "") return true
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    dateFormat.isLenient = false
 
-    return dob == ""
+    try {
+        val parsedDate = dateFormat.parse(dob)
+        val currentDate = Calendar.getInstance().time
+
+        if (parsedDate != null && parsedDate.before(currentDate)) {
+
+            return true
+        }
+    } catch (e: ParseException) {
+        // The date could not be parsed, or it's after the current date, so it's not valid
+        return false
+    }
+
+    return false
 }

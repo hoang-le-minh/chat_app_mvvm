@@ -55,13 +55,13 @@ class SignUpFragmentViewModel @Inject constructor(
     fun signUp(email: String, password: String) {
 
         if (name.value?.length!! > 25){
-            _result.postValue(Resource.error(message = "Tên quá dài, vui lòng đặt lại tên khác.(${name.value?.length} > 25)"))
+            _result.postValue(Resource.error(message = StringUtils.getString(R.string.name_too_long)))
             return
         } else if (!emailValidator(email)){
-            _result.postValue(Resource.error(message = "Email không đúng định dạng."))
+            _result.postValue(Resource.error(message = StringUtils.getString(R.string.email_invalid)))
             return
         } else if (password.length < 6){
-            _result.postValue(Resource.error(message = "Mật khẩu phải có ít nhất 6 ký tự."))
+            _result.postValue(Resource.error(message = StringUtils.getString(R.string.password_at_least)))
             return
         }
 

@@ -62,4 +62,5 @@ class MainActivity : BaseActivity() {
         // BottomNavigationBar with Navigation
         initBottomNavigationBar()
     }
+
 }

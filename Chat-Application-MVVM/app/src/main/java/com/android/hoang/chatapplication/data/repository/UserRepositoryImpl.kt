@@ -1,5 +1,6 @@
 package com.android.hoang.chatapplication.data.repository
 
+import android.net.Uri
 import android.util.Log
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
@@ -12,6 +13,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import java.util.UUID
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -131,6 +134,47 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
         phoneNumber: String,
         dateOfBirth: String
     ): UserFirebase? = suspendCoroutine{ continuation ->
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        Log.d(LOG_TAG, "updateUser: imageUrl $imageUrl")
+        if (currentUser != null){
+            val myRef = FirebaseDatabase.getInstance().getReference("users").child(currentUser.uid)
+            val map = HashMap<String, String>()
+            map["username"] = name.trim()
+            map["phoneNumber"] = phoneNumber
+            map["dateOfBirth"] = dateOfBirth
 
+            var newUser: UserFirebase
+            if (imageUrl != ""){
+                val storageRef = FirebaseStorage.getInstance().reference.child("image/"+UUID.randomUUID().toString())
+                storageRef.putFile(Uri.parse(imageUrl))
+                    .addOnSuccessListener {
+                        storageRef.downloadUrl.addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val url = task.result.toString()
+                                // Now, save the imageUrl to Firebase Realtime Database
+                                map["imageUrl"] = url
+                                myRef.updateChildren(map as Map<String, Any>)
+                                newUser = UserFirebase(currentUser.uid, currentUser.email!!, name, url, phoneNumber, dateOfBirth)
+                                continuation.resume(newUser)
+                            } else {
+                                Log.d(LOG_TAG, "updateUser: 1")
+                                continuation.resume(null)
+                            }
+                        }
+                    }
+                    .addOnFailureListener{
+                        Log.d(LOG_TAG, "updateUser: 2")
+                        continuation.resume(null)
+                    }
+            } else{
+                myRef.updateChildren(map as Map<String, Any>)
+                newUser = UserFirebase(currentUser.uid, currentUser.email!!, name, imageUrl, phoneNumber, dateOfBirth)
+                continuation.resume(newUser)
+            }
+
+        } else {
+            Log.d(LOG_TAG, "updateUser: 3")
+            continuation.resume(null)
+        }
     }
 }
