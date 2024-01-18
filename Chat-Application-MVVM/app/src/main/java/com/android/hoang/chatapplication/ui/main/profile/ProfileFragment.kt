@@ -3,6 +3,7 @@ package com.android.hoang.chatapplication.ui.main.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +17,12 @@ import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.databinding.FragmentProfileBinding
 import com.android.hoang.chatapplication.ui.auth.AuthActivity
 import com.android.hoang.chatapplication.ui.main.MainActivity
+import com.android.hoang.chatapplication.ui.main.profile.editprofile.EditProfileFragmentViewModel
+import com.android.hoang.chatapplication.util.Constants
 import com.android.hoang.chatapplication.util.Status
 import com.android.hoang.chatapplication.util.showMessage
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.StringUtils
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,26 +31,19 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private val profileViewModel: ProfileFragmentViewModel by viewModels()
+    private val editProfileViewModel: EditProfileFragmentViewModel by viewModels()
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ) = FragmentProfileBinding.inflate(inflater, container, false)
 
-    override fun onResume() {
-        super.onResume()
-        observeModel()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        observeModel()
-    }
-
     override fun prepareView(savedInstanceState: Bundle?) {
         val mainActivity = activity as MainActivity
         val appVersionName = mainActivity.packageManager.getPackageInfo(mainActivity.packageName, 0).versionName
         binding.txtAppVersion.text = appVersionName
+
+        observeModel()
 
         binding.layoutLogout.setOnClickListener {
             requireContext().showMessage(R.string.question_log_out){

@@ -27,6 +27,7 @@ import com.android.hoang.chatapplication.ui.main.MainActivity
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Status
 import com.android.hoang.chatapplication.util.showMessage
+import com.blankj.utilcode.util.StringUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -142,7 +143,10 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                     it.data?.let { result ->
                         if (filePath == null) result.imageUrl = args.currentUser.imageUrl
                         Log.d(LOG_TAG, "editProfile.onClickUpdateUser: $result}")
-                        findNavController().popBackStack()
+                        Toast.makeText(requireContext(), StringUtils.getString(R.string.update_success), Toast.LENGTH_LONG).show()
+                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        startActivity(intent)
+                        (activity as MainActivity).finish()
                     }
                     hideLoading()
                 }

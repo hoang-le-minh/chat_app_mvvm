@@ -135,7 +135,7 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
         dateOfBirth: String
     ): UserFirebase? = suspendCoroutine{ continuation ->
         val currentUser = FirebaseAuth.getInstance().currentUser
-        Log.d(LOG_TAG, "updateUser: imageUrl $imageUrl")
+        Log.d(LOG_TAG, "updateUser: imageUrl ${imageUrl == "null"}")
         if (currentUser != null){
             val myRef = FirebaseDatabase.getInstance().getReference("users").child(currentUser.uid)
             val map = HashMap<String, String>()
@@ -143,9 +143,8 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
             map["phoneNumber"] = phoneNumber
             map["dateOfBirth"] = dateOfBirth
 
-            var newUser: UserFirebase
-            if (imageUrl != ""){
-                val storageRef = FirebaseStorage.getInstance().reference.child("image/"+UUID.randomUUID().toString())
+            if (imageUrl != "null" && imageUrl.isNotBlank()){
+                val storageRef = FirebaseStorage.getInstance().reference.child("image/"+currentUser.uid)
                 storageRef.putFile(Uri.parse(imageUrl))
                     .addOnSuccessListener {
                         storageRef.downloadUrl.addOnCompleteListener { task ->
@@ -153,9 +152,14 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
                                 val url = task.result.toString()
                                 // Now, save the imageUrl to Firebase Realtime Database
                                 map["imageUrl"] = url
-                                myRef.updateChildren(map as Map<String, Any>)
-                                newUser = UserFirebase(currentUser.uid, currentUser.email!!, name, url, phoneNumber, dateOfBirth)
-                                continuation.resume(newUser)
+                                myRef.updateChildren(map as Map<String, Any>).addOnCompleteListener { updateTask ->
+                                    if (updateTask.isSuccessful) {
+                                        val newUser = UserFirebase(currentUser.uid, currentUser.email!!, name, url, phoneNumber, dateOfBirth)
+                                        continuation.resume(newUser)
+                                    } else {
+                                        continuation.resume(null)
+                                    }
+                                }
                             } else {
                                 Log.d(LOG_TAG, "updateUser: 1")
                                 continuation.resume(null)
@@ -167,9 +171,21 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
                         continuation.resume(null)
                     }
             } else{
-                myRef.updateChildren(map as Map<String, Any>)
-                newUser = UserFirebase(currentUser.uid, currentUser.email!!, name, imageUrl, phoneNumber, dateOfBirth)
-                continuation.resume(newUser)
+                myRef.updateChildren(map as Map<String, Any>).addOnCompleteListener { updateTask ->
+                    if (updateTask.isSuccessful) {
+                        val newUser = UserFirebase(
+                            currentUser.uid,
+                            currentUser.email!!,
+                            name,
+                            "",
+                            phoneNumber,
+                            dateOfBirth
+                        )
+                        continuation.resume(newUser)
+                    } else {
+                        continuation.resume(null)
+                    }
+                }
             }
 
         } else {

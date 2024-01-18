@@ -63,4 +63,8 @@
     <string name="email_invalid">Email không đúng định dạng</string>
     <string name="password_at_least">Mật khẩu phải có ít nhất 6 ký tự</string>
     <string name="question_edit_profile">Bạn muốn thay đổi thông tin hồ sơ?</string>
+    <string name="update_success">Cập nhật thành công</string>
+    <string name="enter_message">Nhập tin nhắn...</string>
+    <string name="send_message_failed">Gửi tin nhắn thất bại</string>
+    <string name="send_message_success">Gửi tin nhắn thành công</string>
 </resources>

@@ -1,8 +1,10 @@
-package com.android.hoang.chatapplication.di.qualifier
+package com.android.hoang.chatapplication.di
 
 import com.android.hoang.chatapplication.data.remote.source.UserDataSourceImpl
+import com.android.hoang.chatapplication.data.repository.MessageRepositoryImpl
 import com.android.hoang.chatapplication.data.repository.UserDataSource
 import com.android.hoang.chatapplication.data.repository.UserRepositoryImpl
+import com.android.hoang.chatapplication.domain.repository.MessageRepository
 import com.android.hoang.chatapplication.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -25,4 +27,10 @@ object RepositoryModule {
     @Singleton
     fun provideUserRepository(userRepository: UserRepositoryImpl): UserRepository =
         userRepository
+
+
+    @Provides
+    @Singleton
+    fun provideMessageRepository(messageRepository: MessageRepositoryImpl): MessageRepository =
+        messageRepository
 }

@@ -1,13 +1,18 @@
 package com.android.hoang.chatapplication.ui.main.friend.friendviewpager.alluser
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
+import com.android.hoang.chatapplication.ui.chat.ChatActivity
+import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.bumptech.glide.Glide
 
 class AllUserAdapter(private val users: List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -57,10 +62,19 @@ class AllUserAdapter(private val users: List<Any>) : RecyclerView.Adapter<Recycl
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val userAvt: ImageView = itemView.findViewById(R.id.user_avt)
         private val username: TextView = itemView.findViewById(R.id.user_name)
+        private val layoutInfo: RelativeLayout = itemView.findViewById(R.id.layout_info)
 
         fun bind(user: UserFirebase) {
             Glide.with(itemView.context).load(user.imageUrl).error(R.drawable.avt_default).into(userAvt)
             username.text = user.username
+            layoutInfo.setOnClickListener {
+                val intent = Intent(itemView.context, ChatActivity::class.java)
+                intent.putExtra("user_avt", user.imageUrl)
+                intent.putExtra("username", user.username)
+                intent.putExtra("user_id", user.id)
+                Log.d(LOG_TAG, "bind: $user")
+                itemView.context.startActivity(intent)
+            }
         }
     }
 

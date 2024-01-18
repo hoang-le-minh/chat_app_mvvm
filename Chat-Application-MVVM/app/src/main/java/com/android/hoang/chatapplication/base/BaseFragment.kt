@@ -46,7 +46,7 @@ abstract class BaseFragment<B: ViewBinding> : Fragment() {
      * Show loading
      */
     fun showLoading() {
-        val activity = activity as BaseActivity
+        val activity = activity as BaseActivity<*>
         activity.showLoading()
     }
 
@@ -54,7 +54,7 @@ abstract class BaseFragment<B: ViewBinding> : Fragment() {
      * Hide loading
      */
     fun hideLoading() {
-        val activity = activity as BaseActivity
+        val activity = activity as BaseActivity<*>
         activity.hideLoading()
     }
     //endregion
