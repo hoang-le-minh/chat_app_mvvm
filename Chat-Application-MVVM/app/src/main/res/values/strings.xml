@@ -67,4 +67,11 @@
     <string name="enter_message">Nhập tin nhắn...</string>
     <string name="send_message_failed">Gửi tin nhắn thất bại</string>
     <string name="send_message_success">Gửi tin nhắn thành công</string>
+    <string name="today">Hôm nay</string>
+    <string name="cannot_read_message">Không thể tải tin nhắn</string>
+    <string name="create_conversation">Tạo cuộc hội thoại mới</string>
+    <string name="exist_conversation">Đã tồn tại cuộc hội thoại</string>
+    <string name="is_seen">Đã xem</string>
+    <string name="is_delivered">Đã gửi</string>
+    <string name="sent_an_image">Đã gửi một hình ảnh</string>
 </resources>

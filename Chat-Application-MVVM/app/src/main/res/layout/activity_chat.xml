@@ -46,6 +46,25 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_16"
+        android:background="@drawable/corner_top_left_and_right_view"
+        android:layout_alignBottom="@+id/layout_top"/>
+
+    <TextView
+        android:id="@+id/txt_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/today"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_16sp"
+        android:fontFamily="@font/lato_regular"
+        android:background="@drawable/message_left"
+        android:layout_above="@+id/recyclerViewChat"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/layout_8"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChat"
         android:layout_width="match_parent"

@@ -49,14 +49,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
      * Observe LiveData models
      */
     private fun observeModel() {
-        viewModel.user.observe(viewLifecycleOwner) {
+        viewModel.getConversationList()
+        viewModel.conversationList.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
-                    it.data.let {
-                        LogUtils.d("$this SUCCESS")
-                        prepareComponents(it)
+                    it.data?.let { listUserId ->
+                        prepareComponents(listUserId)
                     }
-                    hideLoading()
                 }
                 Status.LOADING -> {
                     LogUtils.d("$this LOADING")
@@ -74,11 +73,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
      * Prepare components & show data in UI
      *
      */
-    private fun prepareComponents(user: UserFirebase?) {
+    private fun prepareComponents(listId: MutableList<String>) {
         val recyclerView = binding.recyclerviewMessage
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        listMessageAdapter.submitList(viewModel.listUserTest)
-        recyclerView.adapter = listMessageAdapter
+        viewModel.getLatestMessageList(listId)
+        viewModel.latestMessageList.observe(viewLifecycleOwner){ it ->
+            when (it.status) {
+                Status.SUCCESS -> {
+                    it.data.let { list ->
+                        listMessageAdapter.submitList(list)
+                        recyclerView.adapter = listMessageAdapter
+                    }
+                    hideLoading()
+                }
+                Status.LOADING -> {
+                    LogUtils.d("$this LOADING")
+                    showLoading()
+                }
+                Status.ERROR -> {
+                    LogUtils.d("$this ERROR")
+                    showLoading()
+                }
+            }
+        }
+
 
     }
 

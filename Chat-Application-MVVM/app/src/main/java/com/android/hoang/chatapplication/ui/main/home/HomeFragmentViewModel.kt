@@ -6,10 +6,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseViewModel
+import com.android.hoang.chatapplication.data.remote.model.Message
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.data.remote.model.UserResponse
 import com.android.hoang.chatapplication.di.qualifier.IoDispatcher
 import com.android.hoang.chatapplication.domain.usecase.GetUserUseCase
+import com.android.hoang.chatapplication.domain.usecase.MessageUseCase
 import com.android.hoang.chatapplication.util.Resource
 import com.android.hoang.chatapplication.util.State
 import com.blankj.utilcode.util.LogUtils
@@ -23,49 +25,39 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeFragmentViewModel @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val getUserUseCase: GetUserUseCase
+    private val messageUseCase: MessageUseCase
     //private val userRepository: UserRepository
 ) : BaseViewModel() {
 
     //region city info
-    private val _user = MutableLiveData<Resource<UserFirebase>>()
-    val user: LiveData<Resource<UserFirebase>>
-        get() = _user
+    private val _latestMessage = MutableLiveData<Resource<Message>>()
+    val latestMessage: LiveData<Resource<Message>>
+        get() = _latestMessage
     //endregion
 
-    init {
-        LogUtils.d("$this initialize")
-        getUser()
-    }
+    private val _latestMessageList = MutableLiveData<Resource<MutableList<Message>>>()
+    val latestMessageList: LiveData<Resource<MutableList<Message>>>
+        get() = _latestMessageList
 
-    val listUserTest = mutableListOf(
-        UserTest("Minh Hoang", "16:11", "This is a message", R.drawable.avt_default, false, 0),
-        UserTest("Minh Minh", "16:11", "This is a message", R.drawable.avt_default, true, 2),
-        UserTest("Hoang Hoang", "16:11", "This is a message", R.drawable.avt_default, false, 0),
-        UserTest("Thien An", "16:11", "This is a message", R.drawable.avt_default, true, 3),
-        UserTest("Duc Nguyen", "16:11", "This is a message", R.drawable.avt_default, false, 0),
-        UserTest("Minh Hoang", "16:11", "This is a message", R.drawable.avt_default, false, 0),
-        UserTest("Minh Minh", "16:11", "This is a message", R.drawable.avt_default, true, 2),
-        UserTest("Hoang Hoang", "16:11", "This is a message", R.drawable.avt_default, false, 0),
-        UserTest("Thien An", "16:11", "This is a message", R.drawable.avt_default, true, 3),
-        UserTest("Duc Nguyen", "16:11", "This is a message", R.drawable.avt_default, false, 0)
-    )
-
+    private val _conversationList = MutableLiveData<Resource<MutableList<String>>>()
+    val conversationList: LiveData<Resource<MutableList<String>>>
+        get() = _conversationList
     /**
      * Send HTTP Request for get user info
      */
-    private fun getUser() {
-        viewModelScope.launch {
-            getUserUseCase.invokeCurrentUser().collect {
+
+    fun getLatestMessageList(listId: List<String>){
+        viewModelScope.launch(ioDispatcher) {
+            messageUseCase.invokeLatestMessageList(listId).collect{
                 when (it) {
                     is State.Loading -> {
-                        _user.postValue(Resource.loading())
+                        _latestMessageList.postValue(Resource.loading())
                     }
                     is State.Success -> {
-                        _user.postValue(Resource.success(it.data))
+                        _latestMessageList.postValue(Resource.success(it.data))
                     }
                     is State.Error -> {
-                        _user.postValue(
+                        _latestMessageList.postValue(
                             Resource.error(
                                 message = it.message ?: StringUtils.getString(
                                     R.string.something_went_wrong
@@ -77,4 +69,52 @@ class HomeFragmentViewModel @Inject constructor(
             }
         }
     }
+
+    fun getConversationList(){
+        viewModelScope.launch(ioDispatcher) {
+            messageUseCase.invokeConversationList().collect{
+                when (it) {
+                    is State.Loading -> {
+                        _conversationList.postValue(Resource.loading())
+                    }
+                    is State.Success -> {
+                        _conversationList.postValue(Resource.success(it.data))
+                    }
+                    is State.Error -> {
+                        _conversationList.postValue(
+                            Resource.error(
+                                message = it.message ?: StringUtils.getString(
+                                    R.string.something_went_wrong
+                                )
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+//    fun latestMessage(senderId: String, receiverId: String) {
+//        viewModelScope.launch(ioDispatcher) {
+//            messageUseCase.invokeLatestMessage(senderId, receiverId).collect{
+//                when (it) {
+//                    is State.Loading -> {
+//                        _latestMessage.postValue(Resource.loading())
+//                    }
+//                    is State.Success -> {
+//                        _latestMessage.postValue(Resource.success(it.data))
+//                    }
+//                    is State.Error -> {
+//                        _latestMessage.postValue(
+//                            Resource.error(
+//                                message = it.message ?: StringUtils.getString(
+//                                    R.string.something_went_wrong
+//                                )
+//                            )
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
