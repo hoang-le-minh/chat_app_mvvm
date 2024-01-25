@@ -74,4 +74,5 @@
     <string name="is_seen">Đã xem</string>
     <string name="is_delivered">Đã gửi</string>
     <string name="sent_an_image">Đã gửi một hình ảnh</string>
+    <string name="yesterday">Hôm qua</string>
 </resources>

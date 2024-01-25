@@ -187,6 +187,7 @@ class MessageRepositoryImpl @Inject constructor(): MessageRepository {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val myRef = FirebaseDatabase.getInstance().getReference("conversations")
         val listId = mutableListOf<String>()
+        var isResumed = false
         if (currentUser != null){
             myRef.addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -201,7 +202,10 @@ class MessageRepositoryImpl @Inject constructor(): MessageRepository {
                         }
                     }
 
-                    continuation.resume(listId)
+                    if (!isResumed){
+                        continuation.resume(listId)
+                        isResumed = true
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {

@@ -69,8 +69,6 @@ class AllUserAdapter(private val users: List<Any>) : RecyclerView.Adapter<Recycl
             username.text = user.username
             layoutInfo.setOnClickListener {
                 val intent = Intent(itemView.context, ChatActivity::class.java)
-                intent.putExtra("user_avt", user.imageUrl)
-                intent.putExtra("username", user.username)
                 intent.putExtra("user_id", user.id)
                 Log.d(LOG_TAG, "bind: $user")
                 itemView.context.startActivity(intent)

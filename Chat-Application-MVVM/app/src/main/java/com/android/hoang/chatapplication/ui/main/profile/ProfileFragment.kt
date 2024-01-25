@@ -1,7 +1,9 @@
 package com.android.hoang.chatapplication.ui.main.profile
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
@@ -17,8 +21,10 @@ import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.databinding.FragmentProfileBinding
 import com.android.hoang.chatapplication.ui.auth.AuthActivity
 import com.android.hoang.chatapplication.ui.main.MainActivity
+import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
 import com.android.hoang.chatapplication.ui.main.profile.editprofile.EditProfileFragmentViewModel
 import com.android.hoang.chatapplication.util.Constants
+import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Status
 import com.android.hoang.chatapplication.util.showMessage
 import com.blankj.utilcode.util.LogUtils
@@ -31,7 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private val profileViewModel: ProfileFragmentViewModel by viewModels()
-    private val editProfileViewModel: EditProfileFragmentViewModel by viewModels()
+    private val mainViewModel: MainActivityViewModel by activityViewModels()
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -81,9 +87,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 }
             }
         }
+
     }
 
-    fun loadUserProfile(currentUser: UserFirebase) {
+    private fun loadUserProfile(currentUser: UserFirebase) {
         val errorImage = if (currentUser.imageUrl == "") R.drawable.avt_default else R.drawable.no_image
         Glide.with(requireContext()).load(currentUser.imageUrl).error(errorImage).into(binding.userAvt)
         Glide.with(requireContext()).load(currentUser.imageUrl).error(errorImage).into(binding.circleAvt)
@@ -96,5 +103,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         val action = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment(currentUser)
         findNavController().navigate(action)
     }
+
 
 }

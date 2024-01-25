@@ -1,5 +1,6 @@
 package com.android.hoang.chatapplication.ui.main.home
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.data.remote.model.Message
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
+import com.android.hoang.chatapplication.ui.chat.ChatActivity
 import com.android.hoang.chatapplication.util.Constants
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_STRING
@@ -41,6 +43,13 @@ class ListUserMessageAdapter : ListAdapter<Message, ListUserMessageAdapter.MyVie
                 if (message.message.length > 50) "${message.message.substring(0, 48)}..." else message.message
             } else {
                 StringUtils.getString(R.string.sent_an_image)
+            }
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, ChatActivity::class.java)
+                intent.putExtra("user_id", userId)
+                Log.d(LOG_TAG, "homeAdapter.bind: $userId")
+                itemView.context.startActivity(intent)
             }
 
             setInfoUser(itemView, userId, userAvt, userName)

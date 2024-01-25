@@ -3,18 +3,22 @@ package com.android.hoang.chatapplication.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.activity.viewModels
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseActivity
 import com.android.hoang.chatapplication.databinding.ActivityAuthBinding
 import com.android.hoang.chatapplication.databinding.ActivityMainBinding
+import com.android.hoang.chatapplication.ui.chat.ChatActivityViewModel
 import com.android.hoang.chatapplication.util.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
+
+    private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     //region vars
     private var currentNavController: LiveData<NavController>? = null

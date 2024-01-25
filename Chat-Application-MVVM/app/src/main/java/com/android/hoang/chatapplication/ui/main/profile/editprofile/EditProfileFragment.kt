@@ -15,15 +15,20 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.core.content.FileProvider
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.databinding.FragmentEditProfileBinding
+import com.android.hoang.chatapplication.ui.chat.ChatActivityViewModel
 import com.android.hoang.chatapplication.ui.main.MainActivity
+import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Status
 import com.android.hoang.chatapplication.util.showMessage
@@ -41,6 +46,7 @@ import java.util.*
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
 
     private val editProfileViewModel: EditProfileFragmentViewModel by viewModels()
+    private val mainViewModel: MainActivityViewModel by activityViewModels()
 
     private var selectedDate: Calendar = Calendar.getInstance()
     private var filePath: Uri? = null
@@ -159,6 +165,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
             }
         }
     }
+
 
     private fun onClickRequestPermission() {
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
