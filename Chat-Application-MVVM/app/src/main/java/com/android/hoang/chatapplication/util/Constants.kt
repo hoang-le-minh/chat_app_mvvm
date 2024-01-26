@@ -7,5 +7,8 @@ object Constants {
     const val MESSAGE_TYPE_IMAGE = 2
     const val MESSAGE_TYPE_STICKER = 3
 
+    const val FRIEND_RELATIONSHIP = "friend_relationship"
+    const val ADD_FRIEND_RELATIONSHIP = "add_friend_relationship"
+
     const val BASE_URL = "https://api.github.com/"
 }

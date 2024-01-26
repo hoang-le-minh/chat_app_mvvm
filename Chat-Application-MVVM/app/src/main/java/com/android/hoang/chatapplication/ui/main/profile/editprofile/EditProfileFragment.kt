@@ -150,9 +150,11 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>() {
                         if (filePath == null) result.imageUrl = args.currentUser.imageUrl
                         Log.d(LOG_TAG, "editProfile.onClickUpdateUser: $result}")
                         Toast.makeText(requireContext(), StringUtils.getString(R.string.update_success), Toast.LENGTH_LONG).show()
-                        val intent = Intent(requireContext(), MainActivity::class.java)
-                        startActivity(intent)
-                        (activity as MainActivity).finish()
+//                        val intent = Intent(requireContext(), MainActivity::class.java)
+//                        startActivity(intent)
+//                        (activity as MainActivity).finish()
+                        mainViewModel.updateProfileStatus(true)
+                        findNavController().popBackStack()
                     }
                     hideLoading()
                 }

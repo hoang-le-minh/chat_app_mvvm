@@ -55,28 +55,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
 
         initTabLayout(viewPager)
 
-        // test
-//        val userList = ArrayList<UserFirebase>()
-//        val currentUser = FirebaseAuth.getInstance().currentUser ?: return
-//        var myRef = FirebaseDatabase.getInstance().getReference("users")
-//        myRef.addValueEventListener(object : ValueEventListener{
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                userList.clear()
-//                for (dataSnapshot: DataSnapshot in snapshot.children){
-//                    val user = dataSnapshot.getValue(UserFirebase::class.java) ?: return
-//                    if (user.id == currentUser.uid){
-//                        userList.add(user)
-//                    }
-//                }
-//                Log.d(LOG_TAG, "onDataChange list user: ${userList[0]}")
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                Toast.makeText(requireContext(), error.message, Toast.LENGTH_LONG).show()
-//            }
-//
-//        })
-
     }
 
 

@@ -38,7 +38,7 @@ class ProfileFragmentViewModel @Inject constructor(
         FirebaseAuth.getInstance().signOut()
     }
 
-    private fun getCurrentUser() {
+    fun getCurrentUser() {
         viewModelScope.launch {
             getUserUseCase.invokeCurrentUser().collect {
                 when (it) {

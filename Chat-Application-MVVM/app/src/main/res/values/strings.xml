@@ -75,4 +75,11 @@
     <string name="is_delivered">Đã gửi</string>
     <string name="sent_an_image">Đã gửi một hình ảnh</string>
     <string name="yesterday">Hôm qua</string>
+    <string name="add_friend_failed">Thêm bạn bè không thành công</string>
+    <string name="is_not_friend">Không phải là bạn bè</string>
+    <string name="is_friend">Là bạn bè</string>
+    <string name="not_exist">Không tồn tại</string>
+    <string name="exist">Đã tồn tại</string>
+    <string name="friend_request">LỜI MỜI KẾT BẠN</string>
+    <string name="friend_sent">ĐÃ GỬI KẾT BẠN</string>
 </resources>

@@ -128,6 +128,37 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
 
     }
 
+    override suspend fun getUserListByListId(list: List<String>): List<UserFirebase> = suspendCoroutine { continuation ->
+        val userList = mutableListOf<UserFirebase>()
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val myRef = FirebaseDatabase.getInstance().getReference("users")
+        if(currentUser != null){
+            var isResumed = false
+            myRef.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    userList.clear()
+                    for (dataSnapshot: DataSnapshot in snapshot.children){
+                        val user = dataSnapshot.getValue(UserFirebase::class.java) ?: return
+                        if(user.id != currentUser.uid && list.contains(user.id)){
+                            userList.add(user)
+                            Log.d(LOG_TAG, "onDataChange: ${user.id}")
+                        }
+                    }
+                    if (!isResumed){
+                        continuation.resume(userList)
+                        isResumed = true
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d(LOG_TAG, "onCancelled: ${error.message}")
+                }
+
+            })
+        }
+
+    }
+
     override suspend fun updateUser(
         name: String,
         imageUrl: String,

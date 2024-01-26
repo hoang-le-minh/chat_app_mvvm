@@ -73,7 +73,7 @@ class AllUserFragment : BaseFragment<FragmentAllUserBinding>() {
             else (it as UserFirebase).username.split(" ").last()
         }
 
-        val adapter = AllUserAdapter(sortedDataList)
+        val adapter = AllUserAdapter(sortedDataList, allUserViewModel)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }

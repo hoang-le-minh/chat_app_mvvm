@@ -73,6 +73,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                         binding.btnEditProfile.setOnClickListener {
                             goToEditProfile(currentUser)
                         }
+
                     }
                     hideLoading()
                 }
@@ -88,6 +89,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
         }
 
+        mainViewModel.updateProfileStatus.observe(viewLifecycleOwner){
+            if (it){
+                profileViewModel.getCurrentUser()
+                mainViewModel.updateProfileStatus(false)
+            }
+        }
     }
 
     private fun loadUserProfile(currentUser: UserFirebase) {
