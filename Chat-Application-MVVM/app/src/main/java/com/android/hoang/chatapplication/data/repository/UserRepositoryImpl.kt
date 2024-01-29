@@ -138,7 +138,7 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
                 override fun onDataChange(snapshot: DataSnapshot) {
                     userList.clear()
                     for (dataSnapshot: DataSnapshot in snapshot.children){
-                        val user = dataSnapshot.getValue(UserFirebase::class.java) ?: return
+                        val user = dataSnapshot.getValue(UserFirebase::class.java) ?: continue
                         if(user.id != currentUser.uid && list.contains(user.id)){
                             userList.add(user)
                             Log.d(LOG_TAG, "onDataChange: ${user.id}")

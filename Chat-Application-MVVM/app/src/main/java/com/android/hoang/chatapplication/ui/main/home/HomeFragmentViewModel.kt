@@ -20,6 +20,8 @@ import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,7 +56,8 @@ class HomeFragmentViewModel @Inject constructor(
                         _latestMessageList.postValue(Resource.loading())
                     }
                     is State.Success -> {
-                        _latestMessageList.postValue(Resource.success(it.data))
+                        val sortList = it.data?.sortedByDescending { it1 -> parseDateTime(it1.createAt) } as MutableList<Message>
+                        _latestMessageList.postValue(Resource.success(sortList))
                     }
                     is State.Error -> {
                         _latestMessageList.postValue(
@@ -68,6 +71,13 @@ class HomeFragmentViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun parseDateTime(dateTime: String): Long {
+        // Chuyển đổi chuỗi ngày tháng thành timestamp để sắp xếp
+        val pattern = SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault())
+        val date = pattern.parse(dateTime)
+        return date?.time ?: 0L
     }
 
     fun getConversationList(){

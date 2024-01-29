@@ -43,7 +43,7 @@ class AllUserFragmentViewModel @Inject constructor(
         getUserList()
     }
 
-    private fun getUserList(){
+    fun getUserList(){
         viewModelScope.launch(ioDispatcher) {
             getUserUseCase.invokeAllUser().collect{
                 when (it) {

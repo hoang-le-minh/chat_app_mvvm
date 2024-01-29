@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseViewModel
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
@@ -25,12 +26,12 @@ class ListFriendFragmentViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
     private val friendUseCase: FriendUseCase
 ): BaseViewModel() {
-    private val _listIdFriend = MutableLiveData<Resource<List<String>>>()
-    val listIdFriend: LiveData<Resource<List<String>>>
+    private val _listIdFriend = MutableLiveData<Resource<MutableList<String>>>()
+    val listIdFriend: LiveData<Resource<MutableList<String>>>
         get() = _listIdFriend
 
-    private val _listFriend = MutableLiveData<Resource<List<UserFirebase>>>()
-    val listFriend: LiveData<Resource<List<UserFirebase>>>
+    private val _listFriend = MutableLiveData<Resource<List<Any>>>()
+    val listFriend: LiveData<Resource<List<Any>>>
         get() = _listFriend
 
     init {
@@ -61,7 +62,7 @@ class ListFriendFragmentViewModel @Inject constructor(
         }
     }
 
-    fun getUserListByListId(list: List<String>){
+    fun getUserListByListId(list: MutableList<String>){
         viewModelScope.launch {
             getUserUseCase.invokeGetUserListByListId(list).collect{
                 when (it) {
@@ -69,7 +70,12 @@ class ListFriendFragmentViewModel @Inject constructor(
                         _listFriend.postValue(Resource.loading())
                     }
                     is State.Success -> {
-                        _listFriend.postValue(Resource.success(it.data))
+                        val mList = it.data?.let { it1 ->
+                            sortAlphabet(
+                                it1.toMutableList()
+                            )
+                        }
+                        _listFriend.postValue(Resource.success(mList))
                     }
                     is State.Error -> {
                         _listFriend.postValue(
@@ -83,6 +89,24 @@ class ListFriendFragmentViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun sortAlphabet(friendList: MutableList<UserFirebase>): MutableList<Any>{
+        val list = mutableListOf<Any>()
+        for (user: UserFirebase in friendList){
+            list.add(user)
+            val ch = user.username.split(" ").last().substring(0,1).uppercase()
+            if(list.none{ it is String && it == ch }){
+                list.add(ch)
+            }
+        }
+
+        val sortedDataList = list.sortedBy {
+            if (it is String) it
+            else (it as UserFirebase).username.split(" ").last()
+        }
+
+        return sortedDataList as MutableList<Any>
     }
 
 }

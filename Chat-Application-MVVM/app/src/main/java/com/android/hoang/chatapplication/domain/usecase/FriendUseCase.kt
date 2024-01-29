@@ -26,14 +26,42 @@ class FriendUseCase @Inject constructor(private val friendRepository: FriendRepo
         }
     }
 
+    suspend fun invokeAcceptFriend(user: UserFirebase): Flow<State<String>> = flow {
+        try {
+            emit(State.Loading())
+            val result = friendRepository.acceptFriend(user)
+            if (result == StringUtils.getString(R.string.ok))
+                emit(State.Success(result))
+            else
+                emit(State.Error(StringUtils.getString(R.string.add_friend_failed)))
+        } catch (e: Exception) {
+            LogUtils.d("$this ${e.localizedMessage}")
+            emit(State.Error(e.localizedMessage))
+        }
+    }
+
+    suspend fun invokeCancelFriendRequest(user: UserFirebase): Flow<State<String>> = flow {
+        try {
+            emit(State.Loading())
+            val result = friendRepository.cancelFriendRequest(user)
+            if (result == StringUtils.getString(R.string.ok))
+                emit(State.Success(result))
+            else
+                emit(State.Error(StringUtils.getString(R.string.cancel_failed)))
+        } catch (e: Exception) {
+            LogUtils.d("$this ${e.localizedMessage}")
+            emit(State.Error(e.localizedMessage))
+        }
+    }
+
     suspend fun invokeGetListSentFriend(): Flow<State<MutableList<String>>> = flow {
         try {
             emit(State.Loading())
             val result = friendRepository.getListSentFriend()
-            if (result.isNotEmpty())
+//            if (result.isNotEmpty())
                 emit(State.Success(result))
-            else
-                emit(State.Error(StringUtils.getString(R.string.something_went_wrong)))
+//            else
+//                emit(State.Error(StringUtils.getString(R.string.something_went_wrong)))
         } catch (e: Exception) {
             LogUtils.d("$this ${e.localizedMessage}")
             emit(State.Error(e.localizedMessage))

@@ -9,17 +9,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.databinding.FragmentFriendBinding
+import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
 import com.android.hoang.chatapplication.ui.main.friend.friendviewpager.FriendViewPagerAdapter
 import com.android.hoang.chatapplication.ui.main.friend.friendviewpager.alluser.AllUserFragment
 import com.android.hoang.chatapplication.ui.main.friend.friendviewpager.friendrequest.FriendRequestFragment
+import com.android.hoang.chatapplication.ui.main.friend.friendviewpager.friendrequest.FriendRequestFragmentViewModel
 import com.android.hoang.chatapplication.ui.main.friend.friendviewpager.listfriend.ListFriendFragment
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
+import com.android.hoang.chatapplication.util.Status
 import com.blankj.utilcode.util.LogUtils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -35,6 +39,8 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
 
     //region vars
     private val viewModel: FriendFragmentViewModel by viewModels()
+    private val friendRequestViewModel: FriendRequestFragmentViewModel by viewModels()
+    private val mainViewModel: MainActivityViewModel by activityViewModels()
     //endregion
 
     override fun getFragmentBinding(
@@ -80,6 +86,14 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
 
                 if(i != tabLayout.tabCount-1) countRequest.visibility = View.GONE
 
+                setRequestCount(countRequest)
+                mainViewModel.updateRequestCount.observe(viewLifecycleOwner){
+                    if (it){
+                        friendRequestViewModel.getRequestIdList()
+                        mainViewModel.updateRequestCount(false)
+                    }
+                }
+
                 if(tab.isSelected){
                     tabText.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_1))
                 }
@@ -111,5 +125,33 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
             }
 
         })
+    }
+
+    private fun setRequestCount(countRequest: TextView) {
+        friendRequestViewModel.getRequestIdList()
+        friendRequestViewModel.listIdRequest.observe(viewLifecycleOwner){
+            when(it.status){
+                Status.LOADING -> {
+//                    showLoading()
+                }
+                Status.SUCCESS -> {
+                    it.data?.let { list ->
+//                        Log.d(Constants.LOG_TAG, "friendRequest.initListRequestUser: ${list[0]}")
+                        countRequest.text = list.size.toString()
+                    }
+                    hideLoading()
+                }
+                Status.ERROR -> {
+                    it.message.let { msg ->
+//                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+                        hideLoading()
+                    }
+                }
+            }
+        }
+
+        mainViewModel.requestCount.observe(viewLifecycleOwner){
+            countRequest.text = it.toString()
+        }
     }
 }

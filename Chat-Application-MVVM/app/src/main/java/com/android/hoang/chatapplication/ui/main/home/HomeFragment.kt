@@ -105,8 +105,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { list ->
-                        val sortList = list.sortedByDescending { parseDateTime(it.createAt) }
-                        listMessageAdapter.submitList(sortList)
+                        listMessageAdapter.submitList(list)
                         recyclerView.adapter = listMessageAdapter
                     }
                     hideLoading()
@@ -125,11 +124,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     }
 
-    private fun parseDateTime(dateTime: String): Long {
-        // Chuyển đổi chuỗi ngày tháng thành timestamp để sắp xếp
-        val pattern = SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault())
-        val date = pattern.parse(dateTime)
-        return date?.time ?: 0L
-    }
 
 }

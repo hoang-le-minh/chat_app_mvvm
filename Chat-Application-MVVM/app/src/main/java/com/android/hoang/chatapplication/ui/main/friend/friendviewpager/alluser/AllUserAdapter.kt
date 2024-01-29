@@ -18,6 +18,7 @@ import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.data.remote.model.Friend
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.ui.chat.ChatActivity
+import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Status
 import com.blankj.utilcode.util.StringUtils
@@ -29,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlin.coroutines.resume
 
-class AllUserAdapter(private val users: List<Any>, private val allUserViewModel: AllUserFragmentViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AllUserAdapter(private val mainViewModel: MainActivityViewModel, private val users: List<Any>, private val allUserViewModel: AllUserFragmentViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val VIEW_TYPE_USER = 1
     private val VIEW_TYPE_SECTION_HEADER = 2
@@ -94,6 +95,7 @@ class AllUserAdapter(private val users: List<Any>, private val allUserViewModel:
             btnAddFriend.setOnClickListener {
                 btnAddFriend.visibility = View.INVISIBLE
                 allUserViewModel.addFriend(user)
+                mainViewModel.updateRequestStatus(true)
             }
         }
     }

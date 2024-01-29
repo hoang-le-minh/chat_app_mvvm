@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
     
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/accept_recyclerView"
+        android:id="@+id/request_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/txt_friend_request"
