@@ -55,6 +55,7 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
                 Status.ERROR -> {
                     it.message.let { msg ->
 //                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+                        mainViewModel.setRequestCount(0)
                         hideLoading()
                     }
                 }

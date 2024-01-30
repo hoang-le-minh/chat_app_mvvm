@@ -128,7 +128,7 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
 
     }
 
-    override suspend fun getUserListByListId(list: List<String>): List<UserFirebase> = suspendCoroutine { continuation ->
+    override suspend fun getUserListByListId(list: MutableList<String>): List<UserFirebase> = suspendCoroutine { continuation ->
         val userList = mutableListOf<UserFirebase>()
         val currentUser = FirebaseAuth.getInstance().currentUser
         val myRef = FirebaseDatabase.getInstance().getReference("users")

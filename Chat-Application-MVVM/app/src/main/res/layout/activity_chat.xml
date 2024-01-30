@@ -76,7 +76,7 @@
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/layout_52"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/sticker_recycler_view"
         android:layout_marginBottom="@dimen/layout_8">
 
         <ImageButton
@@ -108,6 +108,7 @@
             android:paddingStart="@dimen/layout_16"/>
 
         <ImageButton
+            android:id="@+id/sticker_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_smile"
@@ -129,6 +130,12 @@
             android:layout_marginEnd="@dimen/layout_8"/>
 
     </RelativeLayout>
-    
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sticker_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

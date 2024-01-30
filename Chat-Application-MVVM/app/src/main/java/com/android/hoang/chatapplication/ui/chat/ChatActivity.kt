@@ -10,15 +10,14 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseActivity
-import com.android.hoang.chatapplication.data.remote.model.Conversation
 import com.android.hoang.chatapplication.data.remote.model.Message
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.databinding.ActivityChatBinding
-import com.android.hoang.chatapplication.util.Constants
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_STRING
 import com.android.hoang.chatapplication.util.Status
@@ -32,14 +31,15 @@ import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
-import kotlin.coroutines.resume
 
 @AndroidEntryPoint
 class ChatActivity : BaseActivity<ActivityChatBinding>() {
 
     private val chatViewModel: ChatActivityViewModel by viewModels()
     private lateinit var chatAdapter: ChatAdapter
+    private lateinit var stickerAdapter: StickerAdapter
+
+    private var isStickerShow = false
 
     override fun getActivityBinding(inflater: LayoutInflater) = ActivityChatBinding.inflate(layoutInflater)
 
@@ -50,6 +50,18 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
         val userId = intent.getStringExtra("user_id") ?: return
 
         loadUserInfo()
+
+        stickerAdapter = StickerAdapter()
+        val stickerRecyclerView = binding.stickerRecyclerView
+        val layoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
+
+        stickerAdapter.submitList(listStickerResource())
+        stickerRecyclerView.layoutManager = layoutManager
+        stickerRecyclerView.adapter = stickerAdapter
+
+        binding.stickerIcon.setOnClickListener {
+            onClickStickerIcon()
+        }
 
         binding.btnBack.setOnClickListener {
             val intent = Intent("com.android.hoang.chatapplication.UPDATE_HOME_UI")
@@ -80,6 +92,23 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
 
     }
 
+    private fun onClickStickerIcon(){
+        if (isStickerShow){
+            binding.stickerIcon.setImageResource(R.drawable.ic_smile)
+            val layoutParams = binding.stickerRecyclerView.layoutParams
+            layoutParams.height = 0
+            binding.stickerRecyclerView.layoutParams = layoutParams
+            binding.stickerRecyclerView.visibility = View.INVISIBLE
+            isStickerShow = false
+        } else {
+            binding.stickerIcon.setImageResource(R.drawable.ic_smile_selected)
+            val layoutParams = binding.stickerRecyclerView.layoutParams
+            layoutParams.height = 700
+            binding.stickerRecyclerView.layoutParams = layoutParams
+            binding.stickerRecyclerView.visibility = View.VISIBLE
+            isStickerShow = true
+        }
+    }
 
     private fun readMessage(senderId: String, receiverId: String, profileImage: String){
         chatViewModel.readMessage(senderId, receiverId)
@@ -195,4 +224,20 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
         chatViewModel.removeSeenListener()
     }
 
+    private fun listStickerResource(): List<Int> {
+        return listOf(
+            R.drawable.sticker_1,
+            R.drawable.sticker_2,
+            R.drawable.sticker_3,
+            R.drawable.sticker_4,
+            R.drawable.sticker_5,
+            R.drawable.sticker_6,
+            R.drawable.sticker_7,
+            R.drawable.sticker_8,
+            R.drawable.sticker_9,
+            R.drawable.sticker_10,
+            R.drawable.sticker_11,
+            R.drawable.sticker_12,
+        )
+    }
 }
