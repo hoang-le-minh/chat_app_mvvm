@@ -27,7 +27,12 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
     private val friendRequestViewModel: FriendRequestFragmentViewModel by viewModels()
     private val mainViewModel: MainActivityViewModel by activityViewModels()
 
+    private lateinit var requestAdapter: FriendRequestAdapter
+    private lateinit var sentAdapter: FriendRequestAdapter
+
     override fun prepareView(savedInstanceState: Bundle?) {
+        requestAdapter = FriendRequestAdapter(mainViewModel, friendRequestViewModel, true)
+        sentAdapter = FriendRequestAdapter(mainViewModel, friendRequestViewModel, false)
         observerModel()
     }
 
@@ -123,7 +128,6 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
     private fun initRequestRecyclerView(requestList: MutableList<UserFirebase>){
         val recyclerView = binding.requestRecyclerView
 
-        val adapter = FriendRequestAdapter(mainViewModel, friendRequestViewModel, true)
         friendRequestViewModel.resultAccept.observe(viewLifecycleOwner){
 //            if (it.status == Status.SUCCESS){
 //                adapter.setOnButtonClickListener(object : FriendRequestAdapter.OnButtonClickListener{
@@ -136,8 +140,8 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
 //                adapter.submitList(requestList)
 //            }
         }
-        adapter.submitList(requestList)
-        recyclerView.adapter = adapter
+        requestAdapter.submitList(requestList)
+        recyclerView.adapter = requestAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
@@ -170,7 +174,6 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
     private fun initSentRecyclerView(sentList: MutableList<UserFirebase>){
         val recyclerView = binding.sentRecyclerView
 
-        val adapter = FriendRequestAdapter(mainViewModel, friendRequestViewModel, false)
         friendRequestViewModel.resultCancelRequest.observe(viewLifecycleOwner){
 //            if (it.status == Status.SUCCESS){
 //                adapter.setOnButtonClickListener(object : FriendRequestAdapter.OnButtonClickListener{
@@ -183,8 +186,8 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
 //                adapter.submitList(sentList)
 //            }
         }
-        adapter.submitList(sentList)
-        recyclerView.adapter = adapter
+        sentAdapter.submitList(sentList)
+        recyclerView.adapter = sentAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
