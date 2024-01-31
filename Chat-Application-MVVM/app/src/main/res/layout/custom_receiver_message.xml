@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image_chat"
@@ -10,7 +11,9 @@
         android:layout_height="@dimen/layout_36"
         android:layout_marginStart="@dimen/layout_16"
         android:src="@drawable/avt_default"
-        android:layout_marginTop="@dimen/layout_16"/>
+        android:layout_marginTop="@dimen/layout_16"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
     
     <TextView
         android:id="@+id/txt_message_chat"
@@ -22,10 +25,30 @@
         android:textColor="@color/black"
         android:fontFamily="@font/lato_bold"
         android:padding="@dimen/layout_16"
+        android:visibility="visible"
         android:background="@drawable/message_left"
-        android:layout_toRightOf="@+id/profile_image_chat"
-        android:layout_alignTop="@+id/profile_image_chat"
+        app:layout_constraintStart_toEndOf="@+id/profile_image_chat"
+        app:layout_constraintTop_toTopOf="@+id/profile_image_chat"
         android:layout_marginStart="@dimen/layout_8"/>
+
+    <ImageView
+        android:id="@+id/image_message_chat"
+        android:layout_width="@dimen/layout_160"
+        android:layout_height="wrap_content"
+        tools:src="@drawable/avt_default"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@+id/profile_image_chat"
+        app:layout_constraintTop_toTopOf="@+id/profile_image_chat"
+        android:layout_marginStart="@dimen/layout_8"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="txt_message_chat, image_message_chat"/>
     
     <TextView
         android:id="@+id/txt_timestamp_chat"
@@ -35,8 +58,9 @@
         android:textColor="@color/gray"
         android:textSize="@dimen/text_14sp"
         android:fontFamily="@font/lato_regular"
-        android:layout_below="@+id/txt_message_chat"
-        android:layout_alignStart="@+id/txt_message_chat"
+        app:layout_constraintTop_toBottomOf="@+id/barrier"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/layout_72"
         android:layout_marginTop="@dimen/layout_4" />
 
     <TextView
@@ -48,9 +72,9 @@
         android:textSize="@dimen/text_14sp"
         android:visibility="gone"
         android:fontFamily="@font/lato_regular"
-        android:layout_below="@+id/txt_message_chat"
-        android:layout_toEndOf="@+id/txt_timestamp_chat"
+        app:layout_constraintTop_toBottomOf="@+id/barrier"
+        app:layout_constraintStart_toEndOf="@+id/txt_timestamp_chat"
         android:layout_marginStart="@dimen/layout_8"
         android:layout_marginTop="@dimen/layout_4" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

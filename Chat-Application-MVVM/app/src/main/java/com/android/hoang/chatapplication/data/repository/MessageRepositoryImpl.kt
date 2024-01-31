@@ -43,16 +43,15 @@ class MessageRepositoryImpl @Inject constructor(): MessageRepository {
 
 
         // send message
-        if (type == MESSAGE_TYPE_STRING){
-            map["message"] = message
-            myRef.push().setValue(map)
-                .addOnCompleteListener {
-                    continuation.resume(StringUtils.getString(R.string.send_message_success))
-                }
-                .addOnFailureListener {
-                    continuation.resume(StringUtils.getString(R.string.send_message_failed))
-                }
-        }
+        map["message"] = message
+        myRef.push().setValue(map)
+            .addOnCompleteListener {
+                continuation.resume(StringUtils.getString(R.string.send_message_success))
+            }
+            .addOnFailureListener {
+                continuation.resume(StringUtils.getString(R.string.send_message_failed))
+            }
+
 
     }
 

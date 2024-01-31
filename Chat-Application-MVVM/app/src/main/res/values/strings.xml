@@ -83,4 +83,5 @@
     <string name="friend_request">LỜI MỜI KẾT BẠN</string>
     <string name="friend_sent">ĐÃ GỬI KẾT BẠN</string>
     <string name="cancel_failed">Hủy thất bại</string>
+    <string name="send">Gửi</string>
 </resources>

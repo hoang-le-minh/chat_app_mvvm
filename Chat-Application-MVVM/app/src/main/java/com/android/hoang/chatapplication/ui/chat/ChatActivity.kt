@@ -1,18 +1,23 @@
 package com.android.hoang.chatapplication.ui.chat
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseActivity
 import com.android.hoang.chatapplication.data.remote.model.Message
@@ -38,8 +43,12 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
     private val chatViewModel: ChatActivityViewModel by viewModels()
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var stickerAdapter: StickerAdapter
+    private lateinit var photoAdapter: StickerAdapter
+
+    private val MY_READ_PERMISSION_CODE = 1001
 
     private var isStickerShow = false
+    private var isPhotoViewShow = false
 
     override fun getActivityBinding(inflater: LayoutInflater) = ActivityChatBinding.inflate(layoutInflater)
 
@@ -51,16 +60,26 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
 
         loadUserInfo()
 
-        stickerAdapter = StickerAdapter()
-        val stickerRecyclerView = binding.stickerRecyclerView
-        val layoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
-
-        stickerAdapter.submitList(listStickerResource())
-        stickerRecyclerView.layoutManager = layoutManager
-        stickerRecyclerView.adapter = stickerAdapter
-
         binding.stickerIcon.setOnClickListener {
             onClickStickerIcon()
+        }
+
+        binding.btnAddPhoto.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    MY_READ_PERMISSION_CODE
+                )
+            } else{
+                onClickPhotoView()
+            }
+        }
+
+        binding.layoutChat.setOnClickListener {
+            if (isStickerShow){
+                hideStickerView()
+            }
         }
 
         binding.btnBack.setOnClickListener {
@@ -71,9 +90,15 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
         // Set up callback for the back button press
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val intent = Intent("com.android.hoang.chatapplication.UPDATE_HOME_UI")
-                LocalBroadcastManager.getInstance(this@ChatActivity).sendBroadcast(intent)
-                finish()
+                if (isStickerShow){
+                    hideStickerView()
+                } else if(isPhotoViewShow){
+                    hidePhotoView()
+                } else {
+                    val intent = Intent("com.android.hoang.chatapplication.UPDATE_HOME_UI")
+                    LocalBroadcastManager.getInstance(this@ChatActivity).sendBroadcast(intent)
+                    finish()
+                }
             }
         }
         // Add the callback to the OnBackPressedDispatcher
@@ -93,21 +118,87 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
     }
 
     private fun onClickStickerIcon(){
+        val userId = intent.getStringExtra("user_id") ?: return
         if (isStickerShow){
-            binding.stickerIcon.setImageResource(R.drawable.ic_smile)
-            val layoutParams = binding.stickerRecyclerView.layoutParams
-            layoutParams.height = 0
-            binding.stickerRecyclerView.layoutParams = layoutParams
-            binding.stickerRecyclerView.visibility = View.INVISIBLE
-            isStickerShow = false
+            hideStickerView()
         } else {
-            binding.stickerIcon.setImageResource(R.drawable.ic_smile_selected)
-            val layoutParams = binding.stickerRecyclerView.layoutParams
-            layoutParams.height = 700
-            binding.stickerRecyclerView.layoutParams = layoutParams
-            binding.stickerRecyclerView.visibility = View.VISIBLE
-            isStickerShow = true
+            showStickerView()
+            val stickerRecyclerView = binding.stickerRecyclerView
+            val layoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
+            stickerAdapter = StickerAdapter(listStickerResource(), chatViewModel, this@ChatActivity, userId)
+
+            stickerRecyclerView.layoutManager = layoutManager
+            stickerRecyclerView.adapter = stickerAdapter
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == MY_READ_PERMISSION_CODE){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                onClickPhotoView()
+            } else{
+                Toast.makeText(this, StringUtils.getString(R.string.permission_not_granted), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun onClickPhotoView(){
+        val userId = intent.getStringExtra("user_id") ?: return
+        if (isPhotoViewShow) {
+            hidePhotoView()
+        } else {
+            showPhotoView()
+            val stickerRecyclerView = binding.stickerRecyclerView
+            val layoutManager = GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false)
+            val images = ImagesGallery.listOfImages(this) as MutableList<String>
+            photoAdapter = StickerAdapter(images, chatViewModel, this@ChatActivity, userId)
+            stickerRecyclerView.layoutManager = layoutManager
+            stickerRecyclerView.adapter = photoAdapter
+        }
+
+    }
+
+    private fun showPhotoView(){
+        binding.btnAddPhoto.setImageResource(R.drawable.ic_add_photo_selected)
+        val layoutParams = binding.stickerRecyclerView.layoutParams
+        layoutParams.height = 600
+        binding.stickerRecyclerView.layoutParams = layoutParams
+        binding.stickerRecyclerView.visibility = View.VISIBLE
+        isPhotoViewShow = true
+        isStickerShow = false
+    }
+    private fun hidePhotoView(){
+        binding.btnAddPhoto.setImageResource(R.drawable.ic_add_photo)
+        val layoutParams = binding.stickerRecyclerView.layoutParams
+        layoutParams.height = 0
+        binding.stickerRecyclerView.layoutParams = layoutParams
+        binding.stickerRecyclerView.visibility = View.GONE
+        isPhotoViewShow = false
+    }
+
+    private fun showStickerView(){
+        binding.stickerIcon.setImageResource(R.drawable.ic_smile_selected)
+        val layoutParams = binding.stickerRecyclerView.layoutParams
+        layoutParams.height = 700
+        binding.stickerRecyclerView.layoutParams = layoutParams
+        binding.stickerRecyclerView.visibility = View.VISIBLE
+        isStickerShow = true
+        isPhotoViewShow = false
+    }
+
+    private fun hideStickerView(){
+        binding.stickerIcon.setImageResource(R.drawable.ic_smile)
+        val layoutParams = binding.stickerRecyclerView.layoutParams
+        layoutParams.height = 0
+        binding.stickerRecyclerView.layoutParams = layoutParams
+        binding.stickerRecyclerView.visibility = View.INVISIBLE
+        isStickerShow = false
     }
 
     private fun readMessage(senderId: String, receiverId: String, profileImage: String){
@@ -119,7 +210,14 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
                     hideLoading()
                     it.data?.let { list ->
                         val recyclerView = binding.recyclerViewChat
-                        chatAdapter = ChatAdapter(list, profileImage)
+                        chatAdapter = ChatAdapter(list, profileImage, object : ViewClickListener{
+                            override fun onViewClick() {
+                                if (isStickerShow){
+                                    hideStickerView()
+                                }
+                            }
+
+                        })
                         val linearLayoutManager = LinearLayoutManager(this)
                         linearLayoutManager.stackFromEnd = true
                         linearLayoutManager.scrollToPosition(chatAdapter.itemCount - 1)

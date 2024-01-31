@@ -21,15 +21,24 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ChatAdapter(private val messages: List<Any>, private val receiverProfileUrl: String) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
+interface ViewClickListener {
+    fun onViewClick()
+}
+
+class ChatAdapter(private val messages: List<Any>, private val receiverProfileUrl: String, private val itemClickListener: ViewClickListener) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
 
     private val MESSAGE_LEFT = 0
     private val MESSAGE_RIGHT = 1
 
     private var currentUser: FirebaseUser? = null
 
+    private fun onViewClick() {
+        itemClickListener.onViewClick()
+    }
+
     inner class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val txtMessage = itemView.findViewById<TextView>(R.id.txt_message_chat)
+        private val imageMessage = itemView.findViewById<ImageView>(R.id.image_message_chat)
         private val profileImage = itemView.findViewById<ImageView>(R.id.profile_image_chat)
         private val txtTimestamp = itemView.findViewById<TextView>(R.id.txt_timestamp_chat)
         private val txtSeen = itemView.findViewById<TextView>(R.id.txt_seen)
@@ -38,7 +47,23 @@ class ChatAdapter(private val messages: List<Any>, private val receiverProfileUr
             val errorUrl = if (receiverProfileUrl == "") R.drawable.avt_default else R.drawable.no_image
             Glide.with(itemView.context).load(receiverProfileUrl).error(errorUrl).into(profileImage)
 
-            txtMessage.text = message.message
+            itemView.setOnClickListener {
+                onViewClick()
+            }
+
+            if (message.type == MESSAGE_TYPE_STRING.toString()){
+                txtMessage.visibility = View.VISIBLE
+                imageMessage.visibility = View.GONE
+                txtMessage.text = message.message
+            } else if (message.type == MESSAGE_TYPE_STICKER.toString()){
+                txtMessage.visibility = View.GONE
+                imageMessage.visibility = View.VISIBLE
+                imageMessage.setImageResource(message.message.toInt())
+            } else {
+                txtMessage.visibility = View.GONE
+                imageMessage.visibility = View.VISIBLE
+                Glide.with(itemView.context).load(message.message).error(R.drawable.no_image).into(imageMessage)
+            }
             // format date
             val sdf = SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault())
             val strCreateAt = message.createAt
