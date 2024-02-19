@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:queryHint="Tìm kiếm tin nhắn..."
+            app:queryBackground="@android:color/transparent"
             android:background="@drawable/corner_view"
             app:iconifiedByDefault="false"
             android:layout_marginTop="@dimen/layout_24"

@@ -53,6 +53,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
         currentNavController = controller
+
+        mainActivityViewModel.unreadUserCount.observe(this){
+            if (it > 0){
+                binding.bottomNav.getOrCreateBadge(R.id.nav_graph_home).number = it
+            } else {
+                binding.bottomNav.removeBadge(R.id.nav_graph_home)
+            }
+        }
+
+        mainActivityViewModel.requestCount.observe(this){
+            if (it > 0){
+                binding.bottomNav.getOrCreateBadge(R.id.nav_graph_friend).number = it
+            } else {
+                binding.bottomNav.removeBadge(R.id.nav_graph_friend)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

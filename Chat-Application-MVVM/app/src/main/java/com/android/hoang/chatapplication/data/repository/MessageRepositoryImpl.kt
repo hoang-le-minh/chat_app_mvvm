@@ -1,5 +1,6 @@
 package com.android.hoang.chatapplication.data.repository
 
+import android.net.Uri
 import android.util.Log
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.data.remote.model.Conversation
@@ -8,6 +9,7 @@ import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.domain.repository.MessageRepository
 import com.android.hoang.chatapplication.util.Constants
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
+import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_IMAGE
 import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_STRING
 import com.blankj.utilcode.util.StringUtils
 import com.google.firebase.auth.FirebaseAuth
@@ -15,6 +17,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -34,23 +38,47 @@ class MessageRepositoryImpl @Inject constructor(): MessageRepository {
         val sdf = SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault())
         val timestamp = sdf.format(Date())
         val myRef = FirebaseDatabase.getInstance().getReference("messages")
-        var map = HashMap<String, Any>()
+        val map = HashMap<String, Any>()
         map["senderId"] = senderId
         map["receiverId"] = receiverId
         map["type"] = type.toString()
         map["isSeen"] = "false"
         map["createAt"] = timestamp
 
-
-        // send message
-        map["message"] = message
-        myRef.push().setValue(map)
-            .addOnCompleteListener {
-                continuation.resume(StringUtils.getString(R.string.send_message_success))
-            }
-            .addOnFailureListener {
-                continuation.resume(StringUtils.getString(R.string.send_message_failed))
-            }
+        if (type == MESSAGE_TYPE_IMAGE){
+            val storageRef = FirebaseStorage.getInstance().reference.child("imageMessage/"+UUID.randomUUID())
+            storageRef.putFile(Uri.fromFile(File(message)))
+                .addOnSuccessListener {
+                    storageRef.downloadUrl.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val url = task.result.toString()
+                            // Now, save the imageUrl to Firebase Realtime Database
+                            map["message"] = url
+                            myRef.push().setValue(map)
+                                .addOnCompleteListener {
+                                    continuation.resume(StringUtils.getString(R.string.send_message_success))
+                                }
+                                .addOnFailureListener {
+                                    continuation.resume(StringUtils.getString(R.string.send_message_failed))
+                                }
+                        }
+                    }
+                }
+                .addOnFailureListener{
+                    Log.d(LOG_TAG, "send_image_error")
+                    continuation.resume(StringUtils.getString(R.string.something_went_wrong))
+                }
+        } else {
+            // send message
+            map["message"] = message
+            myRef.push().setValue(map)
+                .addOnCompleteListener {
+                    continuation.resume(StringUtils.getString(R.string.send_message_success))
+                }
+                .addOnFailureListener {
+                    continuation.resume(StringUtils.getString(R.string.send_message_failed))
+                }
+        }
 
 
     }

@@ -27,4 +27,5 @@
     <dimen name="layout_500">500dp</dimen>
     <dimen name="layout_4">4dp</dimen>
     <dimen name="layout_280">280dp</dimen>
+    <dimen name="layout_12">12dp</dimen>
 </resources>

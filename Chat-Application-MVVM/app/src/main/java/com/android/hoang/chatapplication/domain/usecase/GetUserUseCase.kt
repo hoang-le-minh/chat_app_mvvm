@@ -54,4 +54,18 @@ class GetUserUseCase @Inject constructor(private val userRepository: UserReposit
             emit(State.Error(e.message))
         }
     }
+
+    suspend fun invokeSearchUser(query: String): Flow<State<List<UserFirebase>>> = flow {
+        try {
+            emit(State.Loading())
+            val userList = userRepository.filterUser(query)
+            if(userList.isNotEmpty()){
+                emit(State.Success(userList))
+            } else
+                emit(State.Error(StringUtils.getString(R.string.cannot_get_all_user)))
+        } catch (e: Exception){
+            LogUtils.d("$this ${e.localizedMessage}")
+            emit(State.Error(e.localizedMessage))
+        }
+    }
 }

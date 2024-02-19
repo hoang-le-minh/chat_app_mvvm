@@ -58,3 +58,20 @@ fun dateOfBirthValidator(dob: String): Boolean {
 
     return false
 }
+
+fun listStickerResource(): List<Int> {
+    return listOf(
+        R.drawable.sticker_1,
+        R.drawable.sticker_2,
+        R.drawable.sticker_3,
+        R.drawable.sticker_4,
+        R.drawable.sticker_5,
+        R.drawable.sticker_6,
+        R.drawable.sticker_7,
+        R.drawable.sticker_8,
+        R.drawable.sticker_9,
+        R.drawable.sticker_10,
+        R.drawable.sticker_11,
+        R.drawable.sticker_12,
+    )
+}

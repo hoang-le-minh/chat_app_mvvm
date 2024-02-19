@@ -25,6 +25,14 @@ class MainActivityViewModel @Inject constructor(): BaseViewModel() {
     val updateListFriendStatus: LiveData<Boolean>
         get() = _updateListFriendStatus
 
+    private val _unreadUserCount = MutableLiveData(0)
+    val unreadUserCount: LiveData<Int>
+        get() = _unreadUserCount
+
+    fun updateUnreadUserCount(count: Int){
+        _unreadUserCount.postValue(count)
+    }
+
     fun updateProfileStatus(status: Boolean){
         _updateProfileStatus.postValue(status)
     }

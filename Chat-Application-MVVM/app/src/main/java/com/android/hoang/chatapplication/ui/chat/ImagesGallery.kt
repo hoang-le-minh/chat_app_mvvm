@@ -10,7 +10,7 @@ class ImagesGallery {
         fun listOfImages(context: Context): ArrayList<String>{
             val uri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             val cursor: Cursor
-            var columnIndexData: Int
+            val columnIndexData: Int
             var columnIndexFolderName: Int
             val listOfAllImages = arrayListOf<String>()
             var absolutePathOfImage: String

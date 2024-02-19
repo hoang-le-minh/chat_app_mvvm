@@ -37,7 +37,7 @@ class StickerAdapter(private val list: List<Any>, private val chatViewModel: Cha
                 Log.d(LOG_TAG, "stickerAdapter.onBind: send $resource")
                 val currentUser = FirebaseAuth.getInstance().currentUser
                 if (currentUser != null){
-                    sendMessage(itemView.context, currentUser.uid, userId, resource.toString(), MESSAGE_TYPE_STICKER)
+                    sendMessage(itemView.context, currentUser.uid, userId, adapterPosition.toString(), MESSAGE_TYPE_STICKER)
                 }
             }
         }
@@ -52,7 +52,7 @@ class StickerAdapter(private val list: List<Any>, private val chatViewModel: Cha
                 Log.d(LOG_TAG, "stickerAdapter.onBind: send $path")
                 val currentUser = FirebaseAuth.getInstance().currentUser
                 if (currentUser != null){
-//                    sendMessage(itemView.context, currentUser.uid, userId, photoItem.toString(), MESSAGE_TYPE_IMAGE)
+                    sendMessage(itemView.context, currentUser.uid, userId, path, MESSAGE_TYPE_IMAGE)
                 }
             }
         }

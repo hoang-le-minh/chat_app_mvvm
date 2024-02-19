@@ -13,18 +13,22 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
+import com.android.hoang.chatapplication.data.remote.model.Message
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.data.remote.model.UserResponse
 import com.android.hoang.chatapplication.databinding.FragmentHomeBinding
 import com.android.hoang.chatapplication.ui.main.MainActivity
+import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
 import com.android.hoang.chatapplication.util.Status
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,6 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     //region vars
     private val viewModel: HomeFragmentViewModel by viewModels()
+    private val mainViewModel: MainActivityViewModel by activityViewModels()
     private val listMessageAdapter = ListUserMessageAdapter()
     private val receiver = object : BroadcastReceiver(){
         override fun onReceive(p0: Context?, p1: Intent?) {
@@ -98,6 +103,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
      *
      */
     private fun prepareComponents(listId: MutableList<String>) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
         val recyclerView = binding.recyclerviewMessage
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewModel.getLatestMessageList(listId)
@@ -105,6 +111,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             when (it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { list ->
+                        // unread user count
+                        var count = 0
+                        for (message: Message in list){
+                            if (!message.isSeen.toBoolean() && message.senderId != currentUser?.uid){
+                                count++
+                            }
+                        }
+                        mainViewModel.updateUnreadUserCount(count)
+
                         listMessageAdapter.submitList(list)
                         recyclerView.adapter = listMessageAdapter
                     }

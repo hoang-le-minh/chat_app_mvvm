@@ -13,6 +13,7 @@ import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_IMAGE
 import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_STICKER
 import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_STRING
+import com.android.hoang.chatapplication.util.listStickerResource
 import com.blankj.utilcode.util.StringUtils
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -56,9 +57,10 @@ class ChatAdapter(private val messages: List<Any>, private val receiverProfileUr
                 imageMessage.visibility = View.GONE
                 txtMessage.text = message.message
             } else if (message.type == MESSAGE_TYPE_STICKER.toString()){
+                val listStickerResource = listStickerResource()
                 txtMessage.visibility = View.GONE
                 imageMessage.visibility = View.VISIBLE
-                imageMessage.setImageResource(message.message.toInt())
+                imageMessage.setImageResource(listStickerResource[message.message.toInt()])
             } else {
                 txtMessage.visibility = View.GONE
                 imageMessage.visibility = View.VISIBLE

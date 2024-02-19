@@ -2,15 +2,15 @@ package com.android.hoang.chatapplication.ui.main.friend
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
@@ -41,6 +41,8 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
     private val viewModel: FriendFragmentViewModel by viewModels()
     private val friendRequestViewModel: FriendRequestFragmentViewModel by viewModels()
     private val mainViewModel: MainActivityViewModel by activityViewModels()
+
+    private lateinit var searchAdapter: SearchUserAdapter
     //endregion
 
     override fun getFragmentBinding(
@@ -61,8 +63,78 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
 
         initTabLayout(viewPager)
 
+        binding.btnCancelSearch.setOnClickListener {
+            binding.searchRecyclerView.visibility = View.GONE
+            binding.friendTabLayout.visibility = View.VISIBLE
+            binding.friendViewPager.visibility = View.VISIBLE
+            binding.btnCancelSearch.visibility = View.GONE
+
+            binding.searchView.setQuery("", false)
+            binding.searchView.clearFocus()
+        }
+
+        searchUser()
     }
 
+    private fun searchUser() {
+        binding.searchView.setOnQueryTextListener(object : OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText)
+
+                return true
+            }
+
+        })
+    }
+
+    private fun filterList(s: String?){
+        if (s != null) {
+            showSearchView()
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            val myRef =
+                FirebaseDatabase.getInstance().getReference("users")
+            val userList = mutableListOf<UserFirebase>()
+            if (currentUser != null) {
+                myRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        userList.clear()
+                        for (dataSnapShot: DataSnapshot in snapshot.children) {
+                            val user = dataSnapShot.getValue(UserFirebase::class.java) ?: continue
+                            if (user.id != currentUser.uid && user.username.lowercase().contains(s.lowercase())) {
+                                userList.add(user)
+//                                Log.d(LOG_TAG, "searchUser.onDataChange: ${user.username}")
+                            }
+                        }
+                        Log.d(LOG_TAG, "onDataChange: $userList")
+                        updateSearchRecyclerView(userList)
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+
+                })
+            }
+        }
+    }
+
+    private fun updateSearchRecyclerView(userList: List<UserFirebase>) {
+        searchAdapter = SearchUserAdapter(userList)
+        binding.searchRecyclerView.adapter = searchAdapter
+        binding.searchRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun showSearchView(){
+        binding.searchRecyclerView.visibility = View.VISIBLE
+        binding.friendTabLayout.visibility = View.GONE
+        binding.friendViewPager.visibility = View.GONE
+        binding.btnCancelSearch.visibility = View.VISIBLE
+    }
 
     private fun initTabLayout(viewPager: ViewPager2){
         val tabLayout = binding.friendTabLayout

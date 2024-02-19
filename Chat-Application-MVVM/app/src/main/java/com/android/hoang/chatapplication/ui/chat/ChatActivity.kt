@@ -26,6 +26,7 @@ import com.android.hoang.chatapplication.databinding.ActivityChatBinding
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_STRING
 import com.android.hoang.chatapplication.util.Status
+import com.android.hoang.chatapplication.util.listStickerResource
 import com.blankj.utilcode.util.StringUtils
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -166,6 +167,7 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
 
     private fun showPhotoView(){
         binding.btnAddPhoto.setImageResource(R.drawable.ic_add_photo_selected)
+        binding.stickerIcon.setImageResource(R.drawable.ic_smile)
         val layoutParams = binding.stickerRecyclerView.layoutParams
         layoutParams.height = 600
         binding.stickerRecyclerView.layoutParams = layoutParams
@@ -184,8 +186,9 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
 
     private fun showStickerView(){
         binding.stickerIcon.setImageResource(R.drawable.ic_smile_selected)
+        binding.btnAddPhoto.setImageResource(R.drawable.ic_add_photo)
         val layoutParams = binding.stickerRecyclerView.layoutParams
-        layoutParams.height = 700
+        layoutParams.height = 600
         binding.stickerRecyclerView.layoutParams = layoutParams
         binding.stickerRecyclerView.visibility = View.VISIBLE
         isStickerShow = true
@@ -322,20 +325,20 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
         chatViewModel.removeSeenListener()
     }
 
-    private fun listStickerResource(): List<Int> {
-        return listOf(
-            R.drawable.sticker_1,
-            R.drawable.sticker_2,
-            R.drawable.sticker_3,
-            R.drawable.sticker_4,
-            R.drawable.sticker_5,
-            R.drawable.sticker_6,
-            R.drawable.sticker_7,
-            R.drawable.sticker_8,
-            R.drawable.sticker_9,
-            R.drawable.sticker_10,
-            R.drawable.sticker_11,
-            R.drawable.sticker_12,
-        )
-    }
+//    fun listStickerResource(): List<Int> {
+//        return listOf(
+//            R.drawable.sticker_1,
+//            R.drawable.sticker_2,
+//            R.drawable.sticker_3,
+//            R.drawable.sticker_4,
+//            R.drawable.sticker_5,
+//            R.drawable.sticker_6,
+//            R.drawable.sticker_7,
+//            R.drawable.sticker_8,
+//            R.drawable.sticker_9,
+//            R.drawable.sticker_10,
+//            R.drawable.sticker_11,
+//            R.drawable.sticker_12,
+//        )
+//    }
 }

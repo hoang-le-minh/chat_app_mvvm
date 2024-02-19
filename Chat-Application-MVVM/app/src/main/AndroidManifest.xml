@@ -45,7 +45,7 @@
 
         <activity
             android:name=".ui.auth.AuthActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -7,3 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class UserFirebase(var id: String = "", var email: String = "", var username: String = "", var imageUrl: String = "", var phoneNumber: String = "", var dateOfBirth: String = ""): Parcelable {
 
 }
+
+data class ListUser(var list: List<UserFirebase>?)
