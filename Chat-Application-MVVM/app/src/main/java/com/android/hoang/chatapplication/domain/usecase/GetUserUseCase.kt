@@ -42,10 +42,23 @@ class GetUserUseCase @Inject constructor(private val userRepository: UserReposit
         }
     }
 
-    suspend fun invokeGetUserListByListId(list: MutableList<String>): Flow<State<List<UserFirebase>>> = flow {
+    suspend fun invokeGetUserListByListId(list: List<String>): Flow<State<List<UserFirebase>>> = flow {
         try {
             emit(State.Loading())
             val userList = userRepository.getUserListByListId(list)
+            if(userList.isNotEmpty()){
+                emit(State.Success(userList))
+            } else
+                emit(State.Error(StringUtils.getString(R.string.cannot_get_all_user)))
+        } catch (e: Exception){
+            emit(State.Error(e.message))
+        }
+    }
+
+    suspend fun invokeGetUserListOutsideListId(list: List<String>): Flow<State<List<UserFirebase>>> = flow {
+        try {
+            emit(State.Loading())
+            val userList = userRepository.getUserListOutsideListId(list)
             if(userList.isNotEmpty()){
                 emit(State.Success(userList))
             } else

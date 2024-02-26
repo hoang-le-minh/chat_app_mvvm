@@ -8,4 +8,12 @@ data class UserFirebase(var id: String = "", var email: String = "", var usernam
 
 }
 
-data class ListUser(var list: List<UserFirebase>?)
+@Parcelize
+data class ListUser(var list: List<UserFirebase>?): Parcelable{
+
+}
+
+@Parcelize
+data class ListString(var list: List<String>): Parcelable{
+
+}

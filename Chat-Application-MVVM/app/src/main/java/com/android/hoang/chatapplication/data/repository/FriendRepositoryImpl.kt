@@ -53,6 +53,20 @@ class FriendRepositoryImpl @Inject constructor(): FriendRepository {
         }
     }
 
+    override suspend fun refuseFriend(user: UserFirebase): String = suspendCoroutine{ continuation ->
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val myRef = FirebaseDatabase.getInstance().getReference("friends").child(user.id + currentUser?.uid)
+        if (currentUser != null){
+            myRef.removeValue().addOnCompleteListener {
+                if (it.isSuccessful){
+                    continuation.resume(StringUtils.getString(R.string.ok))
+                } else {
+                    continuation.resume(StringUtils.getString(R.string.refuse_failed))
+                }
+            }
+        }
+    }
+
     override suspend fun cancelFriendRequest(user: UserFirebase): String = suspendCoroutine{ continuation ->
         val currentUser = FirebaseAuth.getInstance().currentUser
         val myRef = FirebaseDatabase.getInstance().getReference("friends").child(currentUser?.uid + user.id)

@@ -48,7 +48,7 @@ class SearchUserAdapter(private val users: List<UserFirebase>) : RecyclerView.Ad
                 itemView.context.startActivity(intent)
             }
 
-            btnAddFriend.visibility = View.GONE
+            btnAddFriend.visibility = View.INVISIBLE
         }
     }
 

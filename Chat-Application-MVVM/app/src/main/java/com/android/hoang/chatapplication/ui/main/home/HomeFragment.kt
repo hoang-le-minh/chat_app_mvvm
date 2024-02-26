@@ -16,9 +16,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
+import com.android.hoang.chatapplication.data.remote.model.ListString
 import com.android.hoang.chatapplication.data.remote.model.Message
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.data.remote.model.UserResponse
@@ -83,6 +85,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     Status.SUCCESS -> {
                         it.data?.let { listUserId ->
                             prepareComponents(listUserId)
+                            binding.btnCreateNewMessage.setOnClickListener {
+                                goToCreateConversationFragment(ListString(listUserId))
+                            }
                         }
                     }
                     Status.LOADING -> {
@@ -96,6 +101,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
+    }
+
+    private fun goToCreateConversationFragment(list: ListString){
+        val action = HomeFragmentDirections.actionHomeFragmentToCreateConversationFragment(list)
+        findNavController().navigate(action)
     }
 
     /**

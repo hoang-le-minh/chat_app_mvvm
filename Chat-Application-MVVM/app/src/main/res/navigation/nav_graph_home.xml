@@ -7,5 +7,17 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.android.hoang.chatapplication.ui.main.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_createConversationFragment"
+            app:destination="@id/createConversationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createConversationFragment"
+        android:name="com.android.hoang.chatapplication.ui.main.home.createconversation.CreateConversationFragment"
+        android:label="CreateConversationFragment" >
+        <argument
+            android:name="listUserId"
+            app:argType="com.android.hoang.chatapplication.data.remote.model.ListString" />
+    </fragment>
 </navigation>

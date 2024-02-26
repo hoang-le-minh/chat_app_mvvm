@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -73,6 +74,11 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
             binding.searchView.clearFocus()
         }
 
+        binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (hasFocus){
+                showSearchView()
+            }
+        }
         searchUser()
     }
 
@@ -93,7 +99,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
 
     private fun filterList(s: String?){
         if (s != null) {
-            showSearchView()
             val currentUser = FirebaseAuth.getInstance().currentUser
             val myRef =
                 FirebaseDatabase.getInstance().getReference("users")
@@ -127,6 +132,11 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
         searchAdapter = SearchUserAdapter(userList)
         binding.searchRecyclerView.adapter = searchAdapter
         binding.searchRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        if(userList.isEmpty()){
+            binding.noMatchingResult.visibility = View.VISIBLE
+        } else {
+            binding.noMatchingResult.visibility = View.GONE
+        }
     }
 
     private fun showSearchView(){

@@ -14,21 +14,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.hoang.chatapplication.R
-import com.android.hoang.chatapplication.data.remote.model.Message
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.ui.chat.ChatActivity
 import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
-import com.android.hoang.chatapplication.ui.main.home.ListUserMessageAdapter
 import com.android.hoang.chatapplication.util.Constants
-import com.blankj.utilcode.util.StringUtils
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import java.text.SimpleDateFormat
-import java.util.*
+import java.lang.ref.WeakReference
 
 class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, private val friendRequestViewModel: FriendRequestFragmentViewModel, private val request: Boolean) : ListAdapter<UserFirebase, FriendRequestAdapter.MyViewHolder>(
     AsyncDifferConfig.Builder(UserDiffCallBack()).build()) {
@@ -49,8 +40,21 @@ class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, pri
         private val btnAddFriend: Button = itemView.findViewById(R.id.btn_add_friend)
         private val btnCancel: Button = itemView.findViewById(R.id.btn_cancel_friend)
         private val btnAccept: Button = itemView.findViewById(R.id.btn_accept_friend)
+        private val txtRefuse: TextView = itemView.findViewById(R.id.txt_refuse)
+        private val view = WeakReference(itemView)
 
         fun onBind(user: UserFirebase) {
+
+            view.get()?.scrollTo(0, 0)
+
+            view.get()?.let {
+                it.setOnClickListener {
+                    if (view.get()?.scrollX != 0){
+                        view.get()?.scrollTo(0, 0)
+                    }
+                }
+            }
+
 
             Glide.with(itemView.context).load(user.imageUrl).error(R.drawable.avt_default)
                 .into(userAvt)
@@ -90,13 +94,19 @@ class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, pri
                 itemView.context.startActivity(intent)
             }
 
+            txtRefuse.setOnClickListener {
+                friendRequestViewModel.refuseFriend(user)
+                friendRequestViewModel.getRequestIdList()
+                btnAccept.visibility = View.INVISIBLE
+                mainViewModel.updateRequestCount(true)
+            }
 
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.custom_user_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.custom_user_request_item, parent, false)
         return MyViewHolder(itemView)
     }
 

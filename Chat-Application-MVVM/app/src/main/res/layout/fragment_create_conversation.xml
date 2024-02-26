@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/child_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.3"
+        android:background="@drawable/my_gradient"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_message"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_message"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:paddingVertical="@dimen/layout_16"
+            android:paddingHorizontal="@dimen/layout_24"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/txt_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_bold"
+            android:text="@string/create_message"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/layout_24"
+            android:layout_marginTop="@dimen/layout_52"/>
+
+        <TextView
+            android:id="@+id/btn_cancel_create_new_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:textSize="@dimen/text_16sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_message"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_message"
+            android:paddingVertical="@dimen/layout_16"
+            android:paddingHorizontal="@dimen/layout_24"/>
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:queryHint="@string/search_friend_2"
+            app:queryBackground="@android:color/transparent"
+            android:background="@drawable/corner_view"
+            app:iconifiedByDefault="false"
+            android:layout_marginTop="@dimen/layout_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_view_constraint"
+            android:layout_margin="@dimen/layout_24"
+            app:searchIcon="@drawable/ic_search"/>
+
+        <RelativeLayout
+            android:id="@+id/bottom_view_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_24"
+            android:background="@drawable/corner_top_left_and_right_view"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/txt_list_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/friend_list"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_14sp"
+        android:textColor="@color/gray"
+        android:fontFamily="@font/lato_bold"
+        android:layout_margin="@dimen/layout_16"
+        app:layout_constraintTop_toBottomOf="@id/child_constraint"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_friend_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/layout_16"
+        app:layout_constraintTop_toBottomOf="@+id/txt_list_friend"
+        app:layout_constraintBottom_toTopOf="@+id/bottomLayout" />
+
+    <LinearLayout
+        android:id="@+id/no_matching_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/txt_list_friend"
+        app:layout_constraintBottom_toTopOf="@+id/bottomLayout"
+        app:layout_constraintVertical_bias="0.2">
+
+        <ImageView
+            android:layout_width="@dimen/layout_160"
+            android:layout_height="@dimen/layout_160"
+            android:src="@drawable/ic_search_off"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="Empty" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_matching_results_were_found"
+            android:textSize="@dimen/text_18sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:fontFamily="@font/lato_bold" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="#f6f6f6"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_avt_checked"
+            android:layout_width="@dimen/layout_60"
+            android:layout_height="@dimen/layout_60"
+            android:src="@drawable/avt_default"
+            android:scaleType="centerCrop"
+            android:layout_margin="@dimen/layout_8"
+            android:layout_centerVertical="true"/>
+        
+        <ImageButton
+            android:id="@+id/btn_create_new_message"
+            android:layout_width="@dimen/layout_60"
+            android:layout_height="@dimen/layout_60"
+            android:background="@drawable/corner_button"
+            android:src="@drawable/ic_next_white"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/layout_8"/>
+
+        <TextView
+            android:id="@+id/txt_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Name"
+            android:textSize="@dimen/text_18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/lato_bold"
+            android:layout_toEndOf="@+id/user_avt_checked"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/layout_8" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

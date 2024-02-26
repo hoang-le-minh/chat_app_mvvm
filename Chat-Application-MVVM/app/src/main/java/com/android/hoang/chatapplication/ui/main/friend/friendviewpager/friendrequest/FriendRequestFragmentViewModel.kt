@@ -48,6 +48,10 @@ class FriendRequestFragmentViewModel @Inject constructor(
     val resultAccept: LiveData<Resource<String>>
         get() = _resultAccept
 
+    private val _resultRefuse = MutableLiveData<Resource<String>>()
+    val resultRefuse: LiveData<Resource<String>>
+        get() = _resultRefuse
+
     private val _resultCancelRequest = MutableLiveData<Resource<String>>()
     val resultCancelRequest: LiveData<Resource<String>>
         get() = _resultCancelRequest
@@ -69,6 +73,30 @@ class FriendRequestFragmentViewModel @Inject constructor(
                     }
                     is State.Error -> {
                         _resultAccept.postValue(
+                            Resource.error(
+                                message = it.message ?: StringUtils.getString(
+                                    R.string.something_went_wrong
+                                )
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun refuseFriend(user: UserFirebase){
+        viewModelScope.launch {
+            friendUseCase.invokeRefuseFriend(user).collect{
+                when (it) {
+                    is State.Loading -> {
+                        _resultRefuse.postValue(Resource.loading())
+                    }
+                    is State.Success -> {
+                        _resultRefuse.postValue(Resource.success(it.data))
+                    }
+                    is State.Error -> {
+                        _resultRefuse.postValue(
                             Resource.error(
                                 message = it.message ?: StringUtils.getString(
                                     R.string.something_went_wrong

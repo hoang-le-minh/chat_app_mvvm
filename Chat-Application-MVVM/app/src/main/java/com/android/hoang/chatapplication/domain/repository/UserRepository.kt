@@ -12,6 +12,7 @@ interface UserRepository {
     suspend fun signIn(email: String, password: String): String
     suspend fun getAllUser(): List<UserFirebase>
     suspend fun updateUser(name: String, imageUrl: String, phoneNumber: String, dateOfBirth: String): UserFirebase?
-    suspend fun getUserListByListId(list: MutableList<String>): List<UserFirebase>
+    suspend fun getUserListByListId(list: List<String>): List<UserFirebase>
+    suspend fun getUserListOutsideListId(list: List<String>): List<UserFirebase>
     suspend fun filterUser(query: String): List<UserFirebase>
 }

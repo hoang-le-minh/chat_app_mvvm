@@ -40,6 +40,20 @@ class FriendUseCase @Inject constructor(private val friendRepository: FriendRepo
         }
     }
 
+    suspend fun invokeRefuseFriend(user: UserFirebase): Flow<State<String>> = flow {
+        try {
+            emit(State.Loading())
+            val result = friendRepository.refuseFriend(user)
+            if (result == StringUtils.getString(R.string.ok))
+                emit(State.Success(result))
+            else
+                emit(State.Error(StringUtils.getString(R.string.refuse_failed)))
+        } catch (e: Exception) {
+            LogUtils.d("$this ${e.localizedMessage}")
+            emit(State.Error(e.localizedMessage))
+        }
+    }
+
     suspend fun invokeCancelFriendRequest(user: UserFirebase): Flow<State<String>> = flow {
         try {
             emit(State.Loading())

@@ -84,4 +84,10 @@
     <string name="friend_sent">ĐÃ GỬI KẾT BẠN</string>
     <string name="cancel_failed">Hủy thất bại</string>
     <string name="send">Gửi</string>
+    <string name="refuse">Từ chối</string>
+    <string name="refuse_failed">Từ chối thất bại</string>
+    <string name="create_message">Tạo tin nhắn</string>
+    <string name="search_friend_2">Tìm kiếm bạn bè...</string>
+    <string name="friend_list">Danh sách bạn bè</string>
+    <string name="no_matching_results_were_found">Không tìm thấy kết quả phù hợp</string>
 </resources>
