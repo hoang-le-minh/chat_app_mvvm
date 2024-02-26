@@ -51,7 +51,7 @@
             android:id="@+id/search_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:queryHint="Tìm kiếm bạn bè..."
+            app:queryHint="@string/search_user_hint"
             app:queryBackground="@android:color/transparent"
             android:background="@drawable/corner_view"
             app:iconifiedByDefault="false"

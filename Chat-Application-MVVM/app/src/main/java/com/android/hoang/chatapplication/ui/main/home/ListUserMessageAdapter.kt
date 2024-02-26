@@ -39,10 +39,11 @@ class ListUserMessageAdapter : ListAdapter<Message, ListUserMessageAdapter.MyVie
             val currentUser = FirebaseAuth.getInstance().currentUser
             val userId = if (message.senderId == currentUser?.uid) message.receiverId else message.senderId
             messageTime.text = formatDateStr(message.createAt)
+            val pre = if (message.senderId == currentUser?.uid) StringUtils.getString(R.string.you) else ""
             latestMessage.text = if (message.type == MESSAGE_TYPE_STRING.toString()){
-                if (message.message.length > 50) "${message.message.substring(0, 48)}..." else message.message
+                if (message.message.length > 50) "$pre ${message.message.substring(0, 48)}..." else "$pre ${message.message}"
             } else {
-                StringUtils.getString(R.string.sent_an_image)
+                "$pre ${StringUtils.getString(R.string.sent_an_image)}"
             }
 
             itemView.setOnClickListener {
@@ -131,7 +132,7 @@ class ListUserMessageAdapter : ListAdapter<Message, ListUserMessageAdapter.MyVie
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(UserFirebase::class.java)
-                Log.d(Constants.LOG_TAG, "setInfoUser.onDataChange: ${user.toString()}")
+                Log.d(LOG_TAG, "setInfoUser.onDataChange: ${user.toString()}")
                 val errorUri = if (user?.imageUrl != "") R.drawable.no_image else R.drawable.avt_default
                 Glide.with(itemView.context).load(user?.imageUrl).error(errorUri).into(img_avt)
                 txt_name.text = user?.username
@@ -139,7 +140,7 @@ class ListUserMessageAdapter : ListAdapter<Message, ListUserMessageAdapter.MyVie
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.d(Constants.LOG_TAG, "setInfoUser.onCancelled: ${error.message}")
+                Log.d(LOG_TAG, "setInfoUser.onCancelled: ${error.message}")
 
             }
 

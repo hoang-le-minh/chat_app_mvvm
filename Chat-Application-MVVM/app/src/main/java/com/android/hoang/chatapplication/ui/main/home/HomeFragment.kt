@@ -6,12 +6,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -20,17 +22,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
-import com.android.hoang.chatapplication.data.remote.model.ListString
-import com.android.hoang.chatapplication.data.remote.model.Message
-import com.android.hoang.chatapplication.data.remote.model.UserFirebase
-import com.android.hoang.chatapplication.data.remote.model.UserResponse
+import com.android.hoang.chatapplication.data.remote.model.*
 import com.android.hoang.chatapplication.databinding.FragmentHomeBinding
 import com.android.hoang.chatapplication.ui.main.MainActivity
 import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
+import com.android.hoang.chatapplication.ui.main.friend.SearchUserAdapter
+import com.android.hoang.chatapplication.util.Constants
+import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_STRING
 import com.android.hoang.chatapplication.util.Status
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.StringUtils
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,6 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeFragmentViewModel by viewModels()
     private val mainViewModel: MainActivityViewModel by activityViewModels()
     private val listMessageAdapter = ListUserMessageAdapter()
+    private lateinit var searchAdapter: SearchMessageAdapter
     private val receiver = object : BroadcastReceiver(){
         override fun onReceive(p0: Context?, p1: Intent?) {
             observeModel()
@@ -57,6 +64,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun prepareView(savedInstanceState: Bundle?) {
         LogUtils.d("$this prepareView")
+
+        searchAdapter = SearchMessageAdapter()
         this.observeModel()
 //        val activity = activity as MainActivity
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -67,6 +76,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val filter = IntentFilter("com.android.hoang.chatapplication.UPDATE_HOME_UI")
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(receiver, filter)
 
+        binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (hasFocus){
+                showSearchView()
+            }
+        }
+        binding.btnCancelSearch.setOnClickListener {
+            binding.searchRecyclerView.visibility = View.GONE
+            binding.recyclerviewMessage.visibility = View.VISIBLE
+            binding.btnCancelSearch.visibility = View.GONE
+            binding.noMatchingResult.visibility = View.GONE
+
+            binding.searchView.setQuery("", false)
+            binding.searchView.clearFocus()
+        }
     }
 
     override fun onDestroy() {
@@ -85,6 +108,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     Status.SUCCESS -> {
                         it.data?.let { listUserId ->
                             prepareComponents(listUserId)
+                            searchMessage(listUserId)
                             binding.btnCreateNewMessage.setOnClickListener {
                                 goToCreateConversationFragment(ListString(listUserId))
                             }
@@ -100,6 +124,77 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                 }
             }
+        }
+    }
+
+    private fun showSearchView(){
+        binding.searchRecyclerView.visibility = View.VISIBLE
+        binding.recyclerviewMessage.visibility = View.GONE
+        binding.btnCancelSearch.visibility = View.VISIBLE
+    }
+
+    private fun searchMessage(listUserId: MutableList<String>) {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText, listUserId)
+
+                return true
+            }
+
+        })
+    }
+
+    // search in exist conversation
+    private fun filterList(s: String?, listId: MutableList<String>){
+        if (s != null) {
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            val myRef = FirebaseDatabase.getInstance().getReference("messages")
+            val searchList = mutableListOf<SearchMessage>()
+            if (currentUser != null) {
+                myRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        searchList.clear()
+                        for (userId: String in listId){
+                            var count = 0
+                            for (dataSnapShot: DataSnapshot in snapshot.children) {
+                                val message = dataSnapShot.getValue(Message::class.java) ?: continue
+                                if ((((message.senderId == currentUser.uid) && (message.receiverId == userId)) ||
+                                            ((message.receiverId == currentUser.uid) && (message.senderId == userId))) &&
+                                    (message.type == MESSAGE_TYPE_STRING.toString()) && message.message.lowercase()
+                                        .contains(s.lowercase())
+                                ){
+                                    count++
+                                }
+                            }
+                            if(count > 0) searchList.add(SearchMessage(userId, count))
+                        }
+
+//                        Log.d(Constants.LOG_TAG, "onDataChange: $searchList")
+                        updateSearchRecyclerView(searchList)
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+
+                })
+            }
+        }
+    }
+
+    private fun updateSearchRecyclerView(searchList: List<SearchMessage>) {
+        binding.searchRecyclerView.adapter = searchAdapter
+        binding.searchRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        searchAdapter.submitList(searchList)
+        if(searchList.isEmpty()){
+            binding.noMatchingResult.visibility = View.VISIBLE
+        } else {
+            binding.noMatchingResult.visibility = View.GONE
         }
     }
 

@@ -90,4 +90,8 @@
     <string name="search_friend_2">Tìm kiếm bạn bè...</string>
     <string name="friend_list">Danh sách bạn bè</string>
     <string name="no_matching_results_were_found">Không tìm thấy kết quả phù hợp</string>
+    <string name="search_message_hint">Tìm kiếm tin nhắn…</string>
+    <string name="search_user_hint">Tìm kiếm bạn bè…</string>
+    <string name="you">Bạn:</string>
+    <string name="matching_message">tin nhắn phù hợp</string>
 </resources>
