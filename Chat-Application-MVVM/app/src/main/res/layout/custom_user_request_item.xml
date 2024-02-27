@@ -91,7 +91,9 @@
     android:text="@string/refuse"
     android:gravity="center"
     android:background="@color/color_4"
-    android:textSize="@dimen/text_14sp"
+    android:textSize="@dimen/text_16sp"
+    android:textColor="@color/white"
+    android:layout_marginVertical="@dimen/layout_8"
     android:id="@+id/txt_refuse"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

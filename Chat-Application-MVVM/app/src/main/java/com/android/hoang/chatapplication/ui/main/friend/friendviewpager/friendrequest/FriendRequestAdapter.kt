@@ -43,10 +43,7 @@ class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, pri
         private val txtRefuse: TextView = itemView.findViewById(R.id.txt_refuse)
         private val view = WeakReference(itemView)
 
-        fun onBind(user: UserFirebase) {
-
-            view.get()?.scrollTo(0, 0)
-
+        init {
             view.get()?.let {
                 it.setOnClickListener {
                     if (view.get()?.scrollX != 0){
@@ -54,7 +51,9 @@ class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, pri
                     }
                 }
             }
+        }
 
+        fun onBind(user: UserFirebase) {
 
             Glide.with(itemView.context).load(user.imageUrl).error(R.drawable.avt_default)
                 .into(userAvt)
@@ -102,6 +101,10 @@ class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, pri
             }
 
         }
+
+        fun updateView(){
+            view.get()?.scrollTo(0, 0)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -112,6 +115,7 @@ class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, pri
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.onBind(getItem(position))
+        holder.updateView()
     }
 }
 

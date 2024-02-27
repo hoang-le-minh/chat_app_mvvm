@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.hoang.chatapplication.base.BaseFragment
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.databinding.FragmentFriendRequestBinding
+import com.android.hoang.chatapplication.ui.main.MainActivity
 import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
 import com.android.hoang.chatapplication.util.Status
 import dagger.hilt.android.AndroidEntryPoint
@@ -114,6 +115,7 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
                 Status.ERROR -> {
                     it.message.let { msg ->
 //                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+                        initRequestRecyclerView(mutableListOf())
                         hideLoading()
                     }
                 }
@@ -145,7 +147,7 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
     private fun setItemTouchHelper() {
         ItemTouchHelper(object : ItemTouchHelper.Callback(){
 
-            private val limitScrollX = dipToPx(100f, requireContext())
+            private val limitScrollX = dipToPx(90f, activity as MainActivity)
             private var currentScrollX = 0
             private var currentScrollXWhenInActive = 0
             private var initXWhenInActive = 0f
@@ -197,7 +199,8 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
                     }
 
                     if (isCurrentlyActive){
-                        var scrollOffset = currentScrollX * (-dX).toInt()
+                        // swipe with finger
+                        var scrollOffset = currentScrollX + (-dX).toInt()
                         if (scrollOffset > limitScrollX){
                             scrollOffset = limitScrollX
                         } else if (scrollOffset < 0){
@@ -260,6 +263,7 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
                 Status.ERROR -> {
                     it.message.let { msg ->
 //                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+                        initSentRecyclerView(mutableListOf())
                         hideLoading()
                     }
                 }

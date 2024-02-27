@@ -1,5 +1,7 @@
 package com.android.hoang.chatapplication.base
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.viewbinding.ViewBinding
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.util.Loading
 import com.blankj.utilcode.util.LogUtils
+import java.util.Locale
 
 /**
  * Base class for activity instances
@@ -45,6 +48,24 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
 
         //Set custom loading dialog
         mLoading = Loading(this, R.style.StyleLoading)
+
+        //Set language
+        val sharedPref = getSharedPreferences("current_language", Context.MODE_PRIVATE)
+        val currentLang = sharedPref.getString("current_language", "")
+
+        val config = resources.configuration
+        val locale = Locale(currentLang)
+        Locale.setDefault(locale)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            config.setLocale(locale)
+        } else {
+            config.locale = locale
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            createConfigurationContext(config)
+        }
+        resources.updateConfiguration(config, resources.displayMetrics)
+
         //Set view
         prepareView(savedInstanceState)
 

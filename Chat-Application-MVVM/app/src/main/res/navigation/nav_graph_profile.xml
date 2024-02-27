@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editLanguageFragment"
+            app:destination="@id/editLanguageFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -23,4 +26,8 @@
             android:name="currentUser"
             app:argType="com.android.hoang.chatapplication.data.remote.model.UserFirebase" />
     </fragment>
+    <fragment
+        android:id="@+id/editLanguageFragment"
+        android:name="com.android.hoang.chatapplication.ui.main.profile.editlanguage.EditLanguageFragment"
+        android:label="EditLanguageFragment" />
 </navigation>

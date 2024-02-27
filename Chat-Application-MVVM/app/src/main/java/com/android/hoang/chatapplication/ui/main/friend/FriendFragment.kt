@@ -26,6 +26,7 @@ import com.android.hoang.chatapplication.ui.main.friend.friendviewpager.listfrie
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Status
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.StringUtils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -151,9 +152,9 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
 
         TabLayoutMediator(tabLayout, viewPager){ tab, position ->
             tab.text = when(position){
-                0 -> "BẠN BÈ"
-                1 -> "TẤT CẢ"
-                2 -> "YÊU CẦU"
+                0 -> StringUtils.getString(R.string.friend).uppercase()
+                1 -> StringUtils.getString(R.string.all).uppercase()
+                2 -> StringUtils.getString(R.string.request).uppercase()
                 else -> "UNKNOWN"
             }
         }.attach()

@@ -1,5 +1,6 @@
 package com.android.hoang.chatapplication.domain.usecase
 
+import android.annotation.SuppressLint
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.domain.repository.FriendRepository
@@ -68,6 +69,7 @@ class FriendUseCase @Inject constructor(private val friendRepository: FriendRepo
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     suspend fun invokeGetListSentFriend(): Flow<State<MutableList<String>>> = flow {
         try {
             emit(State.Loading())
@@ -86,10 +88,10 @@ class FriendUseCase @Inject constructor(private val friendRepository: FriendRepo
         try {
             emit(State.Loading())
             val result = friendRepository.getListRequestFriend()
-            if (result.isNotEmpty())
+//            if (result.isNotEmpty())
                 emit(State.Success(result))
-            else
-                emit(State.Error(StringUtils.getString(R.string.something_went_wrong)))
+//            else
+//                emit(State.Error(StringUtils.getString(R.string.something_went_wrong)))
         } catch (e: Exception) {
             LogUtils.d("$this ${e.localizedMessage}")
             emit(State.Error(e.localizedMessage))

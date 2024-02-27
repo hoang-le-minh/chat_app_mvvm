@@ -1,9 +1,6 @@
 package com.android.hoang.chatapplication.ui.main.profile
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -38,6 +35,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private val profileViewModel: ProfileFragmentViewModel by viewModels()
     private val mainViewModel: MainActivityViewModel by activityViewModels()
+    private var sharedPref: SharedPreferences? = null
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -60,6 +58,21 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             }
         }
 
+        binding.editLanguage.setOnClickListener{
+            findNavController().navigate(R.id.action_profileFragment_to_editLanguageFragment)
+        }
+
+        sharedPref = activity?.getSharedPreferences("current_language", Context.MODE_PRIVATE)
+        val currentLang = sharedPref?.getString("current_language", "")
+
+        if (currentLang != null){
+            if (currentLang == "vi"){
+                binding.txtCurrentLanguage.text = StringUtils.getString(R.string.vietnamese)
+            } else {
+                binding.txtCurrentLanguage.text = StringUtils.getString(R.string.english)
+
+            }
+        }
     }
 
     private fun observeModel() {
