@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import java.util.UUID
 import javax.inject.Inject
@@ -22,7 +23,7 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * Implementation of [UserRepository] class
  */
-class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDataSource) :
+class UserRepositoryImpl @Inject constructor() :
     UserRepository {
 
     override suspend fun getCurrentUser(): UserFirebase? = suspendCoroutine { continuation ->
@@ -102,6 +103,7 @@ class UserRepositoryImpl @Inject constructor(private val userDataSource: UserDat
         val currentUser = FirebaseAuth.getInstance().currentUser
         val myRef = FirebaseDatabase.getInstance().getReference("users")
         if(currentUser != null){
+            FirebaseMessaging.getInstance().subscribeToTopic("/topics/${currentUser.uid}")
             var isResumed = false
             myRef.addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {

@@ -20,7 +20,7 @@ fun Context.showMessage(
     MaterialDialog(this).show {
         cancelable(false)
         cancelOnTouchOutside(false)
-        message(text = StringUtils.getString(stringId))
+        message(text = getString(stringId))
         positiveButton(R.string.ok) {
             onPositive?.invoke(it)
         }

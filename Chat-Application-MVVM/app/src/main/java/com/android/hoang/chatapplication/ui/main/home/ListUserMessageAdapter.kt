@@ -39,11 +39,11 @@ class ListUserMessageAdapter : ListAdapter<Message, ListUserMessageAdapter.MyVie
             val currentUser = FirebaseAuth.getInstance().currentUser
             val userId = if (message.senderId == currentUser?.uid) message.receiverId else message.senderId
             messageTime.text = formatDateStr(message.createAt)
-            val pre = if (message.senderId == currentUser?.uid) StringUtils.getString(R.string.you) else ""
+            val pre = if (message.senderId == currentUser?.uid) itemView.context.getString(R.string.you) else ""
             latestMessage.text = if (message.type == MESSAGE_TYPE_STRING.toString()){
                 if (message.message.length > 50) "$pre ${message.message.substring(0, 48)}..." else "$pre ${message.message}"
             } else {
-                "$pre ${StringUtils.getString(R.string.sent_an_image)}"
+                "$pre ${itemView.context.getString(R.string.sent_an_image)}"
             }
 
             itemView.setOnClickListener {

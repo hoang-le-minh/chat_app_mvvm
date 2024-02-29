@@ -1,13 +1,17 @@
 package com.android.hoang.chatapplication.ui.chat
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseViewModel
 import com.android.hoang.chatapplication.data.remote.model.Message
+import com.android.hoang.chatapplication.data.remote.model.PushNotification
+import com.android.hoang.chatapplication.data.remote.service.NotificationApi
 import com.android.hoang.chatapplication.di.qualifier.IoDispatcher
 import com.android.hoang.chatapplication.domain.usecase.MessageUseCase
+import com.android.hoang.chatapplication.domain.usecase.NotificationUseCase
 import com.android.hoang.chatapplication.util.Resource
 import com.android.hoang.chatapplication.util.State
 import com.blankj.utilcode.util.LogUtils
@@ -22,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatActivityViewModel @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val messageUseCase: MessageUseCase
+    private val messageUseCase: MessageUseCase,
+    private val notificationUseCase: NotificationUseCase
 ) : BaseViewModel() {
     // result send message
     private val _result = MutableLiveData<Resource<String>>()
@@ -136,5 +141,22 @@ class ChatActivityViewModel @Inject constructor(
         seenListener?.let { messageRef.removeEventListener(it)}
     }
 
+    fun sendNotification(notification: PushNotification){
+        viewModelScope.launch(ioDispatcher) {
+            notificationUseCase.invokeSendNotification(notification).collect{
+                when (it) {
+                    is State.Loading -> {
+
+                    }
+                    is State.Success -> {
+
+                    }
+                    is State.Error -> {
+
+                    }
+                }
+            }
+        }
+    }
 
 }

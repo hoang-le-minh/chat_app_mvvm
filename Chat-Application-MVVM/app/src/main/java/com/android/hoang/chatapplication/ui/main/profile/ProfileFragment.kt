@@ -1,16 +1,14 @@
 package com.android.hoang.chatapplication.ui.main.profile
 
-import android.content.*
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
@@ -19,15 +17,10 @@ import com.android.hoang.chatapplication.databinding.FragmentProfileBinding
 import com.android.hoang.chatapplication.ui.auth.AuthActivity
 import com.android.hoang.chatapplication.ui.main.MainActivity
 import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
-import com.android.hoang.chatapplication.ui.main.profile.editprofile.EditProfileFragmentViewModel
-import com.android.hoang.chatapplication.util.Constants
-import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Status
 import com.android.hoang.chatapplication.util.showMessage
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.StringUtils
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -67,9 +60,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         if (currentLang != null){
             if (currentLang == "vi"){
-                binding.txtCurrentLanguage.text = StringUtils.getString(R.string.vietnamese)
+                binding.txtCurrentLanguage.text = getString(R.string.vietnamese)
             } else {
-                binding.txtCurrentLanguage.text = StringUtils.getString(R.string.english)
+                binding.txtCurrentLanguage.text = getString(R.string.english)
 
             }
         }

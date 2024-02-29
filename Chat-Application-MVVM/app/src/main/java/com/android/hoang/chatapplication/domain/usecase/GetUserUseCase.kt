@@ -1,9 +1,7 @@
 package com.android.hoang.chatapplication.domain.usecase
 
-import android.util.Log
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
-import com.android.hoang.chatapplication.data.remote.model.UserResponse
 import com.android.hoang.chatapplication.domain.repository.UserRepository
 import com.android.hoang.chatapplication.util.State
 import com.blankj.utilcode.util.LogUtils

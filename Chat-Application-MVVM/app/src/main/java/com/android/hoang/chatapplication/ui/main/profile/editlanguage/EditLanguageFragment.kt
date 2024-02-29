@@ -52,6 +52,8 @@ class EditLanguageFragment : BaseFragment<FragmentEditLanguageBinding>() {
         val intent = Intent(requireContext(), MainActivity::class.java)
         (activity as MainActivity).finishAffinity()
         startActivity(intent)
+        (activity as MainActivity).recreate()
+
     }
 
 }

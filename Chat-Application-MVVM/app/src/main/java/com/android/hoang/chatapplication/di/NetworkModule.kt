@@ -1,6 +1,6 @@
 package com.android.hoang.chatapplication.di
 
-import com.android.hoang.chatapplication.data.remote.service.UserService
+import com.android.hoang.chatapplication.data.remote.service.NotificationApi
 import com.android.hoang.chatapplication.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -42,6 +42,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideUserService(retrofit: Retrofit): UserService =
-        retrofit.create(UserService::class.java)
+    fun provideNotificationApi(retrofit: Retrofit): NotificationApi =
+        retrofit.create(NotificationApi::class.java)
+
+//    @Provides
+//    @Singleton
+//    fun provideUserService(retrofit: Retrofit): UserService =
+//        retrofit.create(UserService::class.java)
 }

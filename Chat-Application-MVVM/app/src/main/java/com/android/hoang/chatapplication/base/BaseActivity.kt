@@ -43,11 +43,6 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
 
         // window transparent status bar
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        //Set layout
-        setContentView(binding.root)
-
-        //Set custom loading dialog
-        mLoading = Loading(this, R.style.StyleLoading)
 
         //Set language
         val sharedPref = getSharedPreferences("current_language", Context.MODE_PRIVATE)
@@ -65,6 +60,12 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
             createConfigurationContext(config)
         }
         resources.updateConfiguration(config, resources.displayMetrics)
+
+        //Set layout
+        setContentView(binding.root)
+
+        //Set custom loading dialog
+        mLoading = Loading(this, R.style.StyleLoading)
 
         //Set view
         prepareView(savedInstanceState)

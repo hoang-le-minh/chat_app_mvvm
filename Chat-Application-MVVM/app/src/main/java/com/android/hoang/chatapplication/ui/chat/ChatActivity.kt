@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseActivity
 import com.android.hoang.chatapplication.data.remote.model.Message
+import com.android.hoang.chatapplication.data.remote.model.NotificationData
+import com.android.hoang.chatapplication.data.remote.model.PushNotification
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.databinding.ActivityChatBinding
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
@@ -47,6 +49,8 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
     private lateinit var photoAdapter: StickerAdapter
 
     private val MY_READ_PERMISSION_CODE = 1001
+    var topic = ""
+    var username = ""
 
     private var isStickerShow = false
     private var isPhotoViewShow = false
@@ -111,7 +115,10 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
 
             val fCurrentUser = FirebaseAuth.getInstance().currentUser ?: return@setOnClickListener
             sendMessage(fCurrentUser.uid, userId, message, MESSAGE_TYPE_STRING)
-
+            topic = "/topics/$userId"
+            PushNotification(NotificationData(username, message), topic).also {
+                chatViewModel.sendNotification(it)
+            }
         }
 
         chatViewModel.seenMessage(currentUser.uid, userId)
@@ -175,6 +182,7 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
         isPhotoViewShow = true
         isStickerShow = false
     }
+
     private fun hidePhotoView(){
         binding.btnAddPhoto.setImageResource(R.drawable.ic_add_photo)
         val layoutParams = binding.stickerRecyclerView.layoutParams
@@ -283,7 +291,7 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
                 val user = snapshot.getValue(UserFirebase::class.java)
                 Log.d(LOG_TAG, "prepareView: ${user?.username}")
                 val errorAvt = if(user?.imageUrl == "") R.drawable.avt_default else R.drawable.no_image
-
+                username = user?.username.toString()
                 binding.txtUsername.text = user?.username
                 Glide.with(this@ChatActivity).load(user?.imageUrl).error(errorAvt).into(binding.userAvt)
 

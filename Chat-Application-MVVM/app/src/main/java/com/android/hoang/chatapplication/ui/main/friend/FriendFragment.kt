@@ -152,9 +152,9 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
 
         TabLayoutMediator(tabLayout, viewPager){ tab, position ->
             tab.text = when(position){
-                0 -> StringUtils.getString(R.string.friend).uppercase()
-                1 -> StringUtils.getString(R.string.all).uppercase()
-                2 -> StringUtils.getString(R.string.request).uppercase()
+                0 -> getString(R.string.friend).uppercase()
+                1 -> getString(R.string.all).uppercase()
+                2 -> getString(R.string.request).uppercase()
                 else -> "UNKNOWN"
             }
         }.attach()
