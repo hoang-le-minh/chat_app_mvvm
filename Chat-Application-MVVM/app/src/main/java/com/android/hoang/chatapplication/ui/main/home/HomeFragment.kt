@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -20,6 +21,7 @@ import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
 import com.android.hoang.chatapplication.data.remote.model.*
@@ -49,6 +51,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val mainViewModel: MainActivityViewModel by activityViewModels()
     private val listMessageAdapter = ListUserMessageAdapter()
     private lateinit var searchAdapter: SearchMessageAdapter
+    private var isSearch = false
     private val receiver = object : BroadcastReceiver(){
         override fun onReceive(p0: Context?, p1: Intent?) {
             observeModel()
@@ -82,14 +85,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
         binding.btnCancelSearch.setOnClickListener {
-            binding.searchRecyclerView.visibility = View.GONE
-            binding.recyclerviewMessage.visibility = View.VISIBLE
-            binding.btnCancelSearch.visibility = View.GONE
-            binding.noMatchingResult.visibility = View.GONE
-
-            binding.searchView.setQuery("", false)
-            binding.searchView.clearFocus()
+            cancelSearch()
         }
+
+        onBackPressCallBack()
     }
 
     override fun onDestroy() {
@@ -131,6 +130,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.searchRecyclerView.visibility = View.VISIBLE
         binding.recyclerviewMessage.visibility = View.GONE
         binding.btnCancelSearch.visibility = View.VISIBLE
+        isSearch = true
+    }
+
+    private fun cancelSearch(){
+        binding.searchRecyclerView.visibility = View.GONE
+        binding.recyclerviewMessage.visibility = View.VISIBLE
+        binding.btnCancelSearch.visibility = View.GONE
+        binding.noMatchingResult.visibility = View.GONE
+
+        binding.searchView.setQuery("", false)
+        binding.searchView.clearFocus()
+        isSearch = false
     }
 
     private fun searchMessage(listUserId: MutableList<String>) {
@@ -244,5 +255,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     }
 
+    private fun onBackPressCallBack(){
+        // Set up callback for the back button press
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isSearch){
+                    cancelSearch()
+                } else
+                    showExitDialog()
+            }
+        }
+        // Add the callback to the OnBackPressedDispatcher
+        activity?.onBackPressedDispatcher?.addCallback(this, callback)
+    }
+
+    private fun showExitDialog(){
+        context?.let {
+            MaterialDialog(it).show {
+                cancelable(true)
+                cancelOnTouchOutside(true)
+                message(text = getString(R.string.question_exit_app))
+                positiveButton(R.string.ok) {
+                    activity?.finish()
+                }
+                negativeButton(R.string.cancel){
+                    dismiss()
+                }
+            }
+        }
+    }
 
 }

@@ -1,9 +1,7 @@
 package com.android.hoang.chatapplication.ui.main
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.lifecycle.LiveData
@@ -11,13 +9,10 @@ import androidx.navigation.NavController
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseActivity
 import com.android.hoang.chatapplication.data.remote.firebase.FirebaseService
-import com.android.hoang.chatapplication.databinding.ActivityAuthBinding
 import com.android.hoang.chatapplication.databinding.ActivityMainBinding
-import com.android.hoang.chatapplication.ui.chat.ChatActivityViewModel
 import com.android.hoang.chatapplication.util.setupWithNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.iid.FirebaseInstanceIdReceiver
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 

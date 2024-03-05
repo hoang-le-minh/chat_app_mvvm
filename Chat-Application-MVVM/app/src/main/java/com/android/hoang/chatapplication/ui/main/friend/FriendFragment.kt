@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.afollestad.materialdialogs.MaterialDialog
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
@@ -44,6 +47,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
     private val friendRequestViewModel: FriendRequestFragmentViewModel by viewModels()
     private val mainViewModel: MainActivityViewModel by activityViewModels()
 
+    private var isSearch = false
     private lateinit var searchAdapter: SearchUserAdapter
     //endregion
 
@@ -66,13 +70,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
         initTabLayout(viewPager)
 
         binding.btnCancelSearch.setOnClickListener {
-            binding.searchRecyclerView.visibility = View.GONE
-            binding.friendTabLayout.visibility = View.VISIBLE
-            binding.friendViewPager.visibility = View.VISIBLE
-            binding.btnCancelSearch.visibility = View.GONE
-
-            binding.searchView.setQuery("", false)
-            binding.searchView.clearFocus()
+            cancelSearch()
         }
 
         binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
@@ -81,6 +79,8 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
             }
         }
         searchUser()
+
+        onBackPressCallBack()
     }
 
     private fun searchUser() {
@@ -145,6 +145,18 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
         binding.friendTabLayout.visibility = View.GONE
         binding.friendViewPager.visibility = View.GONE
         binding.btnCancelSearch.visibility = View.VISIBLE
+        isSearch = true
+    }
+
+    private fun cancelSearch(){
+        binding.searchRecyclerView.visibility = View.GONE
+        binding.friendTabLayout.visibility = View.VISIBLE
+        binding.friendViewPager.visibility = View.VISIBLE
+        binding.btnCancelSearch.visibility = View.GONE
+
+        binding.searchView.setQuery("", false)
+        binding.searchView.clearFocus()
+        isSearch = false
     }
 
     private fun initTabLayout(viewPager: ViewPager2){
@@ -235,6 +247,37 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>() {
 
         mainViewModel.requestCount.observe(viewLifecycleOwner){
             countRequest.text = it.toString()
+        }
+    }
+
+    private fun onBackPressCallBack(){
+        // Set up callback for the back button press
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isSearch){
+                    cancelSearch()
+                } else {
+                    showExitDialog()
+                }
+            }
+        }
+        // Add the callback to the OnBackPressedDispatcher
+        activity?.onBackPressedDispatcher?.addCallback(this, callback)
+    }
+
+    private fun showExitDialog(){
+        context?.let {
+            MaterialDialog(it).show {
+                cancelable(true)
+                cancelOnTouchOutside(true)
+                message(text = getString(R.string.question_exit_app))
+                positiveButton(R.string.ok) {
+                    activity?.finish()
+                }
+                negativeButton(R.string.cancel){
+                    dismiss()
+                }
+            }
         }
     }
 }

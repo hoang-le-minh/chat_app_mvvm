@@ -39,19 +39,19 @@ class AllUserFragment : BaseFragment<FragmentAllUserBinding>() {
         allUserViewModel.userList.observe(viewLifecycleOwner){
             when(it.status){
                 Status.LOADING -> {
-                    showLoading()
+//                    showLoading()
                 }
                 Status.SUCCESS -> {
                     it.data?.let { list ->
                         Log.d(LOG_TAG, "allUserFragment.initListUser: ${list[0].id}")
                         sortRecyclerView(list)
                     }
-                    hideLoading()
+//                    hideLoading()
                 }
                 Status.ERROR -> {
                     it.message.let { msg ->
                         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-                        hideLoading()
+//                        hideLoading()
                     }
                 }
             }

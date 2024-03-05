@@ -52,13 +52,13 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
                         initListRequest(list)
                         mainViewModel.setRequestCount(list.size)
                     }
-                    hideLoading()
+//                    hideLoading()
                 }
                 Status.ERROR -> {
                     it.message.let { msg ->
 //                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
                         mainViewModel.setRequestCount(0)
-                        hideLoading()
+//                        hideLoading()
                     }
                 }
             }
@@ -76,12 +76,12 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
 
                         initListSent(list)
                     }
-                    hideLoading()
+//                    hideLoading()
                 }
                 Status.ERROR -> {
                     it.message.let { msg ->
 //                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-                        hideLoading()
+//                        hideLoading()
                     }
                 }
             }
@@ -110,13 +110,13 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
 
                         initRequestRecyclerView(list)
                     }
-                    hideLoading()
+//                    hideLoading()
                 }
                 Status.ERROR -> {
                     it.message.let { msg ->
 //                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
                         initRequestRecyclerView(mutableListOf())
-                        hideLoading()
+//                        hideLoading()
                     }
                 }
             }
@@ -258,13 +258,13 @@ class FriendRequestFragment : BaseFragment<FragmentFriendRequestBinding>() {
 
                         initSentRecyclerView(list)
                     }
-                    hideLoading()
+//                    hideLoading()
                 }
                 Status.ERROR -> {
                     it.message.let { msg ->
 //                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
                         initSentRecyclerView(mutableListOf())
-                        hideLoading()
+//                        hideLoading()
                     }
                 }
             }

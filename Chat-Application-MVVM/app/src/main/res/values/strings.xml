@@ -108,4 +108,5 @@
     <string name="unfriend">Unfriend</string>
     <string name="accept_friend">Accept Friend</string>
     <string name="cancel_friend_request">Cancel friend request</string>
+    <string name="question_exit_app">Want to exit app?</string>
 </resources>

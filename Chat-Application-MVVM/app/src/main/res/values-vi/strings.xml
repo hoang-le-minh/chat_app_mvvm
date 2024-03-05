@@ -108,4 +108,5 @@
     <string name="unfriend">Hủy kết bạn</string>
     <string name="accept_friend">Chấp nhận kết bạn</string>
     <string name="cancel_friend_request">Hủy yêu cầu kết bạn</string>
+    <string name="question_exit_app">Bạn muốn thoát ứng dụng?</string>
 </resources>

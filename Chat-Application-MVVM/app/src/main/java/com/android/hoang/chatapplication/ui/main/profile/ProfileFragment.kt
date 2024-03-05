@@ -1,11 +1,17 @@
 package com.android.hoang.chatapplication.ui.main.profile
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -66,6 +72,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
             }
         }
+
     }
 
     private fun observeModel() {
@@ -110,6 +117,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         binding.userEmail.text = currentUser.email
         binding.userName.text = currentUser.username
 
+        binding.circleAvt.setOnClickListener {
+            showImageDialog(currentUser.imageUrl)
+        }
+        binding.layoutImage.setOnClickListener {
+            showImageDialog(currentUser.imageUrl)
+        }
     }
 
     private fun goToEditProfile(currentUser: UserFirebase){
@@ -117,5 +130,22 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         findNavController().navigate(action)
     }
 
+    private fun showImageDialog(uri: String){
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.custom_image_dialog)
+        val imageView = dialog.findViewById<ImageView>(R.id.image_view_dialog)
+        val closeButton = dialog.findViewById<ImageButton>(R.id.btn_close_image_dialog)
+        Glide.with(requireContext()).load(uri).error(R.drawable.no_image).into(imageView)
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        val width = activity?.resources?.displayMetrics?.widthPixels ?: resources.displayMetrics.widthPixels
+        val height = activity?.resources?.displayMetrics?.heightPixels ?: resources.displayMetrics.heightPixels
+        dialog.window?.setLayout(width, height)
+        dialog.window?.decorView?.setBackgroundResource(R.color.black)
+
+
+        dialog.show()
+    }
 
 }

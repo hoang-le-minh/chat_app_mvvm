@@ -48,7 +48,7 @@ class ListFriendFragment : BaseFragment<FragmentListFriendBinding>() {
                 Status.ERROR -> {
                     it.message.let { msg ->
 //                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-                        hideLoading()
+//                        hideLoading()
                     }
                 }
             }
@@ -77,12 +77,12 @@ class ListFriendFragment : BaseFragment<FragmentListFriendBinding>() {
                         recyclerView.adapter = adapter
                         recyclerView.layoutManager = LinearLayoutManager(requireContext())
                     }
-                    hideLoading()
+//                    hideLoading()
                 }
                 Status.ERROR -> {
                     it.message.let { msg ->
 //                        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-                        hideLoading()
+//                        hideLoading()
                     }
                 }
             }
