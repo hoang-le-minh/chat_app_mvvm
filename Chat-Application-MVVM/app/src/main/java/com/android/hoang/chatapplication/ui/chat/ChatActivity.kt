@@ -25,6 +25,7 @@ import com.android.hoang.chatapplication.data.remote.model.NotificationData
 import com.android.hoang.chatapplication.data.remote.model.PushNotification
 import com.android.hoang.chatapplication.data.remote.model.UserFirebase
 import com.android.hoang.chatapplication.databinding.ActivityChatBinding
+import com.android.hoang.chatapplication.ui.userinfo.UserInfoActivity
 import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_STRING
 import com.android.hoang.chatapplication.util.Status
@@ -122,6 +123,20 @@ class ChatActivity : BaseActivity<ActivityChatBinding>() {
         }
 
         chatViewModel.seenMessage(currentUser.uid, userId)
+
+        binding.userAvt.setOnClickListener{
+            val intent = Intent(this, UserInfoActivity::class.java)
+            intent.putExtra("userId", userId)
+            intent.putExtra("username", username)
+            startActivity(intent)
+        }
+
+        binding.txtUsername.setOnClickListener {
+            val intent = Intent(this, UserInfoActivity::class.java)
+            intent.putExtra("userId", userId)
+            intent.putExtra("username", username)
+            startActivity(intent)
+        }
 
     }
 

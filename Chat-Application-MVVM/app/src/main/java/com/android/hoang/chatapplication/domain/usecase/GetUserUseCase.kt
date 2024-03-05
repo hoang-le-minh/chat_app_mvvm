@@ -26,6 +26,20 @@ class GetUserUseCase @Inject constructor(private val userRepository: UserReposit
         }
     }
 
+    suspend fun invokeGetUserById(userId: String): Flow<State<UserFirebase>> = flow {
+        try {
+            emit(State.Loading())
+            val user = userRepository.getUserListByListId(listOf(userId))
+            if (user.isNotEmpty()){
+                emit(State.Success(user[0]))
+            } else
+                emit(State.Error(StringUtils.getString(R.string.cannot_get_current_user)))
+        } catch (e: Exception) {
+            LogUtils.d("$this ${e.localizedMessage}")
+            emit(State.Error(e.localizedMessage))
+        }
+    }
+
     suspend fun invokeAllUser(): Flow<State<List<UserFirebase>>> = flow {
         try {
             emit(State.Loading())

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/child_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.2"
+        android:background="@drawable/my_gradient"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_edit"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_edit"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:paddingVertical="@dimen/layout_16"
+            android:paddingHorizontal="@dimen/layout_24"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/txt_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_bold"
+            android:text="@string/info"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/layout_52" />
+
+
+        <RelativeLayout
+            android:id="@+id/bottom_view_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_24"
+            android:background="@drawable/corner_top_left_and_right_view"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_avt"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.3"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:src="@drawable/avt_default"
+        android:layout_marginTop="@dimen/layout_8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/child_constraint"/>
+
+    <TextView
+        android:id="@+id/txt_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_avt"
+        tools:text="Name"
+        android:textSize="@dimen/text_24sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/layout_8"
+        android:fontFamily="@font/lato_bold" />
+
+    <TextView
+        android:id="@+id/txt_add_or_cancel_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_friend"
+        android:textSize="@dimen/text_20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/lato_bold"
+        android:drawableLeft="@drawable/add_new_friend"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/txt_username"
+        android:layout_marginTop="@dimen/layout_16"
+        android:padding="@dimen/layout_8"
+        android:drawablePadding="@dimen/layout_16"
+        android:layout_marginStart="@dimen/layout_8"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/gray_2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_add_or_cancel_friend"
+        android:layout_marginHorizontal="@dimen/layout_24" />
+
+    <TextView
+        android:id="@+id/txt_delete_conversation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_conversation"
+        android:textSize="@dimen/text_20sp"
+        android:textColor="@color/color_4"
+        android:fontFamily="@font/lato_bold"
+        android:drawableLeft="@drawable/ic_delete"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/txt_add_or_cancel_friend"
+        android:layout_marginTop="@dimen/layout_16"
+        android:padding="@dimen/layout_8"
+        android:drawablePadding="@dimen/layout_20"
+        android:layout_marginStart="@dimen/layout_8"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/gray_2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_delete_conversation"
+        android:layout_marginHorizontal="@dimen/layout_24" />
+
+    <TextView
+        android:id="@+id/txt_dob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="dd/Mm/yyyy"
+        android:textSize="@dimen/text_20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/lato_bold"
+        android:drawableLeft="@drawable/ic_birthday"
+        app:layout_constraintTop_toBottomOf="@+id/txt_delete_conversation"
+        android:layout_marginTop="@dimen/layout_16"
+        android:padding="@dimen/layout_8"
+        android:drawablePadding="@dimen/layout_24"
+        android:layout_marginStart="@dimen/layout_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/gray_2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_dob"
+        android:layout_marginHorizontal="@dimen/layout_24"/>
+
+    <TextView
+        android:id="@+id/txt_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="0987654321"
+        android:textSize="@dimen/text_20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/lato_bold"
+        android:drawableLeft="@drawable/ic_phone"
+        app:layout_constraintTop_toBottomOf="@+id/txt_dob"
+        android:layout_marginTop="@dimen/layout_16"
+        android:padding="@dimen/layout_8"
+        android:drawablePadding="@dimen/layout_24"
+        android:layout_marginStart="@dimen/layout_16" />
+</androidx.constraintlayout.widget.ConstraintLayout>

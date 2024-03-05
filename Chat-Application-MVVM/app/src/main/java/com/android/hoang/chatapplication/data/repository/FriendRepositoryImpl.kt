@@ -19,13 +19,13 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class FriendRepositoryImpl @Inject constructor(): FriendRepository {
-    override suspend fun addFriend(user: UserFirebase): String = suspendCoroutine{ continuation ->
+    override suspend fun addFriend(userId: String): String = suspendCoroutine{ continuation ->
         val currentUser = FirebaseAuth.getInstance().currentUser
-        val myRef = FirebaseDatabase.getInstance().getReference("friends").child(currentUser?.uid + user.id)    // sender + receiver
+        val myRef = FirebaseDatabase.getInstance().getReference("friends").child(currentUser?.uid + userId)    // sender + receiver
         if (currentUser != null){
             val map = HashMap<String, String>()
             map["id_user_1"] = currentUser.uid
-            map["id_user_2"] = user.id
+            map["id_user_2"] = userId
             map["relationship"] = ADD_FRIEND_RELATIONSHIP
             myRef.setValue(map).addOnCompleteListener {
                 if (it.isSuccessful){
@@ -37,9 +37,9 @@ class FriendRepositoryImpl @Inject constructor(): FriendRepository {
         }
     }
 
-    override suspend fun acceptFriend(user: UserFirebase): String = suspendCoroutine{ continuation ->
+    override suspend fun acceptFriend(userId: String): String = suspendCoroutine{ continuation ->
         val currentUser = FirebaseAuth.getInstance().currentUser
-        val myRef = FirebaseDatabase.getInstance().getReference("friends").child(user.id + currentUser?.uid)
+        val myRef = FirebaseDatabase.getInstance().getReference("friends").child(userId + currentUser?.uid)
         if (currentUser != null){
             val map = HashMap<String, String>()
             map["relationship"] = FRIEND_RELATIONSHIP
@@ -67,9 +67,9 @@ class FriendRepositoryImpl @Inject constructor(): FriendRepository {
         }
     }
 
-    override suspend fun cancelFriendRequest(user: UserFirebase): String = suspendCoroutine{ continuation ->
+    override suspend fun cancelFriendRequest(userId: String): String = suspendCoroutine{ continuation ->
         val currentUser = FirebaseAuth.getInstance().currentUser
-        val myRef = FirebaseDatabase.getInstance().getReference("friends").child(currentUser?.uid + user.id)
+        val myRef = FirebaseDatabase.getInstance().getReference("friends").child(currentUser?.uid + userId)
         if (currentUser != null) {
 
             myRef.removeValue().addOnSuccessListener {
@@ -78,6 +78,33 @@ class FriendRepositoryImpl @Inject constructor(): FriendRepository {
                 continuation.resume(StringUtils.getString(R.string.cancel_failed))
             }
         }
+    }
+
+    override suspend fun unfriend(userId: String): String = suspendCoroutine{ continuation ->
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val myRef = FirebaseDatabase.getInstance().getReference("friends")
+        if (currentUser != null){
+            myRef.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapShot: DataSnapshot in snapshot.children) {
+                        val friend = dataSnapShot.getValue(Friend::class.java) ?: continue
+                        if ((friend.id_user_1 == currentUser.uid && friend.id_user_2 == userId) || (friend.id_user_2 == currentUser.uid && friend.id_user_1 == userId)){
+                            dataSnapShot.ref.removeValue().addOnSuccessListener {
+                                continuation.resume(StringUtils.getString(R.string.ok))
+                            }.addOnFailureListener {
+                                continuation.resume(StringUtils.getString(R.string.cancel_failed))
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    continuation.resume(StringUtils.getString(R.string.cancel_failed))
+                }
+
+            })
+        }
+
     }
 
     override suspend fun getListSentFriend(): MutableList<String> = suspendCoroutine{ continuation ->
@@ -220,5 +247,46 @@ class FriendRepositoryImpl @Inject constructor(): FriendRepository {
         }
     }
 
+    // 1: la ban be || 2: da gui loi moi || 3: cho xac nhan || 0: nothing
+    override suspend fun checkRelationship(userId: String): Int = suspendCoroutine{ continuation ->
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val myRef = FirebaseDatabase.getInstance().getReference("friends")
+        if (currentUser != null){
+            var isResumed = false
+            myRef.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var result = 0
+                    for (dataSnapShot: DataSnapshot in snapshot.children){
+                        val friend = dataSnapShot.getValue(Friend::class.java) ?: continue
+                        if (friend.id_user_1 == currentUser.uid && friend.id_user_2 == userId){
+                            result = if(friend.relationship == FRIEND_RELATIONSHIP){
+                                1
+                            } else {
+                                2
+                            }
+                            break
+                        }
+                        if (friend.id_user_2 == currentUser.uid && friend.id_user_1 == userId){
+                            result = if(friend.relationship == FRIEND_RELATIONSHIP){
+                                1
+                            } else {
+                                3
+                            }
+                            break
+                        }
+                    }
+                    if (!isResumed){
+                        continuation.resume(result)
+                        isResumed = true
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
+        }
+    }
 
 }

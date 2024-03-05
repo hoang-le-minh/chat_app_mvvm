@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class FriendUseCase @Inject constructor(private val friendRepository: FriendRepository) {
-    suspend fun invokeAddFriend(user: UserFirebase): Flow<State<String>> = flow {
+    suspend fun invokeAddFriend(userId: String): Flow<State<String>> = flow {
         try {
             emit(State.Loading())
-            val result = friendRepository.addFriend(user)
+            val result = friendRepository.addFriend(userId)
             if (result == StringUtils.getString(R.string.ok))
                 emit(State.Success(result))
             else
@@ -27,10 +27,10 @@ class FriendUseCase @Inject constructor(private val friendRepository: FriendRepo
         }
     }
 
-    suspend fun invokeAcceptFriend(user: UserFirebase): Flow<State<String>> = flow {
+    suspend fun invokeAcceptFriend(userId: String): Flow<State<String>> = flow {
         try {
             emit(State.Loading())
-            val result = friendRepository.acceptFriend(user)
+            val result = friendRepository.acceptFriend(userId)
             if (result == StringUtils.getString(R.string.ok))
                 emit(State.Success(result))
             else
@@ -55,10 +55,24 @@ class FriendUseCase @Inject constructor(private val friendRepository: FriendRepo
         }
     }
 
-    suspend fun invokeCancelFriendRequest(user: UserFirebase): Flow<State<String>> = flow {
+    suspend fun invokeCancelFriendRequest(userId: String): Flow<State<String>> = flow {
         try {
             emit(State.Loading())
-            val result = friendRepository.cancelFriendRequest(user)
+            val result = friendRepository.cancelFriendRequest(userId)
+            if (result == StringUtils.getString(R.string.ok))
+                emit(State.Success(result))
+            else
+                emit(State.Error(StringUtils.getString(R.string.cancel_failed)))
+        } catch (e: Exception) {
+            LogUtils.d("$this ${e.localizedMessage}")
+            emit(State.Error(e.localizedMessage))
+        }
+    }
+
+    suspend fun invokeUnfriend(userId: String): Flow<State<String>> = flow {
+        try {
+            emit(State.Loading())
+            val result = friendRepository.unfriend(userId)
             if (result == StringUtils.getString(R.string.ok))
                 emit(State.Success(result))
             else
@@ -84,6 +98,7 @@ class FriendUseCase @Inject constructor(private val friendRepository: FriendRepo
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     suspend fun invokeGetListRequestFriend(): Flow<State<MutableList<String>>> = flow {
         try {
             emit(State.Loading())
@@ -120,6 +135,17 @@ class FriendUseCase @Inject constructor(private val friendRepository: FriendRepo
                 emit(State.Success(result))
             else
                 emit(State.Error(StringUtils.getString(R.string.something_went_wrong)))
+        } catch (e: Exception) {
+            LogUtils.d("$this ${e.localizedMessage}")
+            emit(State.Error(e.localizedMessage))
+        }
+    }
+
+    suspend fun invokeCheckRelationship(userId: String): Flow<State<Int>> = flow {
+        try {
+            emit(State.Loading())
+            val result = friendRepository.checkRelationship(userId)
+            emit(State.Success(result))
         } catch (e: Exception) {
             LogUtils.d("$this ${e.localizedMessage}")
             emit(State.Error(e.localizedMessage))

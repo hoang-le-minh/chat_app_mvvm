@@ -59,7 +59,7 @@ class ListUserMessageAdapter : ListAdapter<Message, ListUserMessageAdapter.MyVie
                     if(count > 0){
                         latestMessage.setTextColor(itemView.context.getColor(R.color.black))
                         messageTime.setTextColor(itemView.context.getColor(R.color.black))
-                        countMessageUnread.text = count.toString()
+                        countMessageUnread.text = if (count <= 99) count.toString() else "99"
                         countMessageUnread.visibility = View.VISIBLE
                     } else {
                         latestMessage.setTextColor(itemView.context.getColor(R.color.gray))

@@ -136,7 +136,8 @@
             android:textSize="@dimen/text_18sp"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/black"
-            android:fontFamily="@font/lato_bold" />
+            android:fontFamily="@font/lato_bold"
+            android:layout_marginTop="@dimen/layout_16"/>
 
     </LinearLayout>
 

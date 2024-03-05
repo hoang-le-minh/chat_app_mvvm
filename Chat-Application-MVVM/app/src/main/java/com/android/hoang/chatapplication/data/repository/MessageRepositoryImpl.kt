@@ -244,4 +244,65 @@ class MessageRepositoryImpl @Inject constructor(): MessageRepository {
 
     }
 
+    override suspend fun deleteConversation(userId: String): String = suspendCoroutine{ continuation ->
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val messageRef = FirebaseDatabase.getInstance().getReference("messages")
+        val conversationRef = FirebaseDatabase.getInstance().getReference("conversations")
+
+        if (currentUser != null){
+            var isResumedMsg = false
+            var isResumedConv = false
+            messageRef.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot: DataSnapshot in snapshot.children) {
+                        val message = dataSnapshot.getValue(Message::class.java) ?: continue
+                        if ((message.senderId == currentUser.uid && message.receiverId == userId) ||
+                            (message.senderId == userId && message.receiverId == currentUser.uid)){
+                            dataSnapshot.ref.removeValue().addOnSuccessListener {
+                                if(isResumedMsg){
+                                    continuation.resume(StringUtils.getString(R.string.ok))
+                                    isResumedMsg = true
+                                }
+                            }
+                                .addOnFailureListener {
+                                    if (isResumedMsg){
+                                        continuation.resume(StringUtils.getString(R.string.something_went_wrong))
+                                        isResumedMsg = true
+                                    }
+                                }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    continuation.resume(StringUtils.getString(R.string.something_went_wrong))
+                }
+
+            })
+
+            conversationRef.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (dataSnapshot: DataSnapshot in snapshot.children) {
+                        val conversation = dataSnapshot.getValue(Conversation::class.java) ?: continue
+                        if ((conversation.senderId == currentUser.uid && conversation.receiverId == userId) ||
+                                conversation.senderId == userId && conversation.receiverId == currentUser.uid){
+                            dataSnapshot.ref.removeValue().addOnSuccessListener {
+                                continuation.resume(StringUtils.getString(R.string.ok))
+                            }.addOnFailureListener {
+                                continuation.resume(StringUtils.getString(R.string.something_went_wrong))
+                            }
+                            break
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    continuation.resume(StringUtils.getString(R.string.something_went_wrong))
+
+                }
+
+            })
+        }
+    }
+
 }

@@ -61,9 +61,9 @@ class FriendRequestFragmentViewModel @Inject constructor(
     }
 
 
-    fun acceptFriend(user: UserFirebase){
+    fun acceptFriend(userId: String){
         viewModelScope.launch {
-            friendUseCase.invokeAcceptFriend(user).collect{
+            friendUseCase.invokeAcceptFriend(userId).collect{
                 when (it) {
                     is State.Loading -> {
                         _resultAccept.postValue(Resource.loading())
@@ -109,9 +109,9 @@ class FriendRequestFragmentViewModel @Inject constructor(
         }
     }
 
-    fun cancelFriendRequest(user: UserFirebase){
+    fun cancelFriendRequest(userId: String){
         viewModelScope.launch {
-            friendUseCase.invokeCancelFriendRequest(user).collect{
+            friendUseCase.invokeCancelFriendRequest(userId).collect{
                 when (it) {
                     is State.Loading -> {
                         _resultCancelRequest.postValue(Resource.loading())

@@ -9,4 +9,5 @@ interface MessageRepository {
     suspend fun latestMessage(senderId: String, receiverId: String): Message?
     suspend fun latestMessageList(listId: List<String>): MutableList<Message>
     suspend fun conversationList(): MutableList<String>
+    suspend fun deleteConversation(userId: String): String
 }

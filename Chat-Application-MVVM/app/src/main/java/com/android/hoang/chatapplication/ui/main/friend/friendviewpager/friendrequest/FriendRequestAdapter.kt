@@ -71,7 +71,7 @@ class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, pri
 
             btnAccept.setOnClickListener {
 //                mListener.onButtonClick(adapterPosition)
-                friendRequestViewModel.acceptFriend(user)
+                friendRequestViewModel.acceptFriend(user.id)
                 friendRequestViewModel.getRequestIdList()
                 btnAccept.visibility = View.INVISIBLE
                 mainViewModel.updateListFriendStatus(true)
@@ -80,7 +80,7 @@ class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, pri
 
             btnCancel.setOnClickListener {
 //                mListener.onButtonClick(adapterPosition)
-                friendRequestViewModel.cancelFriendRequest(user)
+                friendRequestViewModel.cancelFriendRequest(user.id)
                 friendRequestViewModel.getSentIdList()
                 btnCancel.visibility = View.INVISIBLE
                 mainViewModel.updateAllUserStatus(true)
@@ -98,6 +98,7 @@ class FriendRequestAdapter(private val mainViewModel: MainActivityViewModel, pri
                 friendRequestViewModel.getRequestIdList()
                 btnAccept.visibility = View.INVISIBLE
                 mainViewModel.updateRequestCount(true)
+                mainViewModel.updateAllUserStatus(true)
             }
 
         }

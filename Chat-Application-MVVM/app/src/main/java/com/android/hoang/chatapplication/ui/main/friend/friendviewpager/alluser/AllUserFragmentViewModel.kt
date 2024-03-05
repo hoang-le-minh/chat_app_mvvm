@@ -67,9 +67,9 @@ class AllUserFragmentViewModel @Inject constructor(
         }
     }
 
-    fun addFriend(user: UserFirebase){
+    fun addFriend(userId: String){
         viewModelScope.launch {
-            friendUseCase.invokeAddFriend(user).collect{
+            friendUseCase.invokeAddFriend(userId).collect{
                 when (it) {
                     is State.Loading -> {
                         _addFriendResult.postValue(Resource.loading())

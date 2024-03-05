@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.android.hoang.chatapplication.R
 import com.android.hoang.chatapplication.base.BaseFragment
 import com.android.hoang.chatapplication.databinding.FragmentEditLanguageBinding
@@ -45,6 +46,10 @@ class EditLanguageFragment : BaseFragment<FragmentEditLanguageBinding>() {
                 sharedPref?.edit()?.putString("current_language", "")?.apply()
                 handleOpenApp()
             }
+        }
+
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

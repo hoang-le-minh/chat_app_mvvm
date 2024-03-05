@@ -82,6 +82,7 @@
     <string name="exist">Exist</string>
     <string name="friend_request">FRIEND REQUEST</string>
     <string name="friend_sent">FRIEND SENT</string>
+    <string name="friend_sent_2">Friend sent</string>
     <string name="cancel_failed">Cancel failed</string>
     <string name="send">Send</string>
     <string name="refuse">Refuse</string>
@@ -99,4 +100,12 @@
     <string name="english">English</string>
     <string name="all">All</string>
     <string name="request">Request</string>
+    <string name="delete_conversation">Delete Conversation</string>
+    <string name="info">Information</string>
+    <string name="unknown">Unknown</string>
+    <string name="question_delete_conversation">Want to delete this conversation?</string>
+    <string name="delete_successfully">Delete successfully</string>
+    <string name="unfriend">Unfriend</string>
+    <string name="accept_friend">Accept Friend</string>
+    <string name="cancel_friend_request">Cancel friend request</string>
 </resources>

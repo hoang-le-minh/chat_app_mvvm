@@ -94,7 +94,7 @@ class AllUserAdapter(private val mainViewModel: MainActivityViewModel, private v
 
             btnAddFriend.setOnClickListener {
                 btnAddFriend.visibility = View.INVISIBLE
-                allUserViewModel.addFriend(user)
+                allUserViewModel.addFriend(user.id)
                 mainViewModel.updateRequestStatus(true)
             }
         }

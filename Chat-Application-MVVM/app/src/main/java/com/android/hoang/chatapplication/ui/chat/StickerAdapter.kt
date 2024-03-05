@@ -90,15 +90,17 @@ class StickerAdapter(private val list: List<Any>, private val chatViewModel: Cha
         chatViewModel.sendMessage(senderId, receiverId, message, type)
         chatViewModel.result.observe(lifecycleOwner){
             when(it.status){
-                Status.LOADING -> {}
+                Status.LOADING -> { (context as ChatActivity).showLoading() }
                 Status.SUCCESS -> {
                     chatViewModel.readMessage(senderId, receiverId)
                     chatViewModel.checkConversationCreated(senderId, receiverId)
+                    (context as ChatActivity).hideLoading()
                 }
                 Status.ERROR -> {
                     it.message.let { msg ->
                         Toast.makeText(context, msg.toString(), Toast.LENGTH_LONG).show()
                     }
+                    (context as ChatActivity).hideLoading()
                 }
             }
         }

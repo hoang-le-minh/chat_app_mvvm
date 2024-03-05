@@ -92,4 +92,16 @@ class MessageUseCase @Inject constructor(private val messageRepository: MessageR
             emit(State.Error(e.localizedMessage))
         }
     }
+
+    fun invokeDeleteConversation(userId: String): Flow<State<String>> = flow {
+        try {
+            emit(State.Loading())
+            val result = messageRepository.deleteConversation(userId)
+            if (result == StringUtils.getString(R.string.ok))
+                emit(State.Success(result))
+            else emit(State.Error(result))
+        } catch (e: Exception){
+            emit(State.Error(e.localizedMessage))
+        }
+    }
 }

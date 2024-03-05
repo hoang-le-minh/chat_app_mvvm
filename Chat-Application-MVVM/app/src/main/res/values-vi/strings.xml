@@ -64,7 +64,7 @@
     <string name="password_at_least">Mật khẩu phải có ít nhất 6 ký tự</string>
     <string name="question_edit_profile">Bạn muốn thay đổi thông tin hồ sơ?</string>
     <string name="update_success">Cập nhật thành công</string>
-    <string name="enter_message">Nhập tin nhắn...</string>
+    <string name="enter_message">Nhập tin nhắn…</string>
     <string name="send_message_failed">Gửi tin nhắn thất bại</string>
     <string name="send_message_success">Gửi tin nhắn thành công</string>
     <string name="today">Hôm nay</string>
@@ -82,12 +82,13 @@
     <string name="exist">Đã tồn tại</string>
     <string name="friend_request">LỜI MỜI KẾT BẠN</string>
     <string name="friend_sent">ĐÃ GỬI KẾT BẠN</string>
+    <string name="friend_sent_2">Đã gửi kết bạn</string>
     <string name="cancel_failed">Hủy thất bại</string>
     <string name="send">Gửi</string>
     <string name="refuse">Từ chối</string>
     <string name="refuse_failed">Từ chối thất bại</string>
     <string name="create_message">Tạo tin nhắn</string>
-    <string name="search_friend_2">Tìm kiếm bạn bè...</string>
+    <string name="search_friend_2">Tìm kiếm bạn bè…</string>
     <string name="friend_list">Danh sách bạn bè</string>
     <string name="no_matching_results_were_found">Không tìm thấy kết quả phù hợp</string>
     <string name="search_message_hint">Tìm kiếm tin nhắn…</string>
@@ -99,4 +100,12 @@
     <string name="english">Tiếng Anh</string>
     <string name="all">Tất cả</string>
     <string name="request">Yêu cầu</string>
+    <string name="delete_conversation">Xóa đoạn chat</string>
+    <string name="info">Thông tin chi tiết</string>
+    <string name="unknown">Chưa biết</string>
+    <string name="question_delete_conversation">Bạn muốn xóa đoạn chat này?</string>
+    <string name="delete_successfully">Xóa thành công</string>
+    <string name="unfriend">Hủy kết bạn</string>
+    <string name="accept_friend">Chấp nhận kết bạn</string>
+    <string name="cancel_friend_request">Hủy yêu cầu kết bạn</string>
 </resources>
