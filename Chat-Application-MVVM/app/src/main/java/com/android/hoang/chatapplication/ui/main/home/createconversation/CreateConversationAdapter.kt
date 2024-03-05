@@ -48,6 +48,10 @@ class CreateConversationAdapter(private val createConversationViewModel: CreateC
                         selectedItem = adapterPosition
                     }
                     createConversationViewModel.setUserSelected(user)
+                } else{
+                    if (selectedItem == adapterPosition){
+                        createConversationViewModel.setUserSelected(null)
+                    }
                 }
             }
 

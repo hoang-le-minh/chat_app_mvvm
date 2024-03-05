@@ -30,6 +30,7 @@ import com.android.hoang.chatapplication.ui.main.MainActivity
 import com.android.hoang.chatapplication.ui.main.MainActivityViewModel
 import com.android.hoang.chatapplication.ui.main.friend.SearchUserAdapter
 import com.android.hoang.chatapplication.util.Constants
+import com.android.hoang.chatapplication.util.Constants.LOG_TAG
 import com.android.hoang.chatapplication.util.Constants.MESSAGE_TYPE_STRING
 import com.android.hoang.chatapplication.util.Status
 import com.blankj.utilcode.util.LogUtils
@@ -230,7 +231,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         // unread user count
                         var count = 0
                         for (message: Message in list){
-                            if (!message.isSeen.toBoolean() && message.senderId != currentUser?.uid){
+                            if (!message.isSeen.toBoolean() && message.receiverId == currentUser?.uid){
+                                Log.d(LOG_TAG, "latestMessageUnread: $message")
                                 count++
                             }
                         }

@@ -189,6 +189,7 @@ class MessageRepositoryImpl @Inject constructor(): MessageRepository {
                         for (dataSnapshot: DataSnapshot in snapshot.children.reversed()) {
                             val message = dataSnapshot.getValue(Message::class.java) ?: continue
                             if ((message.senderId == userId && message.receiverId == currentUser.uid) || (message.senderId == currentUser.uid && message.receiverId == userId)) {
+                                message.isSeen = dataSnapshot.child("isSeen").value.toString()
                                 messageList.add(message)
                                 break
                             }

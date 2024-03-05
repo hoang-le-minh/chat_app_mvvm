@@ -27,8 +27,8 @@ class CreateConversationFragmentViewModel @Inject constructor(
     val userListNotYetChat: LiveData<Resource<MutableList<UserFirebase>>>
      get() = _userListNotYetChat
 
-    private val _userSelected = MutableLiveData<UserFirebase>()
-    val userSelected: LiveData<UserFirebase>
+    private val _userSelected = MutableLiveData<UserFirebase?>()
+    val userSelected: LiveData<UserFirebase?>
         get() = _userSelected
 
     fun getUserListNotYetChat(listId: List<String>){
@@ -56,7 +56,7 @@ class CreateConversationFragmentViewModel @Inject constructor(
         }
     }
 
-    fun setUserSelected(user: UserFirebase){
+    fun setUserSelected(user: UserFirebase?){
         _userSelected.postValue(user)
     }
 
