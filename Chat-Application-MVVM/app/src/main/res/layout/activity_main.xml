@@ -39,5 +39,12 @@
             android:background="@drawable/bottom_nav_corner"/>
     </RelativeLayout>
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentChatWithAI"
+        android:name="com.android.hoang.chatapplication.ui.main.home.chatwithai.ChatWithAiFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

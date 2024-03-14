@@ -109,4 +109,8 @@
     <string name="accept_friend">Chấp nhận kết bạn</string>
     <string name="cancel_friend_request">Hủy yêu cầu kết bạn</string>
     <string name="question_exit_app">Bạn muốn thoát ứng dụng?</string>
+    <string name="chat_with_ai">Chat với AI</string>
+    <string name="chat_bot">Chatbot</string>
+    <string name="chat_gpt">Chat GPT</string>
+    <string name="llama_2">LLaMA-2</string>
 </resources>

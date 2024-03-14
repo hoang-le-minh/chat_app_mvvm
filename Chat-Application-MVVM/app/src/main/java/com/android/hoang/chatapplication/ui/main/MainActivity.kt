@@ -2,7 +2,9 @@ package com.android.hoang.chatapplication.ui.main
 
 import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
@@ -23,6 +25,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     //region vars
     private var currentNavController: LiveData<NavController>? = null
+    var isAIChat = false
     //endregion
     override fun getActivityBinding(inflater: LayoutInflater) = ActivityMainBinding.inflate(layoutInflater)
 
@@ -46,6 +49,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         })
 
         supportActionBar?.hide()
+    }
+
+    fun showAIChat(){
+        binding.fragmentChatWithAI.visibility = View.VISIBLE
+        isAIChat = true
+    }
+
+    fun hideAIChat(){
+        binding.fragmentChatWithAI.visibility = View.GONE
+        isAIChat = false
     }
 
     /**

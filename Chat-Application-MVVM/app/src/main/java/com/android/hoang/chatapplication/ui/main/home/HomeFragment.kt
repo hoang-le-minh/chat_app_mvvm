@@ -83,10 +83,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus){
                 showSearchView()
+                binding.txtChatWithAi.visibility = View.GONE
             }
         }
         binding.btnCancelSearch.setOnClickListener {
             cancelSearch()
+        }
+
+        binding.txtChatWithAi.setOnClickListener {
+            (activity as MainActivity).showAIChat()
         }
 
         onBackPressCallBack()
@@ -143,6 +148,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.searchView.setQuery("", false)
         binding.searchView.clearFocus()
         isSearch = false
+
+
+        binding.txtChatWithAi.visibility = View.VISIBLE
     }
 
     private fun searchMessage(listUserId: MutableList<String>) {
@@ -261,7 +269,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         // Set up callback for the back button press
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (isSearch){
+                if ((activity as MainActivity).isAIChat){
+                    (activity as MainActivity).hideAIChat()
+                } else if (isSearch){
                     cancelSearch()
                 } else
                     showExitDialog()

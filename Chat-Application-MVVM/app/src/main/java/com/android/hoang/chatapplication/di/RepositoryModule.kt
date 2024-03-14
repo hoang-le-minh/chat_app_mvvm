@@ -1,13 +1,7 @@
 package com.android.hoang.chatapplication.di
 
-import com.android.hoang.chatapplication.data.repository.FriendRepositoryImpl
-import com.android.hoang.chatapplication.data.repository.MessageRepositoryImpl
-import com.android.hoang.chatapplication.data.repository.NotificationRepositoryImpl
-import com.android.hoang.chatapplication.data.repository.UserRepositoryImpl
-import com.android.hoang.chatapplication.domain.repository.FriendRepository
-import com.android.hoang.chatapplication.domain.repository.MessageRepository
-import com.android.hoang.chatapplication.domain.repository.NotificationRepository
-import com.android.hoang.chatapplication.domain.repository.UserRepository
+import com.android.hoang.chatapplication.data.repository.*
+import com.android.hoang.chatapplication.domain.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,4 +39,9 @@ object RepositoryModule {
     @Singleton
     fun provideNotificationRepository(notificationRepository: NotificationRepositoryImpl): NotificationRepository =
         notificationRepository
+
+    @Provides
+    @Singleton
+    fun provideChatBotRepository(chatBotRepository: ChatBotRepositoryImpl): ChatBotRepository =
+        chatBotRepository
 }

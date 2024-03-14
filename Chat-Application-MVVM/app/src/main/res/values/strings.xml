@@ -109,4 +109,8 @@
     <string name="accept_friend">Accept Friend</string>
     <string name="cancel_friend_request">Cancel friend request</string>
     <string name="question_exit_app">Want to exit app?</string>
+    <string name="chat_with_ai">Chat with AI</string>
+    <string name="chat_bot">Chatbot</string>
+    <string name="chat_gpt">Chat GPT</string>
+    <string name="llama_2">LLaMA-2</string>
 </resources>

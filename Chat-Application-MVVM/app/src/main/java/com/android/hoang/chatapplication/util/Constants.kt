@@ -14,4 +14,7 @@ object Constants {
 
     const val SERVER_KEY = "AAAAoJ3xIik:APA91bFRHrblHqN3ZOQJTv8bxxnmFTgBKyfKuCNDGh4OqkG6y1qRylIX7j_n2tj6jkVH_aYH9ggSD7LKbvDl6T9ne7s-RU51yZyq-Ckgg_qAnMFbrtKbKSskDyjYK_MhogXAL1krbMiL"
     const val CONTENT_TYPE = "application/json"
+
+    const val OPENAI_API_KEY = "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"
+    const val CHAT_BOT_ID = "000000000"
 }
