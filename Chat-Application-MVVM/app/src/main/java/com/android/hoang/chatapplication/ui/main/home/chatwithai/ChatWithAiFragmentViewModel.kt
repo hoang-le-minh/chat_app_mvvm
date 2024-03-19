@@ -70,10 +70,6 @@ class ChatWithAiFragmentViewModel @Inject constructor(
         }
     }
 
-    fun clearData(){
-        _message.postValue(Resource.success(null))
-    }
-
     fun getChatResponse2(prompt: String){
         val messageParamPost2 = MessageParamPost2("gpt-3.5-turbo-instruct", prompt, 1000, 0)
         viewModelScope.launch {

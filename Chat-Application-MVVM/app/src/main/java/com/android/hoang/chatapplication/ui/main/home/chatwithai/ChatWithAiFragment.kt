@@ -89,10 +89,10 @@ class ChatWithAiFragment : BaseFragment<FragmentChatWithAiBinding>() {
                 Status.SUCCESS -> {
 //                    Toast.makeText(requireContext(), it.data?.choices?.get(0)?.message?.content, Toast.LENGTH_SHORT).show()
                     it.data?.choices?.get(0)?.message?.content?.let { it1 ->
-                        if (messageList.last().message != it1)
+                        if (messageList.last().message != it1){
                         addMessageToRecyclerView(
                             it1,
-                            CHAT_BOT_ID)
+                            CHAT_BOT_ID)}
                     }
 //                    chatWithAiViewModel.clearData()
                 }
