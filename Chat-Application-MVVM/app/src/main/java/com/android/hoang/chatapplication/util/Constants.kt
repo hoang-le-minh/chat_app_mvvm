@@ -16,5 +16,6 @@ object Constants {
     const val CONTENT_TYPE = "application/json"
 
     const val OPENAI_API_KEY = "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"
+    const val test = 0
     const val CHAT_BOT_ID = "000000000"
 }
