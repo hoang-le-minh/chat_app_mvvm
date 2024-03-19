@@ -17,9 +17,28 @@ data class MessageResponse(
 ) {
 }
 
+data class MessageResponse2(
+    @SerializedName("id")
+    @Expose
+    val id: String? = null,
+    @SerializedName("object")
+    @Expose
+    val strObject: String? = null,
+    @SerializedName("choices")
+    @Expose
+    val choices: List<Choice2>? = null,
+)
+
 data class MessageParamPost(
     var model: String,
     val messages: List<MessageParam>
+)
+
+data class MessageParamPost2(
+    var model: String,
+    var prompt: String,
+    var max_token: Int,
+    var temperature: Int
 )
 
 data class MessageParam(
@@ -30,4 +49,9 @@ data class MessageParam(
 data class Choice(
     val index: Int,
     val message: MessageParam
+)
+
+data class Choice2(
+    val text: String,
+    val index: Int
 )
