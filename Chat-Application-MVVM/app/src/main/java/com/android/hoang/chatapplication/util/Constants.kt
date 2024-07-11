@@ -17,5 +17,9 @@ object Constants {
 
     const val OPENAI_API_KEY = "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"
 
+    const val GEMINI_API_KEY = "AIzaSyDnkJqcDM-nA2WDo0ogCdU-qk9WEr71W3s"
+
+    const val LLAMA2_URL = "https://cosmic-bull-ghastly.ngrok-free.app/"
+
     const val CHAT_BOT_ID = "000000000"
 }

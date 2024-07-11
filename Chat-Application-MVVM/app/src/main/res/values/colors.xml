@@ -10,8 +10,8 @@
 
     <color name="colorAccent">@color/purple_200</color>
 
-    <color name="color_1">#4356B4</color>
-    <color name="color_2">#3DCFCF</color>
+    <color name="color_1">#009688</color>
+    <color name="color_2">#4CAF50</color>
     <color name="color_3">#FFC904</color>
     <color name="color_4">#C92323</color>
     <color name="gray">#999999</color>

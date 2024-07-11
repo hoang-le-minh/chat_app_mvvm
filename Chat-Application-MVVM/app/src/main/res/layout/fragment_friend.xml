@@ -35,7 +35,8 @@
             app:layout_constraintTop_toTopOf="@+id/txt_message"
             app:layout_constraintBottom_toBottomOf="@+id/txt_message"
             android:layout_marginEnd="@dimen/layout_24"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:visibility="invisible"/>
 
         <LinearLayout
             android:layout_width="match_parent"

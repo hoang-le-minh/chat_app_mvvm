@@ -44,4 +44,9 @@ object RepositoryModule {
     @Singleton
     fun provideChatBotRepository(chatBotRepository: ChatBotRepositoryImpl): ChatBotRepository =
         chatBotRepository
+
+    @Provides
+    @Singleton
+    fun provideTranslateRepository(translateRepository: TranslateRepositoryImpl): TranslateRepository =
+        translateRepository
 }

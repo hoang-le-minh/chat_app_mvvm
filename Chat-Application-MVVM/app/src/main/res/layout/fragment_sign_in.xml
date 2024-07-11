@@ -18,7 +18,7 @@
             android:id="@+id/ic_mail"
             android:layout_width="@dimen/layout_124"
             android:layout_height="@dimen/layout_124"
-            android:src="@drawable/ic_mail"
+            android:src="@drawable/ic_mail_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/layout_24"
